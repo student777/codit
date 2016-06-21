@@ -20,7 +20,7 @@ public class MainController {
    루트 페이지로 parameter의 uuid를 받아 서비스를 처리하여 index page를 보여준다
    */
   @RequestMapping("/")
-  public String main() {
+  public String index() {
     return "index";
   }
 
@@ -39,8 +39,6 @@ public class MainController {
    */
   @RequestMapping("/practice")
   public String practice() {
-
-
     return "practice";
   }
 
