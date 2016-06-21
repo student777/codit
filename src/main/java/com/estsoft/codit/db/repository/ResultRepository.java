@@ -1,4 +1,4 @@
-package com.estsoft.codit.ide.repository;
+package com.estsoft.codit.db.repository;
 
 import org.springframework.stereotype.Repository;
 

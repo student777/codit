@@ -1,4 +1,4 @@
-package com.estsoft.codit.core.vo;
+package com.estsoft.codit.db.vo;
 
 public class ProblemInfoVo {
   int id;
