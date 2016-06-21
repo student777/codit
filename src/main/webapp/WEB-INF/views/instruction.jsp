@@ -18,7 +18,7 @@
     6. 지랄잼<br>
     7. 씨잼<br>
 </p>
-<button><a href="practice">튜토리얼 및 연습테스트 시작</a></button>
-<button><a href="test">바로 코딩테스트 시작하기</a></button>
+<button><a href="/practice">튜토리얼 및 연습테스트 시작</a></button>
+<button><a href="/test">바로 코딩테스트 시작하기</a></button>
 </body>
 </html>
