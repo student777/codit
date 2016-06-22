@@ -14,11 +14,31 @@
 
   <!-- context schema -->
   <context:annotation-config/>
-  <context:component-scan base-package="com.estsoft.codit.ide">
-    <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+
+  <context:component-scan base-package="com.estsoft.codit.ide com.estsoft.codit.db">
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
   </context:component-scan>
+
+  <!-- Connection Pool DataSource -->
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    <property name="url" value="jdbc:mysql://localhost:3306/codit" />
+    <property name="username" value="root" />
+    <property name="password" value="system" />
+  </bean>
+
+  <!-- MyBatis SqlSessionFactoryBean -->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="configLocation" value="classpath:mybatis/configuration.xml" />
+  </bean>
+
+  <!-- MyBatis SqlSessionTemplate -->
+  <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSessionFactory" />
+  </bean>
 
 
 </beans>

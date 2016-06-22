@@ -2,5 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="result">
+  <select id="selectAll" resultType="resultvo">
+    <![CDATA[ SELECT * FROM result ]]>
+  </select>
 
+  <insert id="insert" parameterType="resultvo">
+    <![CDATA[ insert into result value(null, true, 300, 949, 1, 1); ]]>
+    <selectKey keyProperty="id" resultType="int">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+
+  <select id="selectById" resultType="resultvo" parameterType="int">
+    <![CDATA[  SELECT * FROM result WHERE id=#{id } ]]>
+  </select>
 </mapper>

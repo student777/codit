@@ -2,5 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="language">
+  <select id="selectAll" resultType="languagevo">
+    <![CDATA[ SELECT * FROM language ]]>
+  </select>
 
+  <insert id="insert" parameterType="languagevo">
+    <![CDATA[ insert into language value(null, 'C'); ]]>
+    <selectKey keyProperty="id" resultType="int">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+
+  <select id="selectById" resultType="languagevo" parameterType="int">
+    <![CDATA[  SELECT * FROM language WHERE id=#{id } ]]>
+  </select>
 </mapper>

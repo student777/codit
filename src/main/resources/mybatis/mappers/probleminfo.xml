@@ -2,5 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="probleminfo">
+  <select id="selectAll" resultType="probleminfovo">
+    <![CDATA[ SELECT * FROM problem_info ]]>
+  </select>
 
+  <insert id="insert" parameterType="probleminfovo">
+    <![CDATA[ insert into problem_info value(null, '하노이 쌀국수의 탑', '맛있당', 100, 200); ]]>
+    <selectKey keyProperty="id" resultType="int">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+
+  <select id="selectById" resultType="probleminfovo" parameterType="int">
+    <![CDATA[  SELECT * FROM problem_info WHERE id=#{id } ]]>
+  </select>
 </mapper>
