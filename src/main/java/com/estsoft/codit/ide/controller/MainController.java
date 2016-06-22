@@ -62,40 +62,7 @@ public class MainController {
     //세션 부여
     mainService.idenfityApplicant();
 
-    /*
-    System.out.println("=======================SELECT INSERT TEST==============================");
-    System.out.println(a.getList());
-    System.out.println("applicant inserted: " + a.insert() );
-    System.out.println("applicant selected id=1: " + a.get(1) );
-    System.out.println(b.getList());
-    System.out.println("cart inserted: " + b.insert() );
-    System.out.println("cart selected id=1: " + b.get(1) );
-    System.out.println(c.getList());
-    System.out.println("client inserted: " + c.insert() );
-    System.out.println("client selected id=1: " + c.get(1) );
-    System.out.println(d.getList());
-    System.out.println("language inserted: " + d.insert() );
-    System.out.println("language selected id=1: " + d.get(1) );
-    System.out.println(e.getList());
-    System.out.println("probleminfo inserted: " + e.insert() );
-    System.out.println("probleminfo selected id=1: " + e.get(1) );
-    System.out.println(f.getList());
-    System.out.println("problem inserted: " + f.insert() );
-    System.out.println("problem selected id=1: " + f.get(1) );
-    System.out.println(g.getList());
-    System.out.println("recruit inserted: " + g.insert() );
-    System.out.println("recruit selected id=1: " + g.get(1) );
-    System.out.println(h.getList());
-    System.out.println("result inserted: " + h.insert() );
-    System.out.println("result selected id=1: " + h.get(1) );
-    System.out.println(i.getList());
-    System.out.println("sourcecode inserted: " + i.insert() );
-    System.out.println("sourcecode selected id=1: " + i.get(1) );
-    System.out.println(j.getList());
-    System.out.println("testcase selected id=1: " + j.get(1) );
-    System.out.println("testcase inserted: " + j.insert() );
-    System.out.println("=====================================TEST END=========================================");
-    */
+    System.out.println("index page");
 
     return "index";
   }
@@ -106,6 +73,53 @@ public class MainController {
    */
   @RequestMapping("/instruction")
   public String instruction() {
+
+
+    /*
+    * instruction page로 오면  CRUD  test 를 진행한다.
+    System.out.println("=======================SELECT INSERT TEST==============================");
+    System.out.println("client inserted: " + c.insert() );
+    System.out.println("client selected id=1: " + c.get(1) );
+    System.out.println("client list: "  + c.getList());
+
+    System.out.println("recruit inserted: " + g.insert() );
+    System.out.println("recruit selected id=1: " + g.get(1) );
+    System.out.println("recruit list: "  + g.getList());
+
+    System.out.println("applicant inserted: " + a.insert() );
+    System.out.println("applicant selected id=1: " + a.get(1) );
+    System.out.println("applicant list: "  + a.getList());
+
+    System.out.println("language inserted: " + d.insert() );
+    System.out.println("language selected id=1: " + d.get(1) );
+    System.out.println("language list: "  + d.getList());
+
+    System.out.println("probleminfo inserted: " + e.insert() );
+    System.out.println("probleminfo selected id=1: " + e.get(1) );
+    System.out.println("probleminfo list: "  + e.getList());
+
+    System.out.println("problem inserted: " + f.insert() );
+    System.out.println("problem selected id=1: " + f.get(1) );
+    System.out.println("problem list: "  + f.getList());
+
+    System.out.println("sourcecode inserted: " + i.insert() );
+    System.out.println("sourcecode selected id=1: " + i.get(1) );
+    System.out.println("sourcecode list: "  + i.getList());
+
+    System.out.println("cart inserted: " + b.insert() );
+    System.out.println("cart selected id=1: " + b.get(1) );
+    System.out.println("cart list: "  + b.getList());
+
+    System.out.println("testcase selected id=1: " + j.get(1) );
+    System.out.println("testcase inserted: " + j.insert() );
+    System.out.println("testcase list: "  + j.getList());
+
+    System.out.println("result inserted: " + h.insert() );
+    System.out.println("result selected id=1: " + h.get(1) );
+    System.out.println("result list: "  + h.getList());
+    System.out.println("=====================================TEST END=========================================");
+    */
+
     return "instruction";
   }
 

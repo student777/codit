@@ -7,7 +7,7 @@
   </select>
 
   <insert id="insert" parameterType="probleminfovo">
-    <![CDATA[ insert into problem_info value(null, '하노이 쌀국수의 탑', '맛있당', 100, 200); ]]>
+    <![CDATA[ insert into problem_info value(null, '하노이 쌀국수의 탑', '맛있당', 100); ]]>
     <selectKey keyProperty="id" resultType="int">
       SELECT LAST_INSERT_ID()
     </selectKey>
