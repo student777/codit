@@ -4,18 +4,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
 
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd
-       ">
+       http://www.springframework.org/schema/context/spring-context.xsd">
 
 
   <!-- context schema -->
   <context:annotation-config/>
 
-  <context:component-scan base-package="com.estsoft.codit.ide com.estsoft.codit.db">
+  <context:component-scan base-package="com.estsoft.codit">
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
@@ -25,8 +23,8 @@
   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     <property name="url" value="jdbc:mysql://localhost:3306/codit" />
-    <property name="username" value="root" />
-    <property name="password" value="system" />
+    <property name="username" value="#{ systemEnvironment['DBusername']}"/>
+    <property name="password" value="#{ systemEnvironment['DBpassword']}" />
   </bean>
 
   <!-- MyBatis SqlSessionFactoryBean -->
@@ -39,6 +37,8 @@
   <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
     <constructor-arg index="0" ref="sqlSessionFactory" />
   </bean>
+
+
 
 
 </beans>
