@@ -10,6 +10,24 @@
     <style >
         * { margin: 0;  padding: 0; }
     </style>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $(function() {
+            alert('이것은 튜토리얼 입니다');
+            alert('ㅇㅇㅇ');
+            alert('run버튼을 누르면 컴파일 및 실행이됩니다');
+            alert('정말 친절한 설명');
+            alert('셤잘봐라');
+            var a = confirm('시험 보러 갈테냐?');
+            if(a){
+                alert('test 페이지로 이동한다')
+                location.href='/test';
+            }
+            else{
+                alert('여기서 좀더 개기다가 간다')
+            }
+        })
+    </script>
 </head>
 <body>
 <div id="IDE" style="height: 100vh">
@@ -65,9 +83,9 @@ some code here...
                 <button>테스트</button>
                 <button>제출</button>
 
-                <button>도움말</button>
+                <button>도움말(튜토리얼 다시보기)</button>
 
-                <button><a href="/result">최종 제출</a></button>
+
                 <div style="float:right">
                     <form>
                         <select name="cars">

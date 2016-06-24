@@ -10,6 +10,21 @@
     <style >
         * { margin: 0;  padding: 0; }
     </style>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $(function() {
+            alert('시험 시~작');
+        })
+        var final_submit = function () {
+            var a = confirm('최종 제출하시겠습니까?');
+            if(a){
+                location.href="/result";
+            }
+            else{
+                alert('그래좀더 고민좀 해봐ㅣ라');
+            }
+        }
+    </script>
 </head>
 <body>
 <div id="IDE" style="height: 100vh">
@@ -64,7 +79,7 @@ some code here...
 
                 <button>도움말</button>
 
-                <button><a href="/result">최종 제출</a></button>
+                <button onclick="final_submit()">최종 제출</button>
                 <div style="float:right">
                     <form>
                         <select name="cars">
