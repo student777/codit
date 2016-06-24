@@ -25,4 +25,11 @@ public class ApplicantRepository {
     return sqlSession.selectOne("applicant.selectById", id);
   }
 
+  public ApplicantVo getByTicket(String ticket) {
+    return sqlSession.selectOne("applicant.selectByTicket", ticket);
+  }
+
+  public ApplicantVo getByEmail(String email) {
+    return sqlSession.selectOne("applicant.selectByEmail", email);
+  }
 }

@@ -8,14 +8,14 @@
 <h2>index.jsp</h2>
 
 
+반갑습니다 ${applicantVo.name}님
 <h3>이스트소프트가 귀하를 코딩인터뷰에 초대하였습니다</h3>
-<p>인터뷰에 필요한 정보를 입렿가세요</p>
-<form>
-    <label>성</label><input/>
-    <label>이름</label><input/>
-    <label>학교</label><input/>
-    <label>학과</label><input/>
-    <button><a href="/instruction">제출</a></button>
+<p>인증을 위해 이메일을 입력하세요</p>
+${applicantVo}
+
+<form action="/instruction">
+    <label>이메일</label><input name="email"/>
+    <button type="submit">제출</button>
 </form>
 </body>
 </html>

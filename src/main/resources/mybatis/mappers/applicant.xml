@@ -16,4 +16,13 @@
   <select id="selectById" resultType="applicantvo" parameterType="int">
     <![CDATA[  SELECT * FROM applicant WHERE id=#{id } ]]>
   </select>
+
+  <select id="selectByTicket" resultType="applicantvo" parameterType="String">
+    <![CDATA[  SELECT * FROM applicant WHERE ticket=#{ticket } ]]>
+  </select>
+
+  <select id="selectByEmail" resultType="applicantvo" parameterType="String">
+    <![CDATA[  SELECT * FROM applicant WHERE email=#{email } ]]>
+  </select>
+
 </mapper>
