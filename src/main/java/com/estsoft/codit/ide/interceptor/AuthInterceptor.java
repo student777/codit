@@ -18,7 +18,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     String ticket = request.getParameter("ticket");
-    ApplicantVo applicantVo = applicantRepository.getByEmail(ticket);
+    ApplicantVo applicantVo = applicantRepository.getByTicket(ticket);
     if(applicantVo==null){
       return true;
     }

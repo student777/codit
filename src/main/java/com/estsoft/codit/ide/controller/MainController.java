@@ -1,6 +1,6 @@
 package com.estsoft.codit.ide.controller;
 
-import com.estsoft.codit.db.vo.ClientVo;
+import com.estsoft.codit.db.vo.ApplicantVo;
 import com.estsoft.codit.ide.annotation.AuthApplicant;
 import com.estsoft.codit.ide.service.MainService;
 
@@ -30,8 +30,8 @@ public class MainController {
     if(ticket.equals("")==true){
       return "index-error";
     }
-    //세션 부여
-    mainService.idenfityApplicant(ticket, model);
+    //세션 부여 는 interceptor에서 해줌
+    //mainService.idenfityApplicant(ticket, model);
     return "index";
   }
 
@@ -41,8 +41,8 @@ public class MainController {
    수험자가 입력한 이메일이 세션에 있는 유저의 정보와 다를 시 에러
    */
   @RequestMapping("/instruction")
-  public String instruction(@RequestParam(value = "email", required=true, defaultValue="") String email, Model model, @AuthApplicant ClientVo client) {
-    boolean isAuthenticated = mainService.checkEmail(email, client);
+  public String instruction(@RequestParam(value = "email", required=true, defaultValue="") String email, @AuthApplicant ApplicantVo applicantVo) {
+    boolean isAuthenticated = mainService.checkEmail(email, applicantVo);
     if(isAuthenticated){
       return "instruction";
     }

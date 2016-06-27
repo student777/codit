@@ -1,6 +1,6 @@
 package com.estsoft.codit.ide.resolver;
 
-import com.estsoft.codit.db.vo.ClientVo;
+import com.estsoft.codit.db.vo.ApplicantVo;
 import com.estsoft.codit.ide.annotation.AuthApplicant;
 
 import org.springframework.core.MethodParameter;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +20,7 @@ public class AuthApplicantHandlerMethodArgumentResolver implements HandlerMethod
     if(authApplicant == null){
       return false;
     }
-    if (methodParameter.getParameterType().equals(ClientVo.class) == false ){
+    if (methodParameter.getParameterType().equals(ApplicantVo.class) == false ){
       return false;
     }
     return true;

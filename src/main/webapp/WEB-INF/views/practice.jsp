@@ -12,6 +12,7 @@
     </style>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
+        /*
         $(function() {
             alert('이것은 튜토리얼 입니다');
             alert('ㅇㅇㅇ');
@@ -27,12 +28,18 @@
                 alert('여기서 좀더 개기다가 간다')
             }
         })
+        */
     </script>
+    <style>
+        .btn-workboard {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 <div id="IDE" style="height: 100vh">
     <div id="header" style="background-color:grey; height:5%;" >
-        <h1>codit</h1>
+        <h1 style="float:left">codit</h1>
         <button><a href="/test">시험보러 가기</a></button>
         <button><a href="/test">시험보러 가기</a></button>
         <button><a href="/test">시험보러 가기</a></button>
@@ -51,56 +58,49 @@
             </div>
         </div>
 
-        <div id="editor" style="background-color: #0C090A; height:70%; color:white; ">
-            <h2>editor</h2>
-            <button style="float:left">compile and run</button>
-            <div>남은 시간 16분 30초</div>
-
-            <div style="float:right">
-                <form>
-                    <select name="cars">
-                        <option value="volvo">C</option>
-                        <option value="saab">JAVA</option>
-                        <option value="fiat">C++</option>
-                    </select>
-                </form>
+        <div id="workboard" style="background-color: #0C090A; height:70%; color:white;">
+            <h2>editor-old</h2>
+            <div>
+                <button class="btn-workboard">compile and run</button>
+                <div class="btn-workboard">남은 시간 16분 30초</div>
+                <div class="btn-workboard">
+                    <form>
+                        <select name="cars">
+                            <option value="volvo">C</option>
+                            <option value="saab">JAVA</option>
+                            <option value="fiat">C++</option>
+                        </select>
+                    </form>
+                </div>
             </div>
-            <div style="width: 100%; height: 90%">
-                <form>
-                    <textarea rows="40" cols="200">
-some code here...
 
-1]public class HelloWorld{
-2]   public static void main(String[] args) {
-4]            System.out.println("Hello World!");
-5]        }
-6]    }
-                    </textarea>
-                </form>
+
+            <div id="editor" style="width: 80%; height: 80%">#include &lt;stdio.h&gt;
+int main(){
+    printf("hello world");
+    return 0;
+}
             </div>
-            <div style="width: 100%; height: 10%">
-                <button>^^콘솔창 확장</button>
-                <button>테스트</button>
-                <button>제출</button>
 
-                <button>도움말(튜토리얼 다시보기)</button>
-
-
-                <div style="float:right">
+            <div>
+                <button class="btn-workboard">^^콘솔창 확장</button>
+                <button class="btn-workboard">테스트</button>
+                <button class="btn-workboard">제출</button>
+                <button class="btn-workboard">도움말(튜토리얼 다시보기)</button>
+                <div class="btn-workboard">
                     <form>
                         <select name="cars">
                             <option value="volvo">1 3 2 1</option>
                             <option value="saab"> 31 3 1 31</option>
                             <option value="fiat">1 4 42 1</option>
-                            <option value="audi">123123 123123 123 123 123 123 </option>
                         </select>
-                        <br><br>
                     </form>
                 </div>
             </div>
+
         </div>
 
-        <div id="terminal" style="background-color:violet; height:30%;" ">
+        <div id="terminal" style="background-color:violet; height:30%;">
         <h2>terminal</h2>
         <div>
             output here...<br> <br>
@@ -119,6 +119,13 @@ some code here...
 </div>
 </div>
 
-
 </body>
+
+
+<script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/c_cpp");
+</script>
 </html>
