@@ -10,7 +10,7 @@
     <style >
         * { margin: 0;  padding: 0; }
     </style>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         /*
         $(function() {
@@ -45,7 +45,7 @@
         <button><a href="/test">시험보러 가기</a></button>
     </div>
     <div style="height:95%">
-        <div id="navbar" style="background-color:skyblue; width:300px; height:100%; float:left">
+        <div id="navbar" style="background-color:skyblue; width:20%; height:100%; float:left">
             <h2>navigation bar</h2><br>
             <div>
                 <button>문제1</button>
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <div id="workboard" style="background-color: #0C090A; height:70%; color:white;">
+        <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <h2>editor-old</h2>
             <div>
                 <button class="btn-workboard">compile and run</button>
@@ -75,7 +75,7 @@
             </div>
 
 
-            <div id="editor" style="width: 80%; height: 80%">#include &lt;stdio.h&gt;
+            <div id="editor" style="width: 100%; height:85%">#include &lt;stdio.h&gt;
 int main(){
     printf("hello world");
     return 0;
@@ -97,24 +97,22 @@ int main(){
                     </form>
                 </div>
             </div>
-
         </div>
 
-        <div id="terminal" style="background-color:violet; height:30%;">
-        <h2>terminal</h2>
-        <div>
-            output here...<br> <br>
-            || visible in terminal ||   visible in file   || existing <br>
-            Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file    <br>
-            =========++==========+==========++==========+==========++=========== <br>
-            >     ||    no    |   yes    ||   yes    |    no    || overwrite <br>
-            >>    ||    no    |   yes    ||   yes    |    no    ||  append <br>
-            ||          |          ||          |          || <br>
-            2>     ||   yes    |    no    ||    no    |   yes    || over write <br>
-            2>>    ||   yes    |    no    ||    no    |   yes    ||  append <br>
+        <div id="terminal" style="background-color:violet; height:30%; width:80%; float:right;">
+            <h2>terminal</h2>
+            <div>
+                output here...<br> <br>
+                || visible in terminal ||   visible in file   || existing <br>
+                Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file    <br>
+                =========++==========+==========++==========+==========++=========== <br>
+                >     ||    no    |   yes    ||   yes    |    no    || overwrite <br>
+                >>    ||    no    |   yes    ||   yes    |    no    ||  append <br>
+                ||          |          ||          |          || <br>
+                2>     ||   yes    |    no    ||    no    |   yes    || over write <br>
+                2>>    ||   yes    |    no    ||    no    |   yes    ||  append <br>
+            </div>
         </div>
-
-    </div>
 </div>
 </div>
 </div>
