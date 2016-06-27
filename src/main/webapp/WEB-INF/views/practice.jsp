@@ -122,7 +122,7 @@ int main(){
 </body>
 
 
-<script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
