@@ -16,4 +16,8 @@
   <select id="selectById" resultType="probleminfovo" parameterType="int">
     <![CDATA[  SELECT * FROM problem_info WHERE id=#{id } ]]>
   </select>
+
+  <select id="selectByApplicantId" resultType="int" parameterType="int" >
+    <![CDATA[ select c.problem_info_id from applicant a, recruit r, cart c where a.recruit_id=r.id=c.recruit_id and a.id=#{id }; ]]>
+  </select>
 </mapper>

@@ -1,11 +1,11 @@
 package com.estsoft.codit.db.vo;
 
 public class ProblemVo {
-  int id;
-  int language_id;
-  int problem_info;
-  String skeleton_code;
-  String main_code;
+  private int id;
+  private int language_id;
+  private int problem_info_id;
+  private String skeleton_code;
+  private String main_code;
 
   public int getId() {
     return id;
@@ -23,12 +23,12 @@ public class ProblemVo {
     this.language_id = language_id;
   }
 
-  public int getProblem_info() {
-    return problem_info;
+  public int getProblem_info_id() {
+    return problem_info_id;
   }
 
-  public void setProblem_info(int problem_info) {
-    this.problem_info = problem_info;
+  public void setProblem_info_id(int problem_info_id) {
+    this.problem_info_id = problem_info_id;
   }
 
   public String getSkeleton_code() {
@@ -52,7 +52,7 @@ public class ProblemVo {
     return "ProblemVo{" +
         "id=" + id +
         ", language_id=" + language_id +
-        ", problem_info=" + problem_info +
+        ", problem_info_id=" + problem_info_id +
         ", skeleton_code='" + skeleton_code + '\'' +
         ", main_code='" + main_code + '\'' +
         '}';

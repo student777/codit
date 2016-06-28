@@ -1,11 +1,19 @@
 package com.estsoft.codit.db.vo;
 
 public class ProblemInfoVo {
-  int id;
-  String name;
-  String Text;
-  int estimated_time;
-  int test_time;
+  private int id;
+  private String name;
+  private String description;
+  private int estimated_time;
+  private int test_time;
+
+  public int getTest_time() {
+    return test_time;
+  }
+
+  public void setTest_time(int test_time) {
+    this.test_time = test_time;
+  }
 
   public int getId() {
     return id;
@@ -23,12 +31,12 @@ public class ProblemInfoVo {
     this.name = name;
   }
 
-  public String getText() {
-    return Text;
+  public String getDescription() {
+    return description;
   }
 
-  public void setText(String text) {
-    Text = text;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public int getEstimated_time() {
@@ -39,20 +47,12 @@ public class ProblemInfoVo {
     this.estimated_time = estimated_time;
   }
 
-  public int getTest_time() {
-    return test_time;
-  }
-
-  public void setTest_time(int test_time) {
-    this.test_time = test_time;
-  }
-
   @Override
   public String toString() {
     return "ProblemInfoVo{" +
         "id=" + id +
         ", name='" + name + '\'' +
-        ", Text='" + Text + '\'' +
+        ", description='" + description + '\'' +
         ", estimated_time=" + estimated_time +
         ", test_time=" + test_time +
         '}';

@@ -2,12 +2,12 @@ package com.estsoft.codit.db.vo;
 
 
 public class ResultVo {
-  int id;
-  boolean correctness;
-  int user_memory;
-  int running_time;
-  int applicant_id;
-  int test_case_id;
+  private int id;
+  private boolean correctness;
+  private int user_memory;
+  private int running_time;
+  private int applicant_id;
+  private int test_case_id;
 
   public int getId() {
     return id;

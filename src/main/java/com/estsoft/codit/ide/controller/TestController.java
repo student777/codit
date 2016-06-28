@@ -1,10 +1,14 @@
 package com.estsoft.codit.ide.controller;
 
+import com.estsoft.codit.db.vo.ApplicantVo;
+import com.estsoft.codit.ide.annotation.AuthApplicant;
 import com.estsoft.codit.ide.service.TestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/test")
@@ -19,7 +23,8 @@ public class TestController {
   시간 관련..(?)
    */
   @RequestMapping("")
-  public String main() {
+  public String main(Model model, @AuthApplicant ApplicantVo applicantVo, @RequestParam(value = "language", defaultValue="1") int language_id) {
+    testService.setProblem(model, applicantVo, language_id);
     return "test";
   }
 

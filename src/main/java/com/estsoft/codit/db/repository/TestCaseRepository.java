@@ -24,4 +24,8 @@ public class TestCaseRepository {
   public TestCaseVo get(int id){
     return sqlSession.selectOne("testcase.selectById", id);
   }
+
+  public List<TestCaseVo> getByProblemInfoId(int problem_info_id) {
+    return sqlSession.selectList("testcase.selectByProblemInfoId", problem_info_id);
+  }
 }

@@ -2,9 +2,9 @@ package com.estsoft.codit.db.vo;
 
 
 public class CartVo {
-  int id;
-  int recruit_id;
-  int problem_id;
+  private int id;
+  private int recruit_id;
+  private int problem_id;
 
   public int getId() {
     return id;

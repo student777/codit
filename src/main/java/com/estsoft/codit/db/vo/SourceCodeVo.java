@@ -1,10 +1,10 @@
 package com.estsoft.codit.db.vo;
 
 public class SourceCodeVo {
-  int id;
-  String code;
-  int applicant_id;
-  int program_code_id;
+  private int id;
+  private String code;
+  private int applicant_id;
+  private int program_code_id;
 
   public int getId() {
     return id;

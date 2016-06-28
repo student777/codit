@@ -26,7 +26,7 @@ public class MainController {
    parameter의 uuid와 수험생이 입력한 이름 이메일을 받아 DB 확인 후 세션을 부여한다
    */
   @RequestMapping("/")
-  public String index(@RequestParam(value = "ticket", required=true, defaultValue="") String ticket, Model model) {
+  public String index(@RequestParam(value = "ticket", defaultValue="") String ticket) {
     if(ticket.equals("")==true){
       return "index-error";
     }
@@ -41,7 +41,7 @@ public class MainController {
    수험자가 입력한 이메일이 세션에 있는 유저의 정보와 다를 시 에러
    */
   @RequestMapping("/instruction")
-  public String instruction(@RequestParam(value = "email", required=true, defaultValue="") String email, @AuthApplicant ApplicantVo applicantVo) {
+  public String instruction(@RequestParam(value = "email", defaultValue="") String email, @AuthApplicant ApplicantVo applicantVo) {
     boolean isAuthenticated = mainService.checkEmail(email, applicantVo);
     if(isAuthenticated){
       return "instruction";
@@ -58,7 +58,7 @@ public class MainController {
  testService를 갖다 쓴다
  */
   @RequestMapping("/practice")
-  public String practice() {
+  public String practice(Model model) {
     return "practice";
   }
 

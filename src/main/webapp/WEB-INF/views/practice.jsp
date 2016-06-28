@@ -12,10 +12,8 @@
     </style>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
-        /*
-        $(function() {
+        var help = function() {
             alert('이것은 튜토리얼 입니다');
-            alert('ㅇㅇㅇ');
             alert('run버튼을 누르면 컴파일 및 실행이됩니다');
             alert('정말 친절한 설명');
             alert('셤잘봐라');
@@ -25,11 +23,22 @@
                 location.href='/test';
             }
             else{
-                alert('여기서 좀더 개기다가 간다')
+                alert('여기서 좀더 개기다가 간다');
             }
-        })
-        */
-    </script>
+        }
+
+        var submit = function(){
+            alert('이 버튼을 누르면 최종 제출이 되며 테스트가 끝납니다');
+            var a = confirm('시험 보러 갈테냐?');
+            if(a){
+                alert('test 페이지로 이동한다')
+                location.href='/test';
+            }
+            else{
+                alert('여기서 좀더 개기다가 간다');
+            }
+        }
+        </script>
     <style>
         .btn-workboard {
             display: inline-block;
@@ -85,8 +94,8 @@ int main(){
             <div>
                 <button class="btn-workboard">^^콘솔창 확장</button>
                 <button class="btn-workboard">테스트</button>
-                <button class="btn-workboard">제출</button>
-                <button class="btn-workboard">도움말(튜토리얼 다시보기)</button>
+                <button onclick="submit()" class="btn-workboard">제출</button>
+                <button onclick="help()" class="btn-workboard">도움말(튜토리얼 다시보기)</button>
                 <div class="btn-workboard">
                     <form>
                         <select name="cars">
@@ -125,5 +134,9 @@ int main(){
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/c_cpp");
+    /*
+    페이지가 다 로드된 후에 help함수를 호출하고싶다
+     */
+    help();
 </script>
 </html>
