@@ -1,5 +1,6 @@
 package com.estsoft.codit.ide.controller;
 
+import com.estsoft.codit.ide.annotation.Auth;
 import com.estsoft.codit.ide.service.ResultService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class ResultController {
   @Autowired
   private ResultService resultService;
 
+  @Auth
   @RequestMapping("")
   public String main() {
     Map map = resultService.getResult( /*사용자 uuid*/ );

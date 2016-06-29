@@ -1,6 +1,7 @@
 package com.estsoft.codit.ide.controller;
 
 import com.estsoft.codit.db.vo.ApplicantVo;
+import com.estsoft.codit.ide.annotation.Auth;
 import com.estsoft.codit.ide.annotation.AuthApplicant;
 import com.estsoft.codit.ide.service.TestService;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/test")
 @Controller
 public class TestController {
+
   @Autowired
   private TestService testService;
 
@@ -22,6 +24,7 @@ public class TestController {
   IDE 콘솔. applicant 정보와 cart 정보를 받아서 콘솔을 그려준다
   시간 관련..(?)
    */
+  @Auth
   @RequestMapping("")
   public String main(Model model, @AuthApplicant ApplicantVo applicantVo, @RequestParam(value = "language", defaultValue="1") int language_id) {
     testService.setProblem(model, applicantVo, language_id);

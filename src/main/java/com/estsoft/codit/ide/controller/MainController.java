@@ -1,6 +1,7 @@
 package com.estsoft.codit.ide.controller;
 
 import com.estsoft.codit.db.vo.ApplicantVo;
+import com.estsoft.codit.ide.annotation.Auth;
 import com.estsoft.codit.ide.annotation.AuthApplicant;
 import com.estsoft.codit.ide.service.MainService;
 
@@ -23,16 +24,18 @@ public class MainController {
 
   /*
    루트 페이지로 index page를 보여준다
-   parameter의 uuid와 수험생이 입력한 이름 이메일을 받아 DB 확인 후 세션을 부여한다
+   parameter의 uuid와 수험생이 입력한 이름 이메일을 받아 DB 확인 후 index page에 이름을 넣어준다
    */
   @RequestMapping("/")
-  public String index(@RequestParam(value = "ticket", defaultValue="") String ticket) {
-    if(ticket.equals("")==true){
+  public String index(@RequestParam(value = "ticket", defaultValue="") String ticket, Model model) {
+    if( ticket.equals("") ){
       return "index-error";
     }
-    //세션 부여 는 interceptor에서 해줌
-    //mainService.idenfityApplicant(ticket, model);
-    return "index";
+    boolean existsTicket = mainService.checkTicket(ticket, model);
+    if(existsTicket){
+      return "index";
+    }
+    return "index-error";
   }
 
 
@@ -42,11 +45,11 @@ public class MainController {
    */
   @RequestMapping("/instruction")
   public String instruction(@RequestParam(value = "email", defaultValue="") String email, @AuthApplicant ApplicantVo applicantVo) {
-    boolean isAuthenticated = mainService.checkEmail(email, applicantVo);
-    if(isAuthenticated){
-      return "instruction";
+    //authInterceptor에서 ticket과 email이 맞는지 체크해서 맞으면 세션을 부여하고 @AuthApplicant에 값을 넣어준다
+    if(applicantVo==null){
+      return "instruction-error";
     }
-    return "instruction-error";
+    return "instruction";
   }
 
 
@@ -57,8 +60,9 @@ public class MainController {
  complie and run, output 콘솔에 append 기능만 지원
  testService를 갖다 쓴다
  */
+  @Auth
   @RequestMapping("/practice")
-  public String practice(Model model) {
+  public String practice() {
     return "practice";
   }
 
