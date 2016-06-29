@@ -5,9 +5,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <body>
-<h2>index.jsp</h2>
-
-
 반갑습니다 ${applicant.name}님
 <h3>이스트소프트가 귀하를 코딩인터뷰에 초대하였습니다</h3>
 <p>인증을 위해 이메일을 입력하세요</p>

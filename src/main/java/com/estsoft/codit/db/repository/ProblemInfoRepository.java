@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -30,4 +31,15 @@ public class ProblemInfoRepository {
     return list;
   }
 
+  /*
+  튜토리얼 할때 쓰는 더미 문제들
+   */
+  public List<Integer> getPracticeList() {
+    List<Integer> list = new ArrayList<Integer>();
+    list.add(3);
+    list.add(4);
+    list.add(1);
+    list.add(2);
+    return list;
+  }
 }

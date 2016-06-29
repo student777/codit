@@ -70,6 +70,9 @@ public class TestService {
      */
   }
 
+  /*
+  applicant에 해당되는 문제 풀을 설정해줌
+   */
   public void setProblem(Model model, ApplicantVo applicantVo, int language_id){
     List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();

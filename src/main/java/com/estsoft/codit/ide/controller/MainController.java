@@ -24,7 +24,7 @@ public class MainController {
 
   /*
    루트 페이지로 index page를 보여준다
-   parameter의 uuid와 수험생이 입력한 이름 이메일을 받아 DB 확인 후 index page에 이름을 넣어준다
+   parameter의 ticket 정보를 받아 DB 확인 후 index page에 이름을 넣어준다
    */
   @RequestMapping("/")
   public String index(@RequestParam(value = "ticket", defaultValue="") String ticket, Model model) {
@@ -41,7 +41,7 @@ public class MainController {
 
   /*
    시험 중 유의사항에 대해 안내하는 페이지
-   수험자가 입력한 이메일이 세션에 있는 유저의 정보와 다를 시 에러
+   수험자가 입력한 이메일이 유저의 ticket의 정보와 다를 시 에러 페이지를 보여준다(인터셉터에서)
    */
   @RequestMapping("/instruction")
   public String instruction(@RequestParam(value = "email", defaultValue="") String email, @AuthApplicant ApplicantVo applicantVo) {
@@ -58,11 +58,11 @@ public class MainController {
  IDE 콘솔을 그려주는데 cart
  여기서는 저장버튼을 눌러도 저장안된다 물론 유저입장에서는 저장된것 처럼 느끼게 한다
  complie and run, output 콘솔에 append 기능만 지원
- testService를 갖다 쓴다
  */
   @Auth
   @RequestMapping("/practice")
-  public String practice() {
+  public String practice(Model model) {
+    mainService.setProblem(model);
     return "practice";
   }
 

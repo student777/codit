@@ -7,7 +7,6 @@
     <title>instructino main page</title>
 </head>
 <body>
-<h4>instruction.jsp</h4>
 <h2>시험 안내</h2>
 <p>
     1. 시험은 총 ?a문제로 이루어져 있으며. ....<br>
@@ -18,7 +17,7 @@
     6. 지랄잼<br>
     7. 씨잼<br>
 </p>
-<button><a href="/practice">튜토리얼 및 연습테스트 시작</a></button>
-<button><a href="/test">바로 코딩테스트 시작하기</a></button>
+<a href="/practice"><button>튜토리얼 및 연습테스트 시작</button></a>
+<a href="/test"><button>바로 코딩테스트 시작하기</button></a>
 </body>
 </html>

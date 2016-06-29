@@ -21,8 +21,7 @@ public class TestController {
 
 
   /*
-  IDE 콘솔. applicant 정보와 cart 정보를 받아서 콘솔을 그려준다
-  시간 관련..(?)
+  IDE 콘솔. applicant, cart, problem, problem_info, test_case 정보를 받아서 콘솔을 그려준다
    */
   @Auth
   @RequestMapping("")
