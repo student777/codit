@@ -3,7 +3,7 @@
 
 <mapper namespace="recruit">
   <select id="selectAll" resultType="recruitvo">
-    <![CDATA[ SELECT * FROM recruit ]]>
+    <![CDATA[ SELECT id, title, from_date as fromDate, to_date as toDate, client_id as clientId FROM recruit ]]>
   </select>
 
   <insert id="insert" parameterType="recruitvo">
@@ -14,6 +14,6 @@
   </insert>
 
   <select id="selectById" resultType="recruitvo" parameterType="int">
-    <![CDATA[  SELECT * FROM recruit WHERE id=#{id } ]]>
+    <![CDATA[  SELECT id, title, from_date as fromDate, to_date as toDate, client_id as clientId FROM recruit WHERE id=#{id } ]]>
   </select>
 </mapper>

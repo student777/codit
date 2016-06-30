@@ -3,10 +3,12 @@ package com.estsoft.codit.ide.service;
 import com.estsoft.codit.db.repository.ApplicantRepository;
 import com.estsoft.codit.db.repository.ProblemInfoRepository;
 import com.estsoft.codit.db.repository.ProblemRepository;
+import com.estsoft.codit.db.repository.SourceCodeRepository;
 import com.estsoft.codit.db.repository.TestCaseRepository;
 import com.estsoft.codit.db.vo.ApplicantVo;
 import com.estsoft.codit.db.vo.ProblemInfoVo;
 import com.estsoft.codit.db.vo.ProblemVo;
+import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,25 @@ public class TestService {
 
   @Autowired
   private ApplicantRepository applicantRepository;
-  /**
-   * Save.
-   */
+
+  @Autowired
+  private SourceCodeRepository sourceCodeRepository;
+
+
 /*
   (시험 중)
    applicant의 소스코드를 받아 저장해줌
    */
-  public void save() {
+  public boolean save(String code, int problemId, int applicantId) {
+    SourceCodeVo sourceCodeVo = new SourceCodeVo();
+    sourceCodeVo.setCode(code);
+    sourceCodeVo.setApplicantId(applicantId);
+    sourceCodeVo.setProblemId(problemId);
+    int isInserted = sourceCodeRepository.insert(sourceCodeVo);
+    if(isInserted==1){
+      return true;
+    }
+    return false;
   }
 
 
@@ -77,7 +90,7 @@ public class TestService {
   /*
   applicant에 해당되는 문제 풀을 설정해줌
    */
-  public void initializeTest(Model model, ApplicantVo applicantVo, int language_id){
+  public void initializeTest(Model model, ApplicantVo applicantVo, int languageId){
     //init variables
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
     List<ProblemVo> problemList = new ArrayList<ProblemVo>();
@@ -86,14 +99,14 @@ public class TestService {
 
     //set problem
     List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
-    for (int problem_info_id:problemInfoIdList ) {
-      ProblemInfoVo problemInfoVo = problemInfoRepository.get(problem_info_id);
-      ProblemVo problemVo = problemRepository.getByProblemInfoId(problem_info_id, language_id);
-      List<TestCaseVo> testCaseVo = testCaseRepository.getByProblemInfoId(problem_info_id);
+    for (int problemInfoId:problemInfoIdList ) {
+      ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
+      ProblemVo problemVo = problemRepository.getByProblemInfoId(problemInfoId, languageId);
+      List<TestCaseVo> testCaseVo = testCaseRepository.getByProblemInfoId(problemInfoId);
       problemInfoList.add(problemInfoVo);
       problemList.add(problemVo);
       testcaseList.add(testCaseVo);
-      totalTime += problemInfoVo.getEstimated_time();
+      totalTime += problemInfoVo.getEstimatedTime();
     }
     model.addAttribute("problemInfoVoList", problemInfoList ) ;
     model.addAttribute("problemList", problemList);

@@ -17,8 +17,8 @@ public class SourceCodeRepository {
     return sqlSession.selectList("sourcecode.selectAll");
   }
 
-  public int insert(){
-    return sqlSession.insert("sourcecode.insert");
+  public int insert(SourceCodeVo sourceCodeVo){
+    return sqlSession.insert("sourcecode.insert", sourceCodeVo);
   }
 
   public SourceCodeVo get(int id){

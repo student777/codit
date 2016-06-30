@@ -3,7 +3,7 @@ package com.estsoft.codit.db.vo;
 public class TestCaseVo {
   private int id;
   private String input;
-  private int problem_info_id;
+  private int problemInfoId;
 
   public int getId() {
     return id;
@@ -21,12 +21,12 @@ public class TestCaseVo {
     this.input = input;
   }
 
-  public int getProblem_info_id() {
-    return problem_info_id;
+  public int getProblemInfoId() {
+    return problemInfoId;
   }
 
-  public void setProblem_info_id(int problem_info_id) {
-    this.problem_info_id = problem_info_id;
+  public void setProblemInfoId(int problemInfoId) {
+    this.problemInfoId = problemInfoId;
   }
 
   @Override
@@ -34,7 +34,7 @@ public class TestCaseVo {
     return "TestCaseVo{" +
         "id=" + id +
         ", input='" + input + '\'' +
-        ", problem_info_id=" + problem_info_id +
+        ", problemInfoId=" + problemInfoId +
         '}';
   }
 }

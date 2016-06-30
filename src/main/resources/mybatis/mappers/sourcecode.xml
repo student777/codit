@@ -3,17 +3,17 @@
 
 <mapper namespace="sourcecode">
   <select id="selectAll" resultType="sourcecodevo">
-    <![CDATA[ SELECT * FROM source_code ]]>
+    <![CDATA[ SELECT id, code, applicnat_id as applicantId, problem_id as problemId  FROM source_code ]]>
   </select>
 
   <insert id="insert" parameterType="sourcecodevo">
-    <![CDATA[insert into source_code value(null, '지성이는 고심 끝에 helloworld만 제출하였다', 1, 1); ]]>
+    <![CDATA[insert into source_code value(null, #{code}, #{applicantId}, #{problemId}) ]]>
     <selectKey keyProperty="id" resultType="int">
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
 
   <select id="selectById" resultType="sourcecodevo" parameterType="int">
-    <![CDATA[  SELECT * FROM source_code WHERE id=#{id } ]]>
+    <![CDATA[  SELECT id, code, applicnat_id as applicantId, problem_id as problemId FROM source_code WHERE id=#{id } ]]>
   </select>
 </mapper>

@@ -4,7 +4,7 @@ public class ProblemInfoVo {
   private int id;
   private String name;
   private String description;
-  private int estimated_time;
+  private int estimatedTime;
 
   public int getId() {
     return id;
@@ -30,12 +30,12 @@ public class ProblemInfoVo {
     this.description = description;
   }
 
-  public int getEstimated_time() {
-    return estimated_time;
+  public int getEstimatedTime() {
+    return estimatedTime;
   }
 
-  public void setEstimated_time(int estimated_time) {
-    this.estimated_time = estimated_time;
+  public void setEstimatedTime(int estimatedTime) {
+    this.estimatedTime = estimatedTime;
   }
 
   @Override
@@ -44,7 +44,7 @@ public class ProblemInfoVo {
         "id=" + id +
         ", name='" + name + '\'' +
         ", description='" + description + '\'' +
-        ", estimated_time=" + estimated_time +
+        ", estimatedTime=" + estimatedTime +
         '}';
   }
 }

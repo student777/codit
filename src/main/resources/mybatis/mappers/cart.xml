@@ -3,7 +3,7 @@
 
 <mapper namespace="cart">
   <select id="selectAll" resultType="cartvo">
-    <![CDATA[ SELECT * FROM cart ]]>
+    <![CDATA[ SELECT id, recruit_id as recruitId, problem_info_id as problemInfoId FROM cart ]]>
   </select>
 
   <insert id="insert" parameterType="cartvo">
@@ -14,7 +14,7 @@
   </insert>
 
   <select id="selectById" resultType="cartvo" parameterType="int">
-    <![CDATA[  SELECT * FROM cart WHERE id=#{id } ]]>
+    <![CDATA[  SELECT id, recruit_id as recruitId, problem_info_id as problemInfoId FROM cart WHERE id=#{id } ]]>
   </select>
 
 </mapper>

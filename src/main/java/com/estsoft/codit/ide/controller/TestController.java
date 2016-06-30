@@ -36,9 +36,12 @@ public class TestController {
   */
   @ResponseBody
   @RequestMapping("/save")
-  public String save() {
-    testService.save();
-    return "작업 내역이 저장되었습니다";
+  public String save(@RequestParam String code, @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId) {
+    boolean isInserted = testService.save(code, problemId, applicantId);
+    if(isInserted){
+      return "success";
+    }
+    return "fail";
   }
 
   /*

@@ -2,10 +2,10 @@ package com.estsoft.codit.db.vo;
 
 public class ProblemVo {
   private int id;
-  private int language_id;
-  private int problem_info_id;
-  private String skeleton_code;
-  private String main_code;
+  private int languageId;
+  private int problemInfoId;
+  private String skeletonCode;
+  private String mainCode;
 
   public int getId() {
     return id;
@@ -15,46 +15,46 @@ public class ProblemVo {
     this.id = id;
   }
 
-  public int getLanguage_id() {
-    return language_id;
+  public int getLangguageId() {
+    return languageId;
   }
 
-  public void setLanguage_id(int language_id) {
-    this.language_id = language_id;
+  public void setLangguageId(int langguageId) {
+    this.languageId = langguageId;
   }
 
-  public int getProblem_info_id() {
-    return problem_info_id;
+  public int getProblemInfoId() {
+    return problemInfoId;
   }
 
-  public void setProblem_info_id(int problem_info_id) {
-    this.problem_info_id = problem_info_id;
+  public void setProblemInfoId(int problemInfoId) {
+    this.problemInfoId = problemInfoId;
   }
 
-  public String getSkeleton_code() {
-    return skeleton_code;
+  public String getSkeletonCode() {
+    return skeletonCode;
   }
 
-  public void setSkeleton_code(String skeleton_code) {
-    this.skeleton_code = skeleton_code;
+  public void setSkeletonCode(String skeletonCode) {
+    this.skeletonCode = skeletonCode;
   }
 
-  public String getMain_code() {
-    return main_code;
+  public String getMainCode() {
+    return mainCode;
   }
 
-  public void setMain_code(String main_code) {
-    this.main_code = main_code;
+  public void setMainCode(String mainCode) {
+    this.mainCode = mainCode;
   }
 
   @Override
   public String toString() {
     return "ProblemVo{" +
         "id=" + id +
-        ", language_id=" + language_id +
-        ", problem_info_id=" + problem_info_id +
-        ", skeleton_code='" + skeleton_code + '\'' +
-        ", main_code='" + main_code + '\'' +
+        ", languageId=" + languageId +
+        ", problemInfoId=" + problemInfoId +
+        ", skeletonCode='" + skeletonCode + '\'' +
+        ", mainCode='" + mainCode + '\'' +
         '}';
   }
 }

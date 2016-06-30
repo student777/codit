@@ -4,10 +4,10 @@ package com.estsoft.codit.db.vo;
 public class ResultVo {
   private int id;
   private boolean correctness;
-  private int user_memory;
-  private int running_time;
-  private int applicant_id;
-  private int test_case_id;
+  private int userMemory;
+  private int runningTime;
+  private int applicantId;
+  private int testCaseId;
 
   public int getId() {
     return id;
@@ -25,36 +25,36 @@ public class ResultVo {
     this.correctness = correctness;
   }
 
-  public int getUser_memory() {
-    return user_memory;
+  public int getUserMemory() {
+    return userMemory;
   }
 
-  public void setUser_memory(int user_memory) {
-    this.user_memory = user_memory;
+  public void setUserMemory(int userMemory) {
+    this.userMemory = userMemory;
   }
 
-  public int getRunning_time() {
-    return running_time;
+  public int getRunningTime() {
+    return runningTime;
   }
 
-  public void setRunning_time(int running_time) {
-    this.running_time = running_time;
+  public void setRunningTime(int runningTime) {
+    this.runningTime = runningTime;
   }
 
-  public int getApplicant_id() {
-    return applicant_id;
+  public int getApplicantId() {
+    return applicantId;
   }
 
-  public void setApplicant_id(int applicant_id) {
-    this.applicant_id = applicant_id;
+  public void setApplicantId(int applicantId) {
+    this.applicantId = applicantId;
   }
 
-  public int getTest_case_id() {
-    return test_case_id;
+  public int getTestCaseId() {
+    return testCaseId;
   }
 
-  public void setTest_case_id(int test_case_id) {
-    this.test_case_id = test_case_id;
+  public void setTestCaseId(int testCaseId) {
+    this.testCaseId = testCaseId;
   }
 
   @Override
@@ -62,10 +62,10 @@ public class ResultVo {
     return "ResultVo{" +
         "id=" + id +
         ", correctness=" + correctness +
-        ", user_memory=" + user_memory +
-        ", running_time=" + running_time +
-        ", applicant_id=" + applicant_id +
-        ", test_case_id=" + test_case_id +
+        ", userMemory=" + userMemory +
+        ", runningTime=" + runningTime +
+        ", applicantId=" + applicantId +
+        ", testCaseId=" + testCaseId +
         '}';
   }
 }

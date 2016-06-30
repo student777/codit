@@ -27,10 +27,10 @@ public class ProblemRepository {
     return sqlSession.selectOne("problem.selectById", id);
   }
 
-  public ProblemVo getByProblemInfoId(int problem_info_id, int language_id) {
+  public ProblemVo getByProblemInfoId(int problemInfoId, int languageId) {
     Map map = new HashMap<String, Integer>();
-    map.put("problemInfoId", problem_info_id);
-    map.put("languageId", language_id);
+    map.put("problemInfoId", problemInfoId);
+    map.put("languageId", languageId);
     return sqlSession.selectOne("problem.selectByProblemInfo", map);
   }
 }

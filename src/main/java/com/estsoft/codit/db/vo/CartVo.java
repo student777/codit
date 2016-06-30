@@ -3,8 +3,8 @@ package com.estsoft.codit.db.vo;
 
 public class CartVo {
   private int id;
-  private int recruit_id;
-  private int problem_id;
+  private int recruitId;
+  private int problemId;
 
   public int getId() {
     return id;
@@ -14,28 +14,28 @@ public class CartVo {
     this.id = id;
   }
 
-  public int getRecruit_id() {
-    return recruit_id;
+  public int getRecruitId() {
+    return recruitId;
   }
 
-  public void setRecruit_id(int recruit_id) {
-    this.recruit_id = recruit_id;
+  public void setRecruitId(int recruitId) {
+    this.recruitId = recruitId;
   }
 
-  public int getProblem_id() {
-    return problem_id;
+  public int getProblemId() {
+    return problemId;
   }
 
-  public void setProblem_id(int problem_id) {
-    this.problem_id = problem_id;
+  public void setProblemId(int problemId) {
+    this.problemId = problemId;
   }
 
   @Override
   public String toString() {
     return "CartVo{" +
         "id=" + id +
-        ", recruit_id=" + recruit_id +
-        ", problem_id=" + problem_id +
+        ", recruitId=" + recruitId +
+        ", problemId=" + problemId +
         '}';
   }
 }

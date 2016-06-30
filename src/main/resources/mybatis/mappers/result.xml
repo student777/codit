@@ -3,7 +3,7 @@
 
 <mapper namespace="result">
   <select id="selectAll" resultType="resultvo">
-    <![CDATA[ SELECT * FROM result ]]>
+    <![CDATA[ SELECT id, correctness, used_memory as usedMemory, running_time as runningTime, applicant_id as applicantId, test_case_id as testCaseId FROM result ]]>
   </select>
 
   <insert id="insert" parameterType="resultvo">
@@ -14,6 +14,6 @@
   </insert>
 
   <select id="selectById" resultType="resultvo" parameterType="int">
-    <![CDATA[  SELECT * FROM result WHERE id=#{id } ]]>
+    <![CDATA[  SELECT id, correctness, used_memory as usedMemory, running_time as runningTime, applicant_id as applicantId, test_case_id as testCaseId FROM result WHERE id=#{id } ]]>
   </select>
 </mapper>

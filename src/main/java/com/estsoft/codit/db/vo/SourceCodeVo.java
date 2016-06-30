@@ -3,8 +3,8 @@ package com.estsoft.codit.db.vo;
 public class SourceCodeVo {
   private int id;
   private String code;
-  private int applicant_id;
-  private int program_code_id;
+  private int applicantId;
+  private int problemId;
 
   public int getId() {
     return id;
@@ -22,20 +22,20 @@ public class SourceCodeVo {
     this.code = code;
   }
 
-  public int getApplicant_id() {
-    return applicant_id;
+  public int getApplicantId() {
+    return applicantId;
   }
 
-  public void setApplicant_id(int applicant_id) {
-    this.applicant_id = applicant_id;
+  public void setApplicantId(int applicantId) {
+    this.applicantId = applicantId;
   }
 
-  public int getProgram_code_id() {
-    return program_code_id;
+  public int getProblemId() {
+    return problemId;
   }
 
-  public void setProgram_code_id(int program_code_id) {
-    this.program_code_id = program_code_id;
+  public void setProblemId(int problemId) {
+    this.problemId = problemId;
   }
 
   @Override
@@ -43,8 +43,8 @@ public class SourceCodeVo {
     return "SourceCodeVo{" +
         "id=" + id +
         ", code='" + code + '\'' +
-        ", applicant_id=" + applicant_id +
-        ", program_code_id=" + program_code_id +
+        ", applicantId=" + applicantId +
+        ", problemId=" + problemId +
         '}';
   }
 }

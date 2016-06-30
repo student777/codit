@@ -3,7 +3,7 @@
 
 <mapper namespace="applicant">
   <select id="selectAll" resultType="applicantvo">
-    <![CDATA[ SELECT * FROM applicant ]]>
+    <![CDATA[ SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant ]]>
   </select>
 
   <insert id="insert" parameterType="applicantvo">
@@ -14,15 +14,15 @@
   </insert>
 
   <select id="selectById" resultType="applicantvo" parameterType="int">
-    <![CDATA[  SELECT * FROM applicant WHERE id=#{id } ]]>
+    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE id=#{id } ]]>
   </select>
 
   <select id="selectByTicket" resultType="applicantvo" parameterType="String">
-    <![CDATA[  SELECT * FROM applicant WHERE ticket=#{ticket } ]]>
+    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE ticket=#{ticket } ]]>
   </select>
 
   <select id="selectByEmail" resultType="applicantvo" parameterType="String">
-    <![CDATA[  SELECT * FROM applicant WHERE email=#{email } ]]>
+    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE email=#{email } ]]>
   </select>
 
   <insert id="insertTime" parameterType="int">

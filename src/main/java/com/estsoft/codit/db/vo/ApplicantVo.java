@@ -5,9 +5,9 @@ public class ApplicantVo {
   private String name;
   private String email;
   private String ticket;
-  private String start_time;
-  private String submit_time;
-  private int recruit_id;
+  private String startTime;
+  private String submitTime;
+  private int recruitId;
 
   public int getId() {
     return id;
@@ -41,28 +41,28 @@ public class ApplicantVo {
     this.ticket = ticket;
   }
 
-  public String getStart_time() {
-    return start_time;
+  public String getStartTime() {
+    return startTime;
   }
 
-  public void setStart_time(String start_time) {
-    this.start_time = start_time;
+  public void setStartTime(String startTime) {
+    this.startTime = startTime;
   }
 
-  public String getSubmit_time() {
-    return submit_time;
+  public String getSubmitTime() {
+    return submitTime;
   }
 
-  public void setSubmit_time(String submit_time) {
-    this.submit_time = submit_time;
+  public void setSubmitTime(String submitTime) {
+    this.submitTime = submitTime;
   }
 
-  public int getRecruit_id() {
-    return recruit_id;
+  public int getRecruitId() {
+    return recruitId;
   }
 
-  public void setRecruit_id(int recruit_id) {
-    this.recruit_id = recruit_id;
+  public void setRecruitId(int recruitId) {
+    this.recruitId = recruitId;
   }
 
   @Override
@@ -72,9 +72,9 @@ public class ApplicantVo {
         ", name='" + name + '\'' +
         ", email='" + email + '\'' +
         ", ticket='" + ticket + '\'' +
-        ", start_time='" + start_time + '\'' +
-        ", submit_time='" + submit_time + '\'' +
-        ", recruit_id=" + recruit_id +
+        ", startTime='" + startTime + '\'' +
+        ", submitTime='" + submitTime + '\'' +
+        ", recruitId=" + recruitId +
         '}';
   }
 }
