@@ -25,4 +25,7 @@
     <![CDATA[  SELECT * FROM applicant WHERE email=#{email } ]]>
   </select>
 
+  <insert id="insertTime" parameterType="int">
+    <![CDATA[ update applicant set start_time=now() where id=#{id} ]]>
+  </insert>
 </mapper>

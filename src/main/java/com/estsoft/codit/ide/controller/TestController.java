@@ -26,7 +26,7 @@ public class TestController {
   @Auth
   @RequestMapping("")
   public String main(Model model, @AuthApplicant ApplicantVo applicantVo, @RequestParam(value = "language", defaultValue="1") int language_id) {
-    testService.setProblem(model, applicantVo, language_id);
+    testService.initializeTest(model, applicantVo, language_id);
     return "test";
   }
 

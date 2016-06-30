@@ -18,6 +18,7 @@
     </style>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/jquery.simple.timer.js"></script>
     <script>
         //전역변수: 풀어야할 문제의 수
         var number_of_problems = ${problemInfoVoList.size() };
@@ -26,8 +27,8 @@
         var help = function() {
             alert('이것은 test의 도움말 입니다');
             alert('run버튼을 누르면 컴파일 및 실행이됩니다');
-            alert('정말 친절한 설명');
-            alert('셤잘봐라');
+            alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
+            alert('요이땅');
         }
 
         //최종 제출
@@ -60,6 +61,12 @@
         $(function () {
             alert('확인을 누르면 시험을 시작합니다');
             select(1);
+            $('.timer').startTimer({
+               onComplete: function(){
+                   alert('시험이 끝났다. 지금 저장본으로 제출한다');
+                   location.href="/result";
+               }
+           });
         })
     </script>
 </head>
@@ -89,13 +96,13 @@
         <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <h2>workboard</h2>
             <div>
-                <div class="btn-workboard">남은 시간 16분 30초</div>
+                <div class="btn-workboard timer" data-seconds-left="${totalTime}">남은 시간: </div>
                 <div class="btn-workboard">
                     <form>
-                        <select name="cars">
-                            <option value="volvo">C</option>
-                            <option value="saab">JAVA</option>
-                            <option value="fiat">C++</option>
+                        <select name="language">
+                            <option value="1">C</option>
+                            <option value="2">JAVA</option>
+                            <option value="3">C++</option>
                         </select>
                     </form>
                 </div>
@@ -108,7 +115,6 @@
             </div>
 
             <div>
-                <button class="btn-workboard">^^콘솔창 확장</button>
                 <button onclick="help()" class="btn-workboard">도움말(튜토리얼 다시보기)</button>
                 <div class="btn-workboard">
                     <form class="selectable">
@@ -122,7 +128,16 @@
                         </c:forEach>
                     </form>
                 </div>
-                <button class="btn-workboard">compile & run</button>
+                <div class="selectable btn-workboard"">
+                    <c:forEach items="${problemList}" var="problemVo" varStatus="status">
+                        <button>${problemVo.id}번 문제 저장</button>
+                    </c:forEach>
+                </div>
+                <div class="selectable btn-workboard">
+                    <c:forEach items="${problemList}" var="problemVo" varStatus="status">
+                        <button>${problemVo.id}번 문제 compile & run</button>
+                    </c:forEach>
+                </div>
                 <button style="float:right" onclick="final_submit()">최종 제출</button>
             </div>
         </div>

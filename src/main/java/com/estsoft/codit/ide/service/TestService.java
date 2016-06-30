@@ -1,5 +1,6 @@
 package com.estsoft.codit.ide.service;
 
+import com.estsoft.codit.db.repository.ApplicantRepository;
 import com.estsoft.codit.db.repository.ProblemInfoRepository;
 import com.estsoft.codit.db.repository.ProblemRepository;
 import com.estsoft.codit.db.repository.TestCaseRepository;
@@ -26,6 +27,9 @@ public class TestService {
 
   @Autowired
   private TestCaseRepository testCaseRepository;
+
+  @Autowired
+  private ApplicantRepository applicantRepository;
   /**
    * Save.
    */
@@ -73,18 +77,30 @@ public class TestService {
   /*
   applicant에 해당되는 문제 풀을 설정해줌
    */
-  public void setProblem(Model model, ApplicantVo applicantVo, int language_id){
-    List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
+  public void initializeTest(Model model, ApplicantVo applicantVo, int language_id){
+    //init variables
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
     List<ProblemVo> problemList = new ArrayList<ProblemVo>();
     List<List<TestCaseVo>> testcaseList = new ArrayList<List<TestCaseVo>>();
+    int totalTime = 0;
+
+    //set problem
+    List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
     for (int problem_info_id:problemInfoIdList ) {
-      problemInfoList.add(problemInfoRepository.get(problem_info_id));
-      problemList.add(problemRepository.getByProblemInfoId(problem_info_id, language_id));
-      testcaseList.add(testCaseRepository.getByProblemInfoId(problem_info_id));
+      ProblemInfoVo problemInfoVo = problemInfoRepository.get(problem_info_id);
+      ProblemVo problemVo = problemRepository.getByProblemInfoId(problem_info_id, language_id);
+      List<TestCaseVo> testCaseVo = testCaseRepository.getByProblemInfoId(problem_info_id);
+      problemInfoList.add(problemInfoVo);
+      problemList.add(problemVo);
+      testcaseList.add(testCaseVo);
+      totalTime += problemInfoVo.getEstimated_time();
     }
     model.addAttribute("problemInfoVoList", problemInfoList ) ;
     model.addAttribute("problemList", problemList);
     model.addAttribute("testcaseListList", testcaseList);
+    model.addAttribute("totalTime", totalTime);
+
+    //set timer
+    applicantRepository.setStartTime(applicantVo);
   }
 }

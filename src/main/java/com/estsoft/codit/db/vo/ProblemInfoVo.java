@@ -5,15 +5,6 @@ public class ProblemInfoVo {
   private String name;
   private String description;
   private int estimated_time;
-  private int test_time;
-
-  public int getTest_time() {
-    return test_time;
-  }
-
-  public void setTest_time(int test_time) {
-    this.test_time = test_time;
-  }
 
   public int getId() {
     return id;
@@ -54,7 +45,6 @@ public class ProblemInfoVo {
         ", name='" + name + '\'' +
         ", description='" + description + '\'' +
         ", estimated_time=" + estimated_time +
-        ", test_time=" + test_time +
         '}';
   }
 }

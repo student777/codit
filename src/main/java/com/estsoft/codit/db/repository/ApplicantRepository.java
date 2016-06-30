@@ -32,4 +32,9 @@ public class ApplicantRepository {
   public ApplicantVo getByEmail(String email) {
     return sqlSession.selectOne("applicant.selectByEmail", email);
   }
+
+  public void setStartTime(ApplicantVo applicantVo){
+    sqlSession.update("applicant.insertTime", applicantVo.getId());
+  }
+
 }
