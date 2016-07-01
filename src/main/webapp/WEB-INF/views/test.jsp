@@ -68,6 +68,8 @@
             var code = editor.getValue();
             var applicant_id = ${authApplicant.id};
             var problem_id = editor_jquery.data("problem_id");
+
+            //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
             //ajax POST
             $.ajax({
                     url: '${pageContext.request.contextPath }/test/save',
@@ -76,15 +78,42 @@
                     //dataType: "json",
                     data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
                     success: function (response) {
-                        if(response=='success'){
+                        if(response=='fail'){
+                            alert('저장 실패');
+                        }
+                        else if(response=='success'){
                             alert('저장되었습니다');
                         }
-                       alert('저장 실패');
                     },
                     error: function (xhr, status, error) {
                        console.error(status + ":" + error);
                     }
                    }
+            );
+        };
+
+        var run_code = function(k){
+            //일단 저장 후 돌림
+            save_code(k);
+
+            var editor_jquery = $("#editor-" + k);
+            var applicant_id = ${authApplicant.id};
+            var problem_id = editor_jquery.data("problem_id");
+
+            //ajax POST
+            $.ajax({
+                   url: '${pageContext.request.contextPath }/test/run',
+                   type: "post",
+                   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                   //dataType: "json",
+                   //TODO: auth 권한?
+                   data: {"problem_id": problem_id, "applicant_id": applicant_id},
+                   success: function (response) {
+                       alert(response);
+                   },
+                   error: function (xhr, status, error) {
+                       console.error(status + ":" + error);
+                   }}
             );
         };
 
@@ -172,7 +201,7 @@
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach items="${problemList}" var="problemVo" varStatus="status">
-                        <button>${status.index + 1}번 문제 compile & run</button>
+                        <button onclick="run_code(${status.index + 1})">${status.index + 1}번 문제 compile & run</button>
                     </c:forEach>
                 </div>
                 <button style="float:right" onclick="final_submit()">최종 제출</button>

@@ -46,13 +46,15 @@ public class TestController {
 
   /*
   ajax URL
-  저장된 소스코드를 컴파일하고 실행한다 결과를 append해준다
+  ajax는 비동기식이므로 source_code를 직접 받아 돌릴수 없음(test.jsp참고)
+  applicant_id 와 problem_id 를 받아서 DB에서 식별해줘야 함
+  이후 저장된 소스코드를 컴파일하고 실행하여 결과를 response로 쏴준다
    */
   @ResponseBody
   @RequestMapping("/run")
-  public String run() {
-    testService.run();
-    return "잘 돌아간다 잘잘 돌아간다";
+  public String run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId) {
+    String result = testService.run(problemId, applicantId);
+    return result;
   }
 
 }

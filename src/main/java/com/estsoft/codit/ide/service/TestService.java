@@ -37,7 +37,7 @@ public class TestService {
   private SourceCodeRepository sourceCodeRepository;
 
 
-/*
+  /*
   (시험 중)
    applicant의 소스코드를 받아 저장해줌
    */
@@ -47,29 +47,33 @@ public class TestService {
     sourceCodeVo.setApplicantId(applicantId);
     sourceCodeVo.setProblemId(problemId);
     int isInserted = sourceCodeRepository.insert(sourceCodeVo);
-    if(isInserted==1){
-      return true;
-    }
-    return false;
+    //insert 결과가 실패했을 경우 repository에서 0 리턴
+    //성공했을 경우에는 id값에 source_code의 id값이 나옴
+    return isInserted==1;
   }
 
 
 
-/*
-   (시험 중)저장된 소스코드를 compile and run
-   채점은 안한다
-   */
-  public void run() {
-
-    /*
+   /*
     1) 컴파일
     2) 소스코드에 해당되는 테스트 케이스 끌어와 run
     3) 런타임시 생성되는 메시지를 출력
-    4) 채점 결과 저장
+   채점은 안한다
+   */
+  public String run(int problemId, int applicantId) {
+    //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
+    SourceCodeVo sourceCodeVo = new SourceCodeVo();
+    sourceCodeVo.setApplicantId(applicantId);
+    sourceCodeVo.setProblemId(problemId);
+    sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
+    String code = sourceCodeVo.getCode();
+
+    // code값을 main_code와 함께 컴파일 후 돌림
+    // System.out.println(code);
+    //TODO: 저장 되고 나서 해야하는데 안그런다(?) 잘되는거 같기도 함
 
 
-     */
-
+    return "TestService.run() called";
   }
 
 

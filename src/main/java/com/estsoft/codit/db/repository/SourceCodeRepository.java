@@ -24,4 +24,8 @@ public class SourceCodeRepository {
   public SourceCodeVo get(int id){
     return sqlSession.selectOne("sourcecode.selectById", id);
   }
+
+  public SourceCodeVo getByApplicantAndProblem(SourceCodeVo sourceCodeVo) {
+    return sqlSession.selectOne("sourcecode.selectByRun", sourceCodeVo) ;
+  }
 }
