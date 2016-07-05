@@ -5,13 +5,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class ExecTest {
-  public static void main(String[] args) throws IOException, InterruptedException {
-    String[] command = new String[] { "cmd.exe", "/c", "javac", "test.java"};
-    String[] command2 = new String[] { "cmd.exe", "/c", "java", "test"};
-    ExecTest runner = new ExecTest();
-    runner.byRuntime(command);
-    runner.byRuntime(command2);
-    // runner.byProcessBuilder(command);
+    public void exec(String command) {
+    //String[] x = {"cmd.exe", "/c", "javac", "test.java", "&", "java", " test"};
+//      String[] x = {"cmd.exe", "/c", "echo", "%PATH%", "&", "javac","test.java", "&", "java", "-cp C:\\Users\\Malzahar\\lib\\apache-tomcat-8.0.35\\bin", "test" };
+      String[] x = {"cmd.exe", "/c", "java -cp C:\\Users\\Malzahar\\lib\\apache-tomcat-8.0.35\\bin test"};
+    try {
+      byRuntime(x);
+      //byProcessBuilder(x);
+    }
+    catch(Exception e){
+      e.printStackTrace();
+    }
   }
 
   public void byRuntime(String[] command) throws IOException, InterruptedException {
@@ -39,12 +43,65 @@ public class ExecTest {
     }
   }
 
-  /*
+//  public void exec(String command) {
+//    //String[] x = {"cmd.exe", "/c", "javac", "test.java", "&", "java", " test"};
+//    String[] x = {"cmd.exe", "/c", "echo", "%PATH%", "&", "javac","test.java", "&", "java", "test"};
+//    ExecTest runner = new ExecTest();
+//    try {
+//      runner.byRuntime(x);
+//    }
+//    catch(Exception e){
+//      e.printStackTrace();
+//    }
+//  }
+
+//  public void exec(String command) {
+//    //String[] x = {"cmd.exe", "/c", "javac", "test.java", "&", "java", " test"};
+//    String[] x = {"cmd.exe", "/c", "echo", "%PATH%", "&", "javac","test.java", "&", "java", "test"};
+//    try {
+//      byRuntime(x);
+//      //byProcessBuilder(x);
+//    }
+//    catch(Exception e){
+//      e.printStackTrace();
+//    }
+//  }
+
+
+//  public void exec(String command) {
+//    List<String> prefix = new ArrayList<String>();
+//    prefix.add("cmd.exe");
+//    prefix.add("/c");
+//    prefix.add(command);
+//    try {
+//      byRuntime(prefix.toArray(new String[0]));
+//    }
+//    catch(Exception e){
+//      e.printStackTrace();
+//    }
+//    // runner.byProcessBuilder(command);
+//  }
+
+//  public static void main(String[] args) throws IOException, InterruptedException {
+//    List<String> prefix = new ArrayList<String>();
+//    prefix.add("cmd.exe");
+//    prefix.add("/c");
+//    prefix.add("javac test.java & java test");
+//    ExecTest runner = new ExecTest();
+//    runner.byRuntime(prefix.toArray(new String[0]));
+//    // runner.byProcessBuilder(command);
+//  }
+
+
+
+
+
+
   public void byProcessBuilder(String[] command) throws IOException,InterruptedException {
     ProcessBuilder builder = new ProcessBuilder(command);
     Process process = builder.start();
     printStream(process);
   }
-  */
+
 
 }

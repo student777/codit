@@ -83,7 +83,7 @@
       <artifactId>spring-jdbc</artifactId>
       <version>${org.springframework-version}</version>
     </dependency>
-    
+
   </dependencies>
   <build>
     <finalName>codit-estsoft-ide</finalName>
