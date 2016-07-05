@@ -94,7 +94,8 @@
 
         var run_code = function(k){
             //일단 저장 후 돌림
-            save_code(k);
+            //TODO: 해야 하는데 꼬이는거같다
+            //save_code(k);
 
             var editor_jquery = $("#editor-" + k);
             var applicant_id = ${authApplicant.id};

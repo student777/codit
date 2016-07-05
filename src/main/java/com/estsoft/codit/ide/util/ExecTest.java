@@ -1,17 +1,21 @@
 package com.estsoft.codit.ide.util;
 
+import com.estsoft.codit.db.vo.SourceCodeVo;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class ExecTest {
-    public void exec(String command) {
-    //String[] x = {"cmd.exe", "/c", "javac", "test.java", "&", "java", " test"};
-//      String[] x = {"cmd.exe", "/c", "echo", "%PATH%", "&", "javac","test.java", "&", "java", "-cp C:\\Users\\Malzahar\\lib\\apache-tomcat-8.0.35\\bin", "test" };
-      String[] x = {"cmd.exe", "/c", "java -cp C:\\Users\\Malzahar\\lib\\apache-tomcat-8.0.35\\bin test"};
+    public void exec(SourceCodeVo sourceCodeVo) {
+      //String[] x = {"cmd.exe", "/c", "echo", "%PATH%", "&", "javac","test.java", "&", "java", "-cp C:\\Users\\Malzahar\\lib\\apache-tomcat-8.0.35\\bin", "test", ">>", "result.txt", "2<&1"};
+      System.out.println(sourceCodeVo);
+      String[] compileCommand = {"cmd.exe", "/c", "javac", "sourcecode"+String.valueOf(sourceCodeVo.getId())+".java" };
+      String[] runtimeCommand = {"cmd.exe", "/c", "java -cp C:\\Users\\Malzahar\\lib\\apache-tomcat-8.0.35\\bin",
+          "sourcecode"+String.valueOf(sourceCodeVo.getId()), ">>", "sourcecode"+String.valueOf(sourceCodeVo.getId()), "2<&1" };
     try {
-      byRuntime(x);
-      //byProcessBuilder(x);
+      byRuntime(compileCommand);
+      byRuntime(runtimeCommand);
     }
     catch(Exception e){
       e.printStackTrace();

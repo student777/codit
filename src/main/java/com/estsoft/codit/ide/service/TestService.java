@@ -11,6 +11,7 @@ import com.estsoft.codit.db.vo.ProblemVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 import com.estsoft.codit.ide.util.ExecTest;
+import com.estsoft.codit.ide.util.WriteTest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,15 +68,13 @@ public class TestService {
     sourceCodeVo.setApplicantId(applicantId);
     sourceCodeVo.setProblemId(problemId);
     sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
-    String code = sourceCodeVo.getCode();
 
     // code값을 main_code와 함께 컴파일 후 돌림
-    // System.out.println(code);
     //TODO: 저장 되고 나서 해야하는데 안그런다(?) 잘되는거 같기도 함
+    WriteTest writeTest = new WriteTest();
+    writeTest.write(sourceCodeVo);
     ExecTest execTest = new ExecTest();
-    //WriteTest writeTest = new WriteTest();
-    //writeTest.write(code);
-    execTest.exec("javac test.java & java test");
+    execTest.exec(sourceCodeVo);
     return "TestService.run() called";
   }
 
