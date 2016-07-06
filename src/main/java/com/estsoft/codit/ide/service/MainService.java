@@ -47,14 +47,13 @@ public class MainService {
   practice 할떄 쓰는 더미데이터 설정
    */
   public void setProblem(Model model){
-    int languageId = 1;
     List<Integer> problemInfoIdList = problemInfoRepository.getPracticeList();
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
-    List<ProblemVo> problemList = new ArrayList<ProblemVo>();
+    List<List<ProblemVo>> problemList = new ArrayList<List<ProblemVo>>();
     List<List<TestCaseVo>> testcaseList = new ArrayList<List<TestCaseVo>>();
     for (int problemInfoId:problemInfoIdList ) {
       problemInfoList.add(problemInfoRepository.get(problemInfoId));
-      problemList.add(problemRepository.getByProblemInfoId(problemInfoId, languageId));
+      problemList.add(problemRepository.getByProblemInfoId(problemInfoId));
       testcaseList.add(testCaseRepository.getByProblemInfoId(problemInfoId));
     }
     model.addAttribute("problemInfoVoList", problemInfoList ) ;

@@ -8,15 +8,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class WriteTest {
+public class WriteFile {
 
-  public void write(SourceCodeVo sourceCodeVo){
+  public void write(SourceCodeVo sourceCodeVo, int languageId){
+    //경로와 파일명 지정
     int sourceCodeId = sourceCodeVo.getId();
     String filePath = "C:\\sourcecode\\" + sourceCodeId;
+    String filename;
+    if(languageId==1){
+      filename = "\\task.c";
+    }
+    else if(languageId==2){
+      filename = "\\task.java";
+    }
+    else if(languageId==3){
+      filename = "\\task.py";
+    }
+    else{
+      filename = "\\task";
+    }
+
+    //경로와 파일 생성
     try{
       File file = new File(filePath);
       file.mkdirs();
-      OutputStream os = new FileOutputStream(filePath+"\\task.java");
+      OutputStream os = new FileOutputStream(filePath+filename);
       byte[] data = sourceCodeVo.getCode().getBytes();
       os.write(data);
     }
