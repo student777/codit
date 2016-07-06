@@ -108,9 +108,9 @@
                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                    //dataType: "json",
                    //TODO: auth 권한?
-                   data: {"problem_id": problem_id, "applicant_id": applicant_id},
+                   data: {"problem_id": problem_id, "applicant_id": applicant_id, },
                    success: function (response) {
-                       alert(response);
+                       $("#terminal-"+k).text(response);
                    },
                    error: function (xhr, status, error) {
                        console.error(status + ":" + error);
@@ -209,12 +209,11 @@
             </div>
         </div>
 
-        <div id="terminal" class="selectable"
-             style="background-color:violet; height:30%; width:80%; float:right;">
+        <div id="terminal" class="selectable" style="background-color:violet; height:30%; width:80%; float:right;">
             <c:forEach begin="1" end="${problemInfoVoList.size()}" varStatus="status">
                 <div>
                     <h2>${status.index}번째 문제의 terminal</h2>
-                    <div> output will be appended here...<br> <br></div>
+                    <div id="terminal-${status.index}">output will be appended here</div>
                 </div>
             </c:forEach>
         </div>

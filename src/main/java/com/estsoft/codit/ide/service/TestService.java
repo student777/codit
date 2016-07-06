@@ -74,8 +74,8 @@ public class TestService {
     WriteTest writeTest = new WriteTest();
     writeTest.write(sourceCodeVo);
     ExecTest execTest = new ExecTest();
-    execTest.exec(sourceCodeVo);
-    return "TestService.run() called";
+    String runtimeOutput = execTest.exec(sourceCodeVo);
+    return runtimeOutput;
   }
 
 
