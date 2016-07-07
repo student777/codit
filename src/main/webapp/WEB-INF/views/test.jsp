@@ -26,8 +26,13 @@
     <script>
         //전역변수: 풀어야할 문제의 수
         var number_of_problems = ${problemListOfList.size() };
-        //전역변수: 현재 보고있는 problem의 status.index
-        var current_k = 1;
+        //전역변수:  지원자의 id
+        var applicant_id = ${authApplicant.id};
+        //전역변수(가변)
+        var problem_id ;
+        //전역변수(가변) 현재 보고있는 problemInfo의 status.index
+        var current_k;
+
 
         //k번째 문제로 셋팅. 1부터 시작한다
         var select = function (k) {
@@ -38,31 +43,30 @@
             $('.selectable > :nth-child(' + k + ')').show();
             //에디터는 따로 함수를 실행해줘야 렌더링된다
             select_editor(k);
-            //현재 k값 갱신
+            //전역변수 k값 갱신
             current_k = k;
         };
 
         var select_editor = function(k, language_id) {
             var problem;
             var skeleton_code;
-            //문제1 문제2 버튼을 눌럿을 떄: language_id를 안주면 첫번째 problem값으로
+            //selcet(k)로 접근: 문제1 문제2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
             if (language_id === undefined) {
                 problem = $($("div[data-kth_problem_info=" + k + "]").get(0));
                 language_id = problem.data("language_id").toString();
                 skeleton_code = problem.data("skeleton_code");
-                $('select[name=language] option:not(' + (language_id - 1) + ')').removeAttr('selected');
-                $('select[name=language] option:eq(' + (language_id - 1) + ')').attr('selected', 'selected');
             }
-            //option을 선택하여 problem을 바꿀 떄
+            //language option을 선택하여 problem을 바꿀 떄
             else{
                 problem = $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id + "]");
                 if(problem.size()==0){
-                    skeleton_code = "제공된 skeleton code가 없습니다";
+                    skeleton_code = "제공된 problemVo가 없다. 따라서 문법에 맞게 코딩해도 저장안되며 컴파일도 안됨";
                 }
                 else{
                     skeleton_code = problem.data("skeleton_code");
                 }
             }
+            // 에디터 세팅
             var editor = ace.edit("editor-" + k);
             var mode;
             editor.setValue(skeleton_code);
@@ -85,17 +89,64 @@
                     break;
             }
             editor.getSession().setMode(mode);
+
+            //option select값 변화
+            $('select[name=language] option:not(' + (language_id - 1) + ')').removeAttr('selected');
+            $('select[name=language] option:eq(' + (language_id - 1) + ')').attr('selected', 'selected');
+
+            //전역변수 k값 갱신
+            problem_id = problem.data("problem_id");
         };
 
-
-
-        //도움말 함수 호출. spotlight해준다
-        var help = function () {
-            alert('이것은 test의 도움말 입니다');
-            alert('run버튼을 누르면 컴파일 및 실행이됩니다');
-            alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
-            alert('요이땅');
+        //k번째 에디터 상의 소스코드 저장
+        var save_code = function (k) {
+            var editor = ace.edit("editor-" + k);
+            var code = editor.getValue();
+            //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
+            //ajax POST
+            $.ajax({
+                       url: '${pageContext.request.contextPath }/test/save',
+                       type: "post",
+                       //리턴값은 'success' or 'fail'
+                       //dataType: "json",
+                       data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
+                       success: function (response) {
+                           if(response=='fail'){
+                               alert('저장 실패');
+                           }
+                           else if(response=='success'){
+                               alert('저장되었습니다');
+                           }
+                       },
+                       error: function (xhr, status, error) {
+                           console.error(status + ":" + error);
+                       }
+                   }
+            );
         };
+
+        var run_code = function(k){
+            //일단 저장 후 돌림
+            //TODO: 해야 하는데 꼬이는거같다
+            //save_code(k);
+
+            //ajax POST
+            $.ajax({
+                       url: '${pageContext.request.contextPath }/test/run',
+                       type: "post",
+                       contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                       //dataType: "json",
+                       //TODO: auth 권한?
+                       data: {"problem_id": problem_id, "applicant_id": applicant_id, },
+                       success: function (response) {
+                           $("#terminal-"+k).text(response);
+                       },
+                       error: function (xhr, status, error) {
+                           console.error(status + ":" + error);
+                       }}
+            );
+        };
+
 
         //최종 제출
         var final_submit = function () {
@@ -109,64 +160,16 @@
         };
 
 
-
-
-        //k번째 에디터 상의 소스코드 저장
-        var save_code = function (k) {
-            var editor = ace.edit("editor-" + k);
-            var editor_jquery = $("#editor-" + k);
-            var code = editor.getValue();
-            var applicant_id = ${authApplicant.id};
-            var problem_id = editor_jquery.data("problem_id");
-
-            //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
-            //ajax POST
-            $.ajax({
-                    url: '${pageContext.request.contextPath }/test/save',
-                    type: "post",
-                    //리턴값은 'success' or 'fail'
-                    //dataType: "json",
-                    data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
-                    success: function (response) {
-                        if(response=='fail'){
-                            alert('저장 실패');
-                        }
-                        else if(response=='success'){
-                            alert('저장되었습니다');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                       console.error(status + ":" + error);
-                    }
-                   }
-            );
+        //도움말 함수 호출. spotlight해준다
+        var help = function () {
+            alert('이것은 test의 도움말 입니다');
+            alert('run버튼을 누르면 컴파일 및 실행이됩니다');
+            alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
+            alert('요이땅');
         };
 
-        var run_code = function(k){
-            //일단 저장 후 돌림
-            //TODO: 해야 하는데 꼬이는거같다
-            //save_code(k);
 
-            var editor_jquery = $("#editor-" + k);
-            var applicant_id = ${authApplicant.id};
-            var problem_id = editor_jquery.data("problem_id");
 
-            //ajax POST
-            $.ajax({
-                   url: '${pageContext.request.contextPath }/test/run',
-                   type: "post",
-                   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                   //dataType: "json",
-                   //TODO: auth 권한?
-                   data: {"problem_id": problem_id, "applicant_id": applicant_id, },
-                   success: function (response) {
-                       $("#terminal-"+k).text(response);
-                   },
-                   error: function (xhr, status, error) {
-                       console.error(status + ":" + error);
-                   }}
-            );
-        };
 
         //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
         //첫번째 문제로 기본 스타트
@@ -221,8 +224,8 @@
             </div>
 
             <div class="selectable" style="width: 100%; height:85%">
-                <c:forEach items="${problemInfoList}" var="problemVo" varStatus="status">
-                    <div id="editor-${status.index + 1}" data-problem_id="" style="width:100%; height:100%;"></div>
+                <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
+                    <div id="editor-${status.index}" data-problem_id="" style="width:100%; height:100%;"></div>
                 </c:forEach>
             </div>
 
@@ -251,15 +254,15 @@
                     </form>
                 </div>
                 <div class="selectable btn-workboard">
-                    <c:forEach items="${problemInfoList}" var="problemVo" varStatus="status">
-                        <button onclick="save_code(${status.index + 1})">${status.index + 1}번 문제
+                    <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
+                        <button onclick="save_code(${status.index})">${status.index}번 문제
                             저장
                         </button>
                     </c:forEach>
                 </div>
                 <div class="selectable btn-workboard">
-                    <c:forEach items="${problemInfoList}" var="problemVo" varStatus="status">
-                        <button onclick="run_code(${status.index + 1})">${status.index + 1}번 문제 compile & run</button>
+                    <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
+                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile & run</button>
                     </c:forEach>
                 </div>
                 <button style="float:right" onclick="final_submit()">최종 제출</button>
