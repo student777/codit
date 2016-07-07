@@ -29,6 +29,66 @@
         //전역변수: 현재 보고있는 problem의 status.index
         var current_k = 1;
 
+        //k번째 문제로 셋팅. 1부터 시작한다
+        var select = function (k) {
+            //모든 selectable의 자식들을 hide하고 k번째 문제에 해당되는 것만 show
+            for (var i = 1; i <= number_of_problems; i++) {
+                $('.selectable > :nth-child(' + i + ')').hide();
+            }
+            $('.selectable > :nth-child(' + k + ')').show();
+            //에디터는 따로 함수를 실행해줘야 렌더링된다
+            select_editor(k);
+            //현재 k값 갱신
+            current_k = k;
+        };
+
+        var select_editor = function(k, language_id) {
+            var problem;
+            var skeleton_code;
+            //문제1 문제2 버튼을 눌럿을 떄: language_id를 안주면 첫번째 problem값으로
+            if (language_id === undefined) {
+                problem = $($("div[data-kth_problem_info=" + k + "]").get(0));
+                language_id = problem.data("language_id").toString();
+                skeleton_code = problem.data("skeleton_code");
+                $('select[name=language] option:not(' + (language_id - 1) + ')').removeAttr('selected');
+                $('select[name=language] option:eq(' + (language_id - 1) + ')').attr('selected', 'selected');
+            }
+            //option을 선택하여 problem을 바꿀 떄
+            else{
+                problem = $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id + "]");
+                if(problem.size()==0){
+                    skeleton_code = "제공된 skeleton code가 없습니다";
+                }
+                else{
+                    skeleton_code = problem.data("skeleton_code");
+                }
+            }
+            var editor = ace.edit("editor-" + k);
+            var mode;
+            editor.setValue(skeleton_code);
+            editor.setTheme("ace/theme/monokai");
+            editor.$blockScrolling = Infinity;
+            switch (language_id) {
+                case '1':
+                    mode = "ace/mode/c_cpp";
+                    break;
+                case '2':
+                    mode = "ace/mode/java";
+                    editor.getSession().setMode("ace/mode/java");
+                    break;
+                case '3':
+                    mode = "ace/mode/python";
+                    editor.getSession().setMode("ace/mode/python");
+                    break;
+                default:
+                    mode = "ace/mode/text";
+                    break;
+            }
+            editor.getSession().setMode(mode);
+        };
+
+
+
         //도움말 함수 호출. spotlight해준다
         var help = function () {
             alert('이것은 test의 도움말 입니다');
@@ -48,46 +108,8 @@
             }
         };
 
-        //k번째 문제로 셋팅. 1부터 시작한다
-        var select = function (k) {
-            //모든 selectable의 자식들을 hide하고 k번째 문제에 해당되는 것만 show
-            for (var i = 1; i <= number_of_problems; i++) {
-                $('.selectable > :nth-child(' + i + ')').hide();
-            }
-            $('.selectable > :nth-child(' + k + ')').show();
 
-            //에디터는 따로 함수를 실행해줘야 렌더링된다
-            select_editor(k);
-            $('select[name=language] option:eq(0)').attr('selected', 'selected');
-            //현재 k값 갱신
-            current_k = k;
-        };
 
-        var select_editor = function(k, language_id){
-            if(language_id===undefined){
-                //default 언어는 C
-                language_id = 1;
-            }
-            var problem = $("div[data-kth_problem_info="+k+"][data-language_id="+language_id+"]");
-            var editor = ace.edit("editor-" + k);
-            editor.setValue(problem.data("skeleton_code"));
-            editor.setTheme("ace/theme/monokai");
-            switch(language_id) {
-                case 1:
-                    editor.getSession().setMode("ace/mode/c_cpp");
-                    break;
-                case 2:
-                    editor.getSession().setMode("ace/mode/java");
-                    break;
-                case 3:
-                    editor.getSession().setMode("ace/mode/python");
-                    break;
-                default:
-                    editor.getSession().setMode("ace/mode/text");
-                    break;
-            }
-
-        }
 
         //k번째 에디터 상의 소스코드 저장
         var save_code = function (k) {
@@ -190,7 +212,7 @@
                 <div class="btn-workboard timer" data-seconds-left="${totalTime}">남은 시간:</div>
                 <div class="btn-workboard">
                     <label>언어 선택</label>
-                    <select name="language" onchange="select_editor(current_k, this.value)">
+                    <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
                         <option value="2" >JAVA</option>
                         <option value="3">PYTHON</option>
