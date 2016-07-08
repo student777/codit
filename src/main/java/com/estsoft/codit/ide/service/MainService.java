@@ -47,17 +47,24 @@ public class MainService {
   practice 할떄 쓰는 더미데이터 설정
    */
   public void setProblem(Model model){
-    List<Integer> problemInfoIdList = problemInfoRepository.getPracticeList();
+    //init variables
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
-    List<List<ProblemVo>> problemList = new ArrayList<List<ProblemVo>>();
-    List<List<TestCaseVo>> testcaseList = new ArrayList<List<TestCaseVo>>();
+    List<List<ProblemVo>> problemListOfList = new ArrayList<List<ProblemVo>>();
+    List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
+    int totalTime = 600;
+    List<Integer> problemInfoIdList = problemInfoRepository.getPracticeList();
+
     for (int problemInfoId:problemInfoIdList ) {
-      problemInfoList.add(problemInfoRepository.get(problemInfoId));
-      problemList.add(problemRepository.getByProblemInfoId(problemInfoId));
-      testcaseList.add(testCaseRepository.getByProblemInfoId(problemInfoId));
+      ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
+      List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
+      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId);
+      problemInfoList.add(problemInfoVo);
+      problemListOfList.add(problemVoList);
+      testcaseListOfList.add(testCaseVoList);
+      model.addAttribute("totalTime", totalTime);
     }
-    model.addAttribute("problemInfoVoList", problemInfoList ) ;
-    model.addAttribute("problemList", problemList);
-    model.addAttribute("testcaseListList", testcaseList);
+    model.addAttribute("problemInfoList", problemInfoList ) ;
+    model.addAttribute("problemListOfList", problemListOfList);
+    model.addAttribute("testcaseListOfList", testcaseListOfList);
   }
 }

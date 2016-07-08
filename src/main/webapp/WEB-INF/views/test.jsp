@@ -91,8 +91,7 @@
             editor.getSession().setMode(mode);
 
             //option select값 변화
-            $('select[name=language] option:not(' + (language_id - 1) + ')').removeAttr('selected');
-            $('select[name=language] option:eq(' + (language_id - 1) + ')').attr('selected', 'selected');
+            $('select[name=language]').get(0).value = language_id;
 
             //전역변수 k값 갱신
             problem_id = problem.data("problem_id");
@@ -225,7 +224,7 @@
 
             <div class="selectable" style="width: 100%; height:85%">
                 <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                    <div id="editor-${status.index}" data-problem_id="" style="width:100%; height:100%;"></div>
+                    <div id="editor-${status.index}" style="width:100%; height:100%;"></div>
                 </c:forEach>
             </div>
 
@@ -244,7 +243,7 @@
                 <div class="btn-workboard">
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
-                            <select name="cars">
+                            <select name="test_cases">
                                 <option selected disabled>test case를 선택하세요</option>
                                 <c:forEach items="${testcaseList}" var="testcase">
                                     <option value="${testcase.id}">${testcase.input}</option>
