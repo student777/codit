@@ -68,10 +68,10 @@
             }
             // 에디터 세팅
             var editor = ace.edit("editor-" + k);
+            editor.$blockScrolling = Infinity;
             var mode;
             editor.setValue(skeleton_code);
             editor.setTheme("ace/theme/monokai");
-            editor.$blockScrolling = Infinity;
             switch (language_id) {
                 case '1':
                     mode = "ace/mode/c_cpp";
@@ -126,8 +126,9 @@
 
         var run_code = function(k){
             //일단 저장 후 돌림
-            //TODO: 해야 하는데 꼬이는거같다
+            //TODO: 저장 후 돌려야 하는데 꼬이는거같다
             //save_code(k);
+            test_case_id = $('select[name=test_cases]').get(current_k-1).value;
 
             //ajax POST
             $.ajax({
@@ -136,7 +137,7 @@
                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                        //dataType: "json",
                        //TODO: auth 권한?
-                       data: {"problem_id": problem_id, "applicant_id": applicant_id, },
+                       data: {"problem_id": problem_id, "applicant_id": applicant_id, "test_case_id": test_case_id},
                        success: function (response) {
                            $("#terminal-"+k).text(response);
                        },
@@ -166,8 +167,6 @@
             alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
             alert('요이땅');
         };
-
-
 
 
         //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
@@ -244,7 +243,7 @@
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
                             <select name="test_cases">
-                                <option selected disabled>test case를 선택하세요</option>
+                                <option value="0" selected disabled>test case를 선택하세요</option>
                                 <c:forEach items="${testcaseList}" var="testcase">
                                     <option value="${testcase.id}">${testcase.input}</option>
                                 </c:forEach>

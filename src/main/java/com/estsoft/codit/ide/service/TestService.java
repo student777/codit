@@ -92,17 +92,22 @@ applicant에 해당되는 문제 풀을 설정해줌
     3) 런타임시 생성되는 메시지를 출력
    채점은 안한다
    */
-  public String run(int problemId, int applicantId) {
+  public String run(int problemId, int applicantId, int testCaseId) {
     //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
     SourceCodeVo sourceCodeVo = new SourceCodeVo();
     sourceCodeVo.setApplicantId(applicantId);
     sourceCodeVo.setProblemId(problemId);
     sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
 
+    //testCaseId에 해당하는 testCaseVo 꺼내오기
+    //TODO: testCaseId 가 0일 때의 처리
+    TestCaseVo testCaseVo = new TestCaseVo();
+    testCaseVo = testCaseRepository.get(testCaseId);
+
+
     // code값을 main_code와 함께 컴파일 후 돌림
     // TODO: 저장 되고 나서 해야하는데 안그런다(?) 잘되는거 같기도 함
-    ProblemVo problemVo = problemRepository.get(problemId);
-    int languageId = problemVo.getLangguageId();
+    int languageId = problemRepository.get(problemId).getLangguageId();
     WriteFile writeFile = new WriteFile();
     writeFile.write(sourceCodeVo, languageId);
     ExecSourceCode execSourceCode = new ExecSourceCode();

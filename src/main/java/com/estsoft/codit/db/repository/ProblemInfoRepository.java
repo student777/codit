@@ -36,10 +36,10 @@ public class ProblemInfoRepository {
    */
   public List<Integer> getPracticeList() {
     List<Integer> list = new ArrayList<Integer>();
-    list.add(3);
-    list.add(4);
     list.add(1);
     list.add(2);
+    list.add(3);
+    list.add(4);
     return list;
   }
 }

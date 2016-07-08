@@ -52,8 +52,8 @@ public class TestController {
    */
   @ResponseBody
   @RequestMapping("/run")
-  public String run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId) {
-    String result = testService.run(problemId, applicantId);
+  public String run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId, @RequestParam(value="test_case_id") int testCaseId) {
+    String result = testService.run(problemId, applicantId, testCaseId);
     return result;
   }
 
