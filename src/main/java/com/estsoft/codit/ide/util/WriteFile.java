@@ -33,7 +33,7 @@ public class WriteFile {
       File file = new File(filePath);
       file.mkdirs();
       OutputStream os = new FileOutputStream(filePath+filename);
-      byte[] data = sourceCodeVo.getCode().getBytes();
+      byte[] data = sourceCodeVo.getCode().getBytes("UTF-8");
       os.write(data);
     }
     catch(FileNotFoundException e){

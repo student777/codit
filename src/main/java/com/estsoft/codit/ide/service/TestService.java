@@ -100,9 +100,14 @@ applicant에 해당되는 문제 풀을 설정해줌
     sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
 
     //testCaseId에 해당하는 testCaseVo 꺼내오기
-    //TODO: testCaseId 가 0일 때의 처리
+    //testCaseId 가 0일 때의 처리
     TestCaseVo testCaseVo = new TestCaseVo();
-    testCaseVo = testCaseRepository.get(testCaseId);
+    if(testCaseId==0){
+      testCaseVo.setInput("");
+    }
+    else{
+      testCaseVo = testCaseRepository.get(testCaseId);
+    }
 
 
     // code값을 main_code와 함께 컴파일 후 돌림
@@ -113,13 +118,13 @@ applicant에 해당되는 문제 풀을 설정해줌
     ExecSourceCode execSourceCode = new ExecSourceCode();
     String runtimeOutput;
     if(languageId==1){
-      runtimeOutput = execSourceCode.execC(sourceCodeVo);
+      runtimeOutput = execSourceCode.execC(sourceCodeVo, testCaseVo);
     }
     else if(languageId==2){
-      runtimeOutput = execSourceCode.execJava(sourceCodeVo);
+      runtimeOutput = execSourceCode.execJava(sourceCodeVo, testCaseVo);
     }
     else if(languageId==3){
-      runtimeOutput = execSourceCode.execPython(sourceCodeVo);
+      runtimeOutput = execSourceCode.execPython(sourceCodeVo, testCaseVo);
     }
     else{
       runtimeOutput = "";

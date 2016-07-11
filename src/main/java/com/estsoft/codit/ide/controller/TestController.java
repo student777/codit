@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+
 @RequestMapping("/test")
 @Controller
 public class TestController {
@@ -52,9 +54,10 @@ public class TestController {
    */
   @ResponseBody
   @RequestMapping("/run")
-  public String run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId, @RequestParam(value="test_case_id") int testCaseId) {
+  public byte[] run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId, @RequestParam(value="test_case_id") int testCaseId) throws UnsupportedEncodingException {
     String result = testService.run(problemId, applicantId, testCaseId);
-    return result;
+    byte[] byteResult = result.getBytes("UTF-8");
+    return byteResult;
   }
 
 }
