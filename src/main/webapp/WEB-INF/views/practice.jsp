@@ -188,7 +188,7 @@
             <div style="display:none">
                 <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
                     <c:forEach items="${problemList}" var="problemVo">
-                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}" data-skeleton_code='${problemVo.skeletonCode}' data-language_id="${problemVo.langguageId}"></div>
+                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}" data-skeleton_code='${problemVo.skeletonCode}' data-language_id="${problemVo.languageId}"></div>
                     </c:forEach>
                 </c:forEach>
             </div>

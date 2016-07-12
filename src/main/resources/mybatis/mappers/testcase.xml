@@ -3,22 +3,22 @@
 
 <mapper namespace="testcase">
   <select id="selectAll" resultType="testcasevo">
-    <![CDATA[ SELECT id, input, problem_info_id as problemInfoId FROM test_case ]]>
+    <![CDATA[ SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case ]]>
   </select>
 
   <insert id="insert" parameterType="testcasevo">
-    <![CDATA[ insert into test_case value(null, '2 1 203 \n 2012 1 1\n ...', 1); ]]>
+    <![CDATA[ insert into test_case value(null, '2 1 203 \n 2012 1 1\n ...', 1, 3, 1); ]]>
     <selectKey keyProperty="id" resultType="int">
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
 
   <select id="selectById" resultType="testcasevo" parameterType="int">
-    <![CDATA[  SELECT id, input, problem_info_id as problemInfoId FROM test_case WHERE id=#{id } ]]>
+    <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE id=#{id } ]]>
   </select>
 
   <select id="selectByProblemInfoId" resultType="testcasevo" parameterType="int">
-    <![CDATA[  SELECT id, input, problem_info_id as problemInfoId FROM test_case WHERE problem_info_id=#{id } ]]>
+    <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } ]]>
   </select>
 
 

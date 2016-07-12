@@ -2,20 +2,11 @@ package com.estsoft.codit.db.vo;
 
 
 public class ResultVo {
-  private int id;
   private boolean correctness;
-  private int userMemory;
+  private int usedMemory;
   private int runningTime;
   private int applicantId;
   private int testCaseId;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
 
   public boolean isCorrectness() {
     return correctness;
@@ -25,12 +16,12 @@ public class ResultVo {
     this.correctness = correctness;
   }
 
-  public int getUserMemory() {
-    return userMemory;
+  public int getUsedMemory() {
+    return usedMemory;
   }
 
-  public void setUserMemory(int userMemory) {
-    this.userMemory = userMemory;
+  public void setUsedMemory(int usedMemory) {
+    this.usedMemory = usedMemory;
   }
 
   public int getRunningTime() {
@@ -60,9 +51,8 @@ public class ResultVo {
   @Override
   public String toString() {
     return "ResultVo{" +
-        "id=" + id +
-        ", correctness=" + correctness +
-        ", userMemory=" + userMemory +
+        "correctness=" + correctness +
+        ", usedMemory=" + usedMemory +
         ", runningTime=" + runningTime +
         ", applicantId=" + applicantId +
         ", testCaseId=" + testCaseId +

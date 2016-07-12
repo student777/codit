@@ -113,7 +113,7 @@ applicant에 해당되는 문제 풀을 설정해줌
 
     // code값을 main_code와 함께 컴파일 후 돌림
     // TODO: 저장 되고 나서 해야하는데 안그런다(?) 잘되는거 같기도 함
-    int languageId = problemRepository.get(problemId).getLangguageId();
+    int languageId = problemRepository.get(problemId).getLanguageId();
     WriteFile writeFile = new WriteFile();
     writeFile.write(sourceCodeVo, languageId);
     ExecSourceCode execSourceCode = new ExecSourceCode();

@@ -4,6 +4,7 @@ public class TestCaseVo {
   private int id;
   private String input;
   private int problemInfoId;
+  private boolean isPublic;
 
   public int getId() {
     return id;
@@ -29,12 +30,21 @@ public class TestCaseVo {
     this.problemInfoId = problemInfoId;
   }
 
+  public boolean isPublic() {
+    return isPublic;
+  }
+
+  public void setPublic(boolean aPublic) {
+    isPublic = aPublic;
+  }
+
   @Override
   public String toString() {
     return "TestCaseVo{" +
         "id=" + id +
         ", input='" + input + '\'' +
         ", problemInfoId=" + problemInfoId +
+        ", isPublic=" + isPublic +
         '}';
   }
 }

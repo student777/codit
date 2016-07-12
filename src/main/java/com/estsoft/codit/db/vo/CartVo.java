@@ -2,17 +2,8 @@ package com.estsoft.codit.db.vo;
 
 
 public class CartVo {
-  private int id;
   private int recruitId;
-  private int problemId;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
+  private int problemInfoId;
 
   public int getRecruitId() {
     return recruitId;
@@ -22,20 +13,19 @@ public class CartVo {
     this.recruitId = recruitId;
   }
 
-  public int getProblemId() {
-    return problemId;
+  public int getProblemInfoId() {
+    return problemInfoId;
   }
 
-  public void setProblemId(int problemId) {
-    this.problemId = problemId;
+  public void setProblemInfoId(int problemInfoId) {
+    this.problemInfoId = problemInfoId;
   }
 
   @Override
   public String toString() {
     return "CartVo{" +
-        "id=" + id +
-        ", recruitId=" + recruitId +
-        ", problemId=" + problemId +
+        "recruitId=" + recruitId +
+        ", problemInfoId=" + problemInfoId +
         '}';
   }
 }

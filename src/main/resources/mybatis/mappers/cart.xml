@@ -3,14 +3,11 @@
 
 <mapper namespace="cart">
   <select id="selectAll" resultType="cartvo">
-    <![CDATA[ SELECT id, recruit_id as recruitId, problem_info_id as problemInfoId FROM cart ]]>
+    <![CDATA[ SELECT recruit_id as recruitId, problem_info_id as problemInfoId FROM cart ]]>
   </select>
 
   <insert id="insert" parameterType="cartvo">
-    <![CDATA[ insert into cart value(null, 1, 1); ]]>
-    <selectKey keyProperty="id" resultType="int">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+    <![CDATA[ insert into cart value(1, 1); ]]>
   </insert>
 
   <select id="selectById" resultType="cartvo" parameterType="int">
