@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +93,7 @@ applicant에 해당되는 문제 풀을 설정해줌
     3) 런타임시 생성되는 메시지를 출력
    채점은 안한다
    */
-  public String run(int problemId, int applicantId, int testCaseId) {
+  public String run(int problemId, int applicantId, int testCaseId) throws IOException, InterruptedException {
     //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
     SourceCodeVo sourceCodeVo = new SourceCodeVo();
     sourceCodeVo.setApplicantId(applicantId);
@@ -101,9 +102,9 @@ applicant에 해당되는 문제 풀을 설정해줌
 
     //testCaseId에 해당하는 testCaseVo 꺼내오기
     //testCaseId 가 0일 때의 처리
-    TestCaseVo testCaseVo = new TestCaseVo();
+    TestCaseVo testCaseVo;
     if(testCaseId==0){
-      testCaseVo.setInput("");
+      testCaseVo = null;
     }
     else{
       testCaseVo = testCaseRepository.get(testCaseId);

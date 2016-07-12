@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 @RequestMapping("/test")
 @Controller
@@ -54,10 +54,9 @@ public class TestController {
    */
   @ResponseBody
   @RequestMapping("/run")
-  public byte[] run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId, @RequestParam(value="test_case_id") int testCaseId) throws UnsupportedEncodingException {
+  public byte[] run( @RequestParam(value="problem_id") int problemId, @RequestParam(value="applicant_id") int applicantId, @RequestParam(value="test_case_id") int testCaseId) throws IOException, InterruptedException {
     String result = testService.run(problemId, applicantId, testCaseId);
-    byte[] byteResult = result.getBytes("UTF-8");
-    return byteResult;
+    return result.getBytes("UTF-8");
   }
 
 }
