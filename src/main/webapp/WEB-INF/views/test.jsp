@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         .btn-workboard {
             display: inline-block;
         }
@@ -21,7 +22,8 @@
         }
     </style>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"
+            charset="utf-8"></script>
     <script src="${pageContext.request.contextPath }/assets/jquery.simple.timer.js"></script>
     <script>
         //전역변수: 풀어야할 문제의 수
@@ -29,10 +31,9 @@
         //전역변수:  지원자의 id
         var applicant_id = ${authApplicant.id};
         //전역변수(가변)
-        var problem_id ;
+        var problem_id;
         //전역변수(가변) 현재 보고있는 problemInfo의 status.index
         var current_k;
-
 
         //k번째 문제로 셋팅. 1부터 시작한다
         var select = function (k) {
@@ -47,7 +48,7 @@
             current_k = k;
         };
 
-        var select_editor = function(k, language_id) {
+        var select_editor = function (k, language_id) {
             var problem;
             var skeleton_code;
             //selcet(k)로 접근: 문제1 문제2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
@@ -57,12 +58,14 @@
                 skeleton_code = problem.data("skeleton_code");
             }
             //language option을 선택하여 problem을 바꿀 떄
-            else{
-                problem = $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id + "]");
-                if(problem.size()==0){
+            else {
+                problem =
+                        $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id
+                          + "]");
+                if (problem.size() == 0) {
                     skeleton_code = "제공된 problemVo가 없다. 따라서 문법에 맞게 코딩해도 저장안되며 컴파일도 안됨";
                 }
-                else{
+                else {
                     skeleton_code = problem.data("skeleton_code");
                 }
             }
@@ -110,25 +113,24 @@
                        //dataType: "json",
                        data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
                        success: function (response) {
-                           if(response=='fail'){
+                           if (response == 'fail') {
                                alert('저장 실패');
                            }
-                           else if(response=='success'){
+                           else if (response == 'success') {
                                alert('저장되었습니다');
                            }
                        },
                        error: function (xhr, status, error) {
                            console.error(status + ":" + error);
                        }
-                   }
-            );
+                   });
         };
 
-        var run_code = function(k){
+        var run_code = function (k) {
             //일단 저장 후 돌림
             //TODO: 저장 후 돌려야 하는데 꼬이는거같다
             //save_code(k);
-            test_case_id = $('select[name=test_cases]').get(current_k-1).value;
+            test_case_id = $('select[name=test_cases]').get(current_k - 1).value;
 
             //ajax POST
             $.ajax({
@@ -136,29 +138,42 @@
                        type: "post",
                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                        //dataType: "json",
-                       //TODO: auth 권한?
-                       data: {"problem_id": problem_id, "applicant_id": applicant_id, "test_case_id": test_case_id},
+                       data: {
+                           "problem_id": problem_id,
+                           "applicant_id": applicant_id,
+                           "test_case_id": test_case_id
+                       },
                        success: function (response) {
-                           $("#terminal-"+k).text(response);
+                           $("#terminal-" + k).text(response);
                        },
                        error: function (xhr, status, error) {
                            console.error(status + ":" + error);
-                       }}
-            );
+                       }
+                   });
         };
-
 
         //최종 제출
         var final_submit = function () {
             var a = confirm('최종 제출하시겠습니까?');
             if (a) {
-                location.href = "/result";
+                $.ajax({
+                           url: '${pageContext.request.contextPath }/test/submit',
+                           type: "post",
+                           contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                           //dataType: "json",
+                           success: function () {
+                               alert("수고하셨습니다 submit_time 등록됨");
+                               location.href = "/result";
+                           },
+                           error: function (xhr, status, error) {
+                               console.error(status + ":" + error);
+                           }
+                       });
             }
             else {
                 alert('그래좀더 고민좀 해봐ㅣ라');
             }
         };
-
 
         //도움말 함수 호출. spotlight해준다
         var help = function () {
@@ -167,7 +182,6 @@
             alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
             alert('요이땅');
         };
-
 
         //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
         //첫번째 문제로 기본 스타트
@@ -215,7 +229,7 @@
                     <label>언어 선택</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
-                        <option value="2" >JAVA</option>
+                        <option value="2">JAVA</option>
                         <option value="3">PYTHON</option>
                     </select>
                 </div>
@@ -227,12 +241,14 @@
                 </c:forEach>
             </div>
 
-
             <!-- javascript list로 데이터를 담고 있는게 더 좋아보인다. escape 문제..-->
             <div style="display:none">
                 <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
                     <c:forEach items="${problemList}" var="problemVo">
-                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}" data-skeleton_code='${problemVo.skeletonCode}' data-language_id="${problemVo.languageId}"></div>
+                        <div data-kth_problem_info="${status.index +1}"
+                             data-problem_id="${problemVo.id}"
+                             data-skeleton_code='${problemVo.skeletonCode}'
+                             data-language_id="${problemVo.languageId}"></div>
                     </c:forEach>
                 </c:forEach>
             </div>
@@ -260,14 +276,17 @@
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile & run</button>
+                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile &
+                            run
+                        </button>
                     </c:forEach>
                 </div>
                 <button style="float:right" onclick="final_submit()">최종 제출</button>
             </div>
         </div>
 
-        <div id="terminal" class="selectable" style="background-color:violet; height:30%; width:80%; float:right;">
+        <div id="terminal" class="selectable"
+             style="background-color:violet; height:30%; width:80%; float:right;">
             <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
                 <div>
                     <h2>${status.index}번째 문제의 terminal</h2>

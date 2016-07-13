@@ -4,11 +4,45 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Result Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .selectable > * {
+            display: none;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        var render_result = function(response){
+            // do something
+            // rendering, draw a graph ...
+        };
+        var get_data = function(){
+            $.ajax({
+                       url: '${pageContext.request.contextPath }/result/get_data',
+                       type: "post",
+                       contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                       //dataType: "json",
+                       success: function (response) {
+                           render_result(response);
+                       },
+                       error: function (xhr, status, error) {
+                           console.error(status + ":" + error);
+                       }
+                   });
+        };
+        $(function () {
+            get_data();
+        })
+    </script>
 </head>
 <body>
-result main page아아아ㅏ
-수고했따 이생퀴야
+${applicantVo.name } 님의 성적
+조회주입니다...
 
 <table border="1px">
     <tr>

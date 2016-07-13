@@ -8,6 +8,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
+ /*
+ 프로세스를 열고 언어 별로 cmd상에서 실행
+ */
+
 public class ExecSourceCode {
 
 
@@ -24,6 +28,9 @@ public class ExecSourceCode {
       e.printStackTrace();
     }
 
+    if(runtimeOutput==null){
+      return "여기는들어와선 안돼";
+    }
     if (!runtimeOutput.equals("")) {
       return runtimeOutput;
     }
@@ -45,7 +52,7 @@ public class ExecSourceCode {
       //runtimeOutput = execCommand2(runtimeCommand, testCaseVo); 위에거가 그나마 나음
     }
 
-    //TODO: javac의 실행결과를 process의 inpustream으로 못 가져와서 파일 입출력 방식으로 함
+    //javac의 실행결과를 process의 inpustream으로 못 가져와서 파일 입출력 방식으로 함
     if(readCompileOutput(sourceCodeId)!=null){
       //컴파일 오류시 컴파일 결과를 읽어서 가져옴
       return "compile error(NOT PRINTED)\n"+compileOutput;
@@ -149,7 +156,7 @@ public class ExecSourceCode {
   }
 
   private String readCompileOutput(int sourceCodeId){
-    //sourceCodeId 에 해당하는 경로를 찾아서 compile_result.txt를 읽는다
+    //TODO: sourceCodeId 에 해당하는 경로를 찾아서 compile_result.txt를 읽는다
     return null;
   }
 

@@ -40,8 +40,8 @@ public class TestService {
   private SourceCodeRepository sourceCodeRepository;
 
   /*
-applicant에 해당되는 문제 풀을 설정해줌
- */
+  applicant에 해당되는 문제 풀을 설정해줌
+  */
   public void initializeTest(Model model, ApplicantVo applicantVo){
     //init variables
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
@@ -73,9 +73,8 @@ applicant에 해당되는 문제 풀을 설정해줌
 
 
   /*
-  (시험 중)
-   applicant의 소스코드를 받아 저장해줌
-   */
+   시험 도중 applicant의 소스코드를 받아 저장해줌
+  */
   public boolean save(String code, int problemId, int applicantId) {
     SourceCodeVo sourceCodeVo = new SourceCodeVo();
     sourceCodeVo.setCode(code);
@@ -89,9 +88,9 @@ applicant에 해당되는 문제 풀을 설정해줌
 
    /*
     1) 컴파일
-    2) 소스코드에 해당되는 테스트 케이스 끌어와 run
-    3) 런타임시 생성되는 메시지를 출력
-   채점은 안한다
+    2) source_code 테이블에서 최종 저장본을 가져온다
+    3) 유저로부터 요청받은 테스트 케이스를 끌어와 compile & run
+    4) 런타임시 생성되는 메시지를 출력. 채점은 안한다
    */
   public String run(int problemId, int applicantId, int testCaseId) throws IOException, InterruptedException {
     //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
@@ -111,8 +110,7 @@ applicant에 해당되는 문제 풀을 설정해줌
     }
 
 
-    // code값을 main_code와 함께 컴파일 후 돌림
-    // TODO: 저장 되고 나서 해야하는데 안그런다(?) 잘되는거 같기도 함
+    // sourcecode를 task.* 파일로 작상하여 compile & run
     int languageId = problemRepository.get(problemId).getLanguageId();
     WriteFile writeFile = new WriteFile();
     writeFile.write(sourceCodeVo, languageId);
@@ -134,19 +132,9 @@ applicant에 해당되는 문제 풀을 설정해줌
   }
 
 
-/*
-   (최종 제출 후)저장된 소스코드를 compile and run
-   채점후 결과값을 저장한다
-   */
-  public void mark() {
-
-    /*
-    1) 컴파일
-    2) 소스코드에 해당되는 테스트 케이스 끌어와 run
-    3) 런타임시 생성되는 메시지를 출력
-    4) 채점 결과 저장
-     */
+  //applicant의 submit_time에 현재시간 입력
+  public void finalize_test(ApplicantVo applicantVo) {
+    applicantRepository.setSubmitTime(applicantVo);
+    //TODO: 최종 저장본 채점..
   }
-
-
 }

@@ -34,7 +34,10 @@ public class ApplicantRepository {
   }
 
   public void setStartTime(ApplicantVo applicantVo){
-    sqlSession.update("applicant.insertTime", applicantVo.getId());
+    sqlSession.update("applicant.insertStartTime", applicantVo.getId());
   }
 
+  public void setSubmitTime(ApplicantVo applicantVo) {
+    sqlSession.update("applicant.insertSubmitTime", applicantVo.getId());
+  }
 }

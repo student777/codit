@@ -31,8 +31,9 @@ public class MainService {
   @Autowired
   private TestCaseRepository testCaseRepository;
 
-  /*
-   uuid를 받아 applicant 를 식별해서 applicant 정보를 넣어준다
+   /*
+   uuid를 받아 applicant 를 식별해서 세션에 applicant 정보를 넣어준다
+   TODO: 시험이 끝난 사람은 /result로, 시험 중인 사람은 /test로, 시작하지 않은 사람은 /practice로
    */
   public boolean checkTicket(String ticket, Model model) {
     ApplicantVo vo = applicantRepository.getByTicket(ticket);
@@ -45,15 +46,14 @@ public class MainService {
 
   /*
   practice 할떄 쓰는 더미데이터 설정
-   */
-  public void setProblem(Model model){
+  */
+  public void setPracticeProblem(Model model){
     //init variables
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
     List<List<ProblemVo>> problemListOfList = new ArrayList<List<ProblemVo>>();
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
     int totalTime = 600;
 
-    //set all problems
     List<Integer> problemInfoIdList = problemInfoRepository.getPracticeList();
     for (int problemInfoId:problemInfoIdList ) {
       ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);

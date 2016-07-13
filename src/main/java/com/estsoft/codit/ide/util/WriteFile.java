@@ -15,6 +15,8 @@ public class WriteFile {
     int sourceCodeId = sourceCodeVo.getId();
     String filePath = "C:\\sourcecode\\" + sourceCodeId;
     String filename;
+
+    //각 언어별 확장자 셋팅
     if(languageId==1){
       filename = "\\task.c";
     }
@@ -28,13 +30,17 @@ public class WriteFile {
       filename = "\\task";
     }
 
-    //경로와 파일 생성
+    //경로지정,  파일 생성
     try{
       File file = new File(filePath);
-      file.mkdirs();
-      OutputStream os = new FileOutputStream(filePath+filename);
-      byte[] data = sourceCodeVo.getCode().getBytes("UTF-8");
-      os.write(data);
+      if(file.mkdirs()){
+        OutputStream os = new FileOutputStream(filePath+filename);
+        byte[] data = sourceCodeVo.getCode().getBytes("UTF-8");
+        os.write(data);
+      }
+      else{
+        //여기는 들어오면 안돼
+      }
     }
     catch(FileNotFoundException e){
       e.printStackTrace();

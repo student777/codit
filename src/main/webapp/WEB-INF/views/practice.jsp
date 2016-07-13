@@ -97,7 +97,7 @@
             alert(k + '번 문제의 소스코드가 저장되었습니다 \n 는 훼이크고 사실 저장 안됨. practice 니까' )
         };
 
-        var run_code = function(k){
+        var run_code = function(){
             alert(problem_id + '번 문제의 소스코드 컴파일후 실해인데 practice버전이라 구현안함');
         };
 
@@ -125,7 +125,7 @@
             }
         };
 
-        //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 튜토리얼 함수 호출
+        //TODO: 모든 페이지가 로드된 후에 help() 호출
         $(function () {
             select(1);
             help();
