@@ -17,8 +17,8 @@ public class ResultRepository {
     return sqlSession.selectList("result.selectAll");
   }
 
-  public int insert(){
-    return sqlSession.insert("result.insert");
+  public int insert(ResultVo resultVo){
+    return sqlSession.insert("result.insert", resultVo);
   }
 
   public ResultVo get(int id){

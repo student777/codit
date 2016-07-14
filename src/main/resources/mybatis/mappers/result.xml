@@ -7,10 +7,7 @@
   </select>
 
   <insert id="insert" parameterType="resultvo">
-    <![CDATA[ insert into result value( true, 300, 949, 1, 1); ]]>
-    <selectKey keyProperty="id" resultType="int">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+    <![CDATA[ insert into result value(#{applicantId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime} ); ]]>
   </insert>
 
   <select id="selectById" resultType="resultvo" parameterType="resultvo">

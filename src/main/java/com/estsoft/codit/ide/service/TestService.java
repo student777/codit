@@ -3,11 +3,13 @@ package com.estsoft.codit.ide.service;
 import com.estsoft.codit.db.repository.ApplicantRepository;
 import com.estsoft.codit.db.repository.ProblemInfoRepository;
 import com.estsoft.codit.db.repository.ProblemRepository;
+import com.estsoft.codit.db.repository.ResultRepository;
 import com.estsoft.codit.db.repository.SourceCodeRepository;
 import com.estsoft.codit.db.repository.TestCaseRepository;
 import com.estsoft.codit.db.vo.ApplicantVo;
 import com.estsoft.codit.db.vo.ProblemInfoVo;
 import com.estsoft.codit.db.vo.ProblemVo;
+import com.estsoft.codit.db.vo.ResultVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 import com.estsoft.codit.ide.util.ExecSourceCode;
@@ -39,6 +41,9 @@ public class TestService {
   @Autowired
   private SourceCodeRepository sourceCodeRepository;
 
+  @Autowired
+  private ResultRepository resultRepository;
+
   /*
   applicant에 해당되는 문제 풀을 설정해줌
   */
@@ -53,7 +58,7 @@ public class TestService {
     List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
     for (int problemInfoId:problemInfoIdList ) {
       ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
-      //TODO: 일단 problemVo 다 갖다 붙인다. 비동기식으로 안함
+      //TODO: 문제시작에 problemVo 다 갖다 reponse로 던져준다. 비동기식으로 안함
       //ProblemVo problemVo = problemRepository.getByProblemInfoLanguageId(problemInfoId, languageId);
       List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
       List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId);
@@ -92,7 +97,7 @@ public class TestService {
     3) 유저로부터 요청받은 테스트 케이스를 끌어와 compile & run
     4) 런타임시 생성되는 메시지를 출력. 채점은 안한다
    */
-  public String run(int problemId, int applicantId, int testCaseId) throws IOException, InterruptedException {
+  public String run(int problemId, int applicantId, int testCaseId) {
     //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
     SourceCodeVo sourceCodeVo = new SourceCodeVo();
     sourceCodeVo.setApplicantId(applicantId);
@@ -109,32 +114,72 @@ public class TestService {
       testCaseVo = testCaseRepository.get(testCaseId);
     }
 
-
     // sourcecode를 task.* 파일로 작상하여 compile & run
     int languageId = problemRepository.get(problemId).getLanguageId();
     WriteFile writeFile = new WriteFile();
     writeFile.write(sourceCodeVo, languageId);
     ExecSourceCode execSourceCode = new ExecSourceCode();
-    String runtimeOutput;
-    if(languageId==1){
-      runtimeOutput = execSourceCode.execC(sourceCodeVo, testCaseVo);
-    }
-    else if(languageId==2){
-      runtimeOutput = execSourceCode.execJava(sourceCodeVo, testCaseVo);
-    }
-    else if(languageId==3){
-      runtimeOutput = execSourceCode.execPython(sourceCodeVo, testCaseVo);
-    }
-    else{
-      runtimeOutput = "";
+    String runtimeOutput = null;
+    try {
+      if (languageId == 1) {
+        runtimeOutput = execSourceCode.execC(sourceCodeVo, testCaseVo);
+      } else if (languageId == 2) {
+        runtimeOutput = execSourceCode.execJava(sourceCodeVo, testCaseVo);
+      } else if (languageId == 3) {
+        runtimeOutput = execSourceCode.execPython(sourceCodeVo, testCaseVo);
+      } else {
+        // DO something
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
     return runtimeOutput;
   }
 
-
-  //applicant의 submit_time에 현재시간 입력
+  //TODO: 채점끝나고 redirect시키면 느리니까 먼저 redirect하고 /result에서 기다릴수있게
   public void finalize_test(ApplicantVo applicantVo) {
+    int applicantId = applicantVo.getId();
+
+    //set submit_time
     applicantRepository.setSubmitTime(applicantVo);
-    //TODO: 최종 저장본 채점..
+
+    //get TestCase
+    List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
+    List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantId );
+    for (int problemInfoId:problemInfoIdList ) {
+      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId);
+      testcaseListOfList.add(testCaseVoList);
+    }
+    //get SourceCode
+    List<SourceCodeVo> sourceCodeVoList = sourceCodeRepository.getByApplicant(applicantId);
+
+    //TODO: sourcdCodeVo와 testCaseVo problem_info_id가 같은지 체크
+    for (int i = 0; i < sourceCodeVoList.size(); i++) {
+      SourceCodeVo sourceCodeVo = sourceCodeVoList.get(i);
+      List<TestCaseVo> testCaseVoList = testcaseListOfList.get(i);
+      for (TestCaseVo testCaseVo: testCaseVoList ) {
+        String runtimeOutput;
+        runtimeOutput = run(sourceCodeVo.getProblemId(), sourceCodeVo.getApplicantId(), testCaseVo.getId() );
+        ResultVo resultVo = new ResultVo();
+        System.out.println("<" + i +"번째 iteration>" );
+        System.out.println("\ttestcase answer-->" + testCaseVo.getAnswer() + "<--");
+        System.out.println("\truntime answer-->" + runtimeOutput + "<--");
+        System.out.println("\tboolean-->" + testCaseVo.getAnswer().equals(runtimeOutput) + "<--");
+        if(testCaseVo.getAnswer().equals(runtimeOutput)){
+          resultVo.setCorrectness(true);
+        }
+        else{
+          resultVo.setCorrectness(false);
+        }
+        //TODO: measure and set used_memory, running_time
+        resultVo.setUsedMemory(777);
+        resultVo.setRunningTime(111);
+        resultVo.setApplicantId(applicantId);
+        resultVo.setTestCaseId(testCaseVo.getId());
+        resultRepository.insert(resultVo);
+      }
+    }
   }
 }

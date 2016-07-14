@@ -53,28 +53,28 @@ ${applicantVo.name } 님의 성적
         <td>점수</td>
     </tr>
     <tr>
-        <td>task 1</td>
+        <td>문제 1</td>
         <td>321</td>
         <td>234</td>
         <td>234</td>
         <td>3/5</td>
     </tr>
     <tr>
-        <td>task 2</td>
+        <td>문제 2</td>
         <td>123</td>
         <td>234</td>
         <td>234</td>
         <td>5/5</td>
     </tr>
     <tr>
-        <td>task 3</td>
+        <td>문제 3</td>
         <td>234</td>
         <td>567</td>
         <td>345</td>
         <td>4/5</td>
     </tr>
     <tr>
-        <td>task 4</td>
+        <td>문제 4</td>
         <td>123</td>
         <td>345</td>
         <td>234</td>
@@ -88,37 +88,37 @@ ${applicantVo.name } 님의 성적
 <br>
 
 <table>
-    <thead>task 1</thead>
+    <thead>문제 1</thead>
     <tr>
-        <td>test case 번호</td>
+        <td>test_case 번호</td>
         <td>실행 시간</td>
         <td>메모리사용량</td>
         <td>running time</td>
         <td>정답여부</td>
     </tr>
     <tr>
-        <td>case 1</td>
+        <td>test_case 1</td>
         <td>321</td>
         <td>234</td>
         <td>234</td>
         <td>o</td>
     </tr>
     <tr>
-        <td>case 2</td>
+        <td>test_case 2</td>
         <td>123</td>
         <td>234</td>
         <td>234</td>
         <td>o</td>
     </tr>
     <tr>
-        <td>case 3</td>
+        <td>test_case 3</td>
         <td>234</td>
         <td>567</td>
         <td>345</td>
         <td>o</td>
     </tr>
     <tr>
-        <td>case 4</td>
+        <td>test_case 4</td>
         <td>123</td>
         <td>345</td>
         <td>234</td>

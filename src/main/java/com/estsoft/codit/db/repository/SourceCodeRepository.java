@@ -28,4 +28,8 @@ public class SourceCodeRepository {
   public SourceCodeVo getByApplicantAndProblem(SourceCodeVo sourceCodeVo) {
     return sqlSession.selectOne("sourcecode.selectByRun", sourceCodeVo) ;
   }
+
+  public List<SourceCodeVo> getByApplicant(int id) {
+    return sqlSession.selectList("sourcecode.selectByApplicant", id);
+  }
 }

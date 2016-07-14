@@ -163,6 +163,7 @@
                            //dataType: "json",
                            success: function () {
                                alert("수고하셨습니다 submit_time 등록됨");
+                               alert("채점이 다 끝나버렸네?");
                                location.href = "/result";
                            },
                            error: function (xhr, status, error) {
