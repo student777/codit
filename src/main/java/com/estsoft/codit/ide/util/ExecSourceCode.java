@@ -129,7 +129,8 @@ public class ExecSourceCode {
     while( (i = inputStream.read(b)) != -1){
       sb.append(new String(b, 0, i));
     }
-    return sb.toString();
+    //TODO: 테스트케이스에 대한 출력은 1줄짜리로 제한
+    return sb.toString().replace("\n", "").replace("\r", "");
   }
 
   /*
@@ -152,7 +153,7 @@ public class ExecSourceCode {
     while( (i = isr.read()) != -1){
       sb.append( (char)i );
     }
-    return sb.toString();
+    return sb.toString().replace("\n", "").replace("\r", "");
   }
 
   private String readCompileOutput(int sourceCodeId){

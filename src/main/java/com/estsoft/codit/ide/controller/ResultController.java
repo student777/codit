@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping("/result")
 public class ResultController {
@@ -21,22 +19,14 @@ public class ResultController {
 
   /*
    /result 메인 페이지로 applicant가 시험 결과를 확인할 수있다.
+   추후 제출후 채점으로 바뀌면 ajax 로 요청을 받아 mapd형태로 append
    */
   @Auth
   @RequestMapping("")
   public String main(Model model, @AuthApplicant ApplicantVo applicantVo){
-    model.addAttribute("applicantVo", applicantVo);
+    resultService.getResult(model, applicantVo);
     return "result";
   }
 
-  /*
-   ajax URL
-   ajax 요청을 받아 시험 결과를 DB에서 map형태로 가져온다
-   */
-  @Auth
-  @RequestMapping("get_data")
-  public Map getData(@AuthApplicant ApplicantVo applicantVo){
-    return resultService.getResult(applicantVo);
-  }
 
 }

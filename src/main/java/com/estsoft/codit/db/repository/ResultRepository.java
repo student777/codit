@@ -24,4 +24,13 @@ public class ResultRepository {
   public ResultVo get(int id){
     return sqlSession.selectOne("result.selectById", id);
   }
+
+  public ResultVo getByApplicantAndTestCase(int applicantId, int testCaseId) {
+    ResultVo resultVo = new ResultVo();
+    resultVo.setApplicantId(applicantId);
+    resultVo.setTestCaseId(testCaseId);
+    return sqlSession.selectOne("result.selectByApplicantAndTestCase", resultVo);
+
+  }
+
 }

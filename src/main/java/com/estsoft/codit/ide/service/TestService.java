@@ -159,6 +159,7 @@ public class TestService {
     for (int i = 0; i < sourceCodeVoList.size(); i++) {
       SourceCodeVo sourceCodeVo = sourceCodeVoList.get(i);
       List<TestCaseVo> testCaseVoList = testcaseListOfList.get(i);
+      // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
       for (TestCaseVo testCaseVo: testCaseVoList ) {
         String runtimeOutput;
         runtimeOutput = run(sourceCodeVo.getProblemId(), sourceCodeVo.getApplicantId(), testCaseVo.getId() );
