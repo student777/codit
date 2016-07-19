@@ -117,6 +117,7 @@ public class TestService {
     // sourcecode를 task.* 파일로 작상하여 compile & run
     int languageId = problemRepository.get(problemId).getLanguageId();
     Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
+    exec.write();
     String runtimeOutput = exec.run(testCaseVo);
     return runtimeOutput;
   }
@@ -126,10 +127,6 @@ public class TestService {
     //set submit_time
     applicantRepository.setSubmitTime(applicantVo);
 
-    //redirect
-
-    //채점
-    mark(applicantVo);
     //set permission
   }
 
@@ -150,30 +147,13 @@ public class TestService {
     for (int i = 0; i < sourceCodeVoList.size(); i++) {
       SourceCodeVo sourceCodeVo = sourceCodeVoList.get(i);
       List<TestCaseVo> testCaseVoList = testcaseListOfList.get(i);
+      int languageId = problemRepository.get(sourceCodeVo.getProblemId()).getLanguageId();
+      Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
+      exec.write();
+
       // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
       for (TestCaseVo testCaseVo: testCaseVoList ) {
-
-
-        // sourcecode를 task.* 파일로 작상하여 compile & run
-        int languageId = problemRepository.get(sourceCodeVo.getProblemId()).getLanguageId();
-        Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
-        exec.write();
-        String runtimeOutput = exec.run(testCaseVo);
-
-        ResultVo resultVo = new ResultVo();
-        System.out.println("<" + i +"번째 iteration>" );
-        System.out.println("\ttestcase answer-->" + testCaseVo.getAnswer() + "<--");
-        System.out.println("\truntime answer-->" + runtimeOutput + "<--");
-        System.out.println("\tboolean-->" + testCaseVo.getAnswer().equals(runtimeOutput) + "<--");
-        if(testCaseVo.getAnswer().equals(runtimeOutput)){
-          resultVo.setCorrectness(true);
-        }
-        else{
-          resultVo.setCorrectness(false);
-        }
-        //TODO: measure and set used_memory, running_time
-        resultVo.setUsedMemory(777);
-        resultVo.setRunningTime(111);
+        ResultVo resultVo = exec.mark(testCaseVo);
         resultVo.setApplicantId(applicantId);
         resultVo.setTestCaseId(testCaseVo.getId());
         resultRepository.insert(resultVo);

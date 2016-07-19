@@ -16,12 +16,8 @@ class ExecC extends Exec {
 
   @Override
   public String run(TestCaseVo testCaseVo) {
-    try {
-      compileOutput = execCommand(compileCommand);
-      runtimeOutput = execCommand(runtimeCommand, testCaseVo);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    compileOutput = execCommand(compileCommand);
+    runTestCase(testCaseVo);
 
     if(runtimeOutput==null){
       return "여기는들어와선 안돼";
@@ -32,9 +28,8 @@ class ExecC extends Exec {
     else return "compile error(NOT PRINTED)"+compileOutput;
   }
 
-
   @Override
-  public ResultVo mark() {
+  public ResultVo mark(TestCaseVo testCaseVo) {
     return null;
   }
 }

@@ -25,7 +25,7 @@ public abstract class Exec {
   String filename;
 
   public abstract String run(TestCaseVo testCaseVo);
-  public abstract ResultVo mark();
+  public abstract ResultVo mark(TestCaseVo testCaseVo);
 
 
   public void write(){
@@ -54,6 +54,38 @@ public abstract class Exec {
   }
 
 
+  //set runtimeOutput of this class
+  void runTestCase(TestCaseVo testCaseVo){
+    try{
+      if(testCaseVo==null){
+        runtimeOutput = execCommand(runtimeCommand);
+      }
+      else {
+        runtimeOutput = execCommand(runtimeCommand, testCaseVo);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  //여기로 좀 안 왔으면 좋겠다
+  void runTestCase2(TestCaseVo testCaseVo){
+    try{
+      if(testCaseVo==null){
+        runtimeOutput = execCommand(runtimeCommand);
+      }
+      else {
+        runtimeOutput = execCommand2(runtimeCommand, testCaseVo);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
 
 
   /*
@@ -62,16 +94,29 @@ public abstract class Exec {
    * TODO: scanner나 input()이 코드에 있는데 testCase를 안넣어주면 응답 없음
    */
   // test case 없이 실행
-  String execCommand(String[] command) throws IOException, InterruptedException {
+  String execCommand(String[] command) {
     Runtime runtime = Runtime.getRuntime();
-    Process process = runtime.exec(command);
-    process.waitFor();
+    Process process = null;
+    try {
+      process = runtime.exec(command);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      process.waitFor();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     int i;
     StringBuilder sb = new StringBuilder();
     byte[] b = new byte[4096];
     InputStream inputStream = process.getInputStream();
-    while( (i = inputStream.read(b)) != -1){
-      sb.append(new String(b, 0, i));
+    try {
+      while( (i = inputStream.read(b)) != -1){
+        sb.append(new String(b, 0, i));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return sb.toString();
   }
@@ -82,7 +127,7 @@ public abstract class Exec {
   * [java] Scanner가 코드에 있어 testCase가 필요한 문제의 경우 testcase의 한글이 깨져서 나온다
   * [python] print(input()) 과 같은 코드에서 한글로 된 tesetCase를 넣어주면 한글이 깨진다. 영어는 잘됨
   */
-  String execCommand(String[] command, TestCaseVo testCaseVo) throws IOException, InterruptedException {
+  private String execCommand(String[] command, TestCaseVo testCaseVo) throws IOException, InterruptedException {
     Runtime runtime = Runtime.getRuntime();
     Process process = runtime.exec(command);
     OutputStream out = process.getOutputStream();
@@ -113,7 +158,7 @@ public abstract class Exec {
   * [java] Scanner가 있는, 없는 코드에서 sysout으로 출력한 한글과 testCase에 포함된 한글이 깨진다
   * [python] input()이 없어서 teseCase가 필요없는데 프론트에서 testcase 값을 줘서 이쪽으로 오면 문자 깨짐
   */
-  String execCommand2(String[] command, TestCaseVo testCaseVo) throws IOException, InterruptedException {
+  private String execCommand2(String[] command, TestCaseVo testCaseVo) throws IOException, InterruptedException {
     Runtime runtime = Runtime.getRuntime();
     Process process = runtime.exec(command);
     OutputStream out = process.getOutputStream();

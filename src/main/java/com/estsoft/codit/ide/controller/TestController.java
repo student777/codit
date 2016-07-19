@@ -80,5 +80,6 @@ public class TestController {
   @RequestMapping("/submit")
   public void submit(@AuthApplicant ApplicantVo applicantVo) throws IOException, InterruptedException {
     testService.finalize_test(applicantVo);
+    testService.mark(applicantVo);
   }
 }

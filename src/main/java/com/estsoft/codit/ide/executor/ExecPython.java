@@ -4,8 +4,6 @@ import com.estsoft.codit.db.vo.ResultVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
-import java.io.IOException;
-
 class ExecPython extends Exec {
 
   ExecPython(SourceCodeVo sourceCodeVo){
@@ -16,27 +14,37 @@ class ExecPython extends Exec {
 
   @Override
   public String run(TestCaseVo testCaseVo) {
-    String output = null;
-    try {
-      if(testCaseVo==null){
-        output = execCommand(runtimeCommand);
-      }
-      else {
-        output = execCommand2(runtimeCommand, testCaseVo);
-        //output = execCommand(command, testCaseVo); 위에거가 그나마 나음
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    return output;
-
-
+    //TODO: .....여기좀 없애고싶다
+    runTestCase2(testCaseVo);
+    return runtimeOutput;
   }
 
   @Override
-  public ResultVo mark() {
-    return null;
+  public ResultVo mark(TestCaseVo testCaseVo) {
+    ResultVo resultVo = new ResultVo();
+
+    //run and set time
+    long startTime = System.nanoTime();
+    runTestCase(testCaseVo);
+    long endTime = System.nanoTime();
+    int time = (int) (endTime - startTime) / 1000000 ;
+    resultVo.setRunningTime(time);
+
+
+    //set correctness
+    if(testCaseVo.getAnswer().equals(runtimeOutput)){
+      resultVo.setCorrectness(true);
+    }
+    else{
+      resultVo.setCorrectness(false);
+    }
+
+
+
+    //TODO: set used_memory
+    resultVo.setUsedMemory(777);
+
+
+    return resultVo;
   }
 }
