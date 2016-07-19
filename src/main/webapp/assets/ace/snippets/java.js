@@ -38,7 +38,7 @@ snippet j.m\n\
 snippet j.n\n\
 	java.net.\n\
 snippet j.u\n\
-	java.util.\n\
+	java.executor.\n\
 ##\n\
 ## Class\n\
 snippet cl\n\

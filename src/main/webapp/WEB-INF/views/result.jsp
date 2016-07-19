@@ -5,16 +5,6 @@
 <html>
 <head>
     <title>Result Page</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        .selectable > * {
-            display: none;
-        }
-    </style>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>

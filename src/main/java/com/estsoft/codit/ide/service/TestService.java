@@ -12,14 +12,13 @@ import com.estsoft.codit.db.vo.ProblemVo;
 import com.estsoft.codit.db.vo.ResultVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
-import com.estsoft.codit.ide.util.ExecSourceCode;
-import com.estsoft.codit.ide.util.WriteFile;
+import com.estsoft.codit.ide.executor.Exec;
+import com.estsoft.codit.ide.executor.ExecFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,12 +90,13 @@ public class TestService {
     return isInserted==1;
   }
 
-   /*
-    1) 컴파일
-    2) source_code 테이블에서 최종 저장본을 가져온다
-    3) 유저로부터 요청받은 테스트 케이스를 끌어와 compile & run
-    4) 런타임시 생성되는 메시지를 출력. 채점은 안한다
-   */
+
+ /*
+  1) 컴파일
+  2) source_code 테이블에서 최종 저장본을 가져온다
+  3) 유저로부터 요청받은 테스트 케이스를 끌어와 compile & run
+  4) 런타임시 생성되는 메시지를 출력. 채점은 안한다
+ */
   public String run(int problemId, int applicantId, int testCaseId) {
     //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
     SourceCodeVo sourceCodeVo = new SourceCodeVo();
@@ -116,34 +116,25 @@ public class TestService {
 
     // sourcecode를 task.* 파일로 작상하여 compile & run
     int languageId = problemRepository.get(problemId).getLanguageId();
-    WriteFile writeFile = new WriteFile();
-    writeFile.write(sourceCodeVo, languageId);
-    ExecSourceCode execSourceCode = new ExecSourceCode();
-    String runtimeOutput = null;
-    try {
-      if (languageId == 1) {
-        runtimeOutput = execSourceCode.execC(sourceCodeVo, testCaseVo);
-      } else if (languageId == 2) {
-        runtimeOutput = execSourceCode.execJava(sourceCodeVo, testCaseVo);
-      } else if (languageId == 3) {
-        runtimeOutput = execSourceCode.execPython(sourceCodeVo, testCaseVo);
-      } else {
-        // DO something
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
+    String runtimeOutput = exec.run(testCaseVo);
     return runtimeOutput;
   }
 
   //TODO: 채점끝나고 redirect시키면 느리니까 먼저 redirect하고 /result에서 기다릴수있게
   public void finalize_test(ApplicantVo applicantVo) {
-    int applicantId = applicantVo.getId();
-
     //set submit_time
     applicantRepository.setSubmitTime(applicantVo);
+
+    //redirect
+
+    //채점
+    mark(applicantVo);
+    //set permission
+  }
+
+  public void mark(ApplicantVo applicantVo){
+    int applicantId = applicantVo.getId();
 
     //get TestCase
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
@@ -161,8 +152,14 @@ public class TestService {
       List<TestCaseVo> testCaseVoList = testcaseListOfList.get(i);
       // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
       for (TestCaseVo testCaseVo: testCaseVoList ) {
-        String runtimeOutput;
-        runtimeOutput = run(sourceCodeVo.getProblemId(), sourceCodeVo.getApplicantId(), testCaseVo.getId() );
+
+
+        // sourcecode를 task.* 파일로 작상하여 compile & run
+        int languageId = problemRepository.get(sourceCodeVo.getProblemId()).getLanguageId();
+        Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
+        exec.write();
+        String runtimeOutput = exec.run(testCaseVo);
+
         ResultVo resultVo = new ResultVo();
         System.out.println("<" + i +"번째 iteration>" );
         System.out.println("\ttestcase answer-->" + testCaseVo.getAnswer() + "<--");
@@ -183,4 +180,10 @@ public class TestService {
       }
     }
   }
+
+
+
+
+
+
 }

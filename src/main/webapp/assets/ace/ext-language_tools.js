@@ -1277,12 +1277,12 @@ exports.getCompletionPrefix = function (editor) {
 
 });
 
-define("ace/autocomplete",["require","exports","module","ace/keyboard/hash_handler","ace/autocomplete/popup","ace/autocomplete/util","ace/lib/event","ace/lib/lang","ace/lib/dom","ace/snippets"], function(require, exports, module) {
+define("ace/autocomplete",["require","exports","module","ace/keyboard/hash_handler","ace/autocomplete/popup","ace/autocomplete/executor","ace/lib/event","ace/lib/lang","ace/lib/dom","ace/snippets"], function(require, exports, module) {
 "use strict";
 
 var HashHandler = require("./keyboard/hash_handler").HashHandler;
 var AcePopup = require("./autocomplete/popup").AcePopup;
-var util = require("./autocomplete/util");
+var util = require("./autocomplete/executor");
 var event = require("./lib/event");
 var lang = require("./lib/lang");
 var dom = require("./lib/dom");
@@ -1769,14 +1769,14 @@ define("ace/autocomplete/text_completer",["require","exports","module","ace/rang
     };
 });
 
-define("ace/ext/language_tools",["require","exports","module","ace/snippets","ace/autocomplete","ace/config","ace/lib/lang","ace/autocomplete/util","ace/autocomplete/text_completer","ace/editor","ace/config"], function(require, exports, module) {
+define("ace/ext/language_tools",["require","exports","module","ace/snippets","ace/autocomplete","ace/config","ace/lib/lang","ace/autocomplete/executor","ace/autocomplete/text_completer","ace/editor","ace/config"], function(require, exports, module) {
 "use strict";
 
 var snippetManager = require("../snippets").snippetManager;
 var Autocomplete = require("../autocomplete").Autocomplete;
 var config = require("../config");
 var lang = require("../lib/lang");
-var util = require("../autocomplete/util");
+var util = require("../autocomplete/executor");
 
 var textCompleter = require("../autocomplete/text_completer");
 var keyWordCompleter = {

@@ -25,6 +25,10 @@ public class ResultService {
   @Autowired
   private TestCaseRepository testCaseRepository;
 
+
+
+
+
   /*
   1) result 테이블에서 applicantVo에 해당하는 결과값 가져온다
   2) 텍스트로 쏴줄 거는 jsp에 넣어준다
