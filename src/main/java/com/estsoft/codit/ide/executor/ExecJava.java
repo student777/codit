@@ -1,79 +1,82 @@
 package com.estsoft.codit.ide.executor;
 
-import com.estsoft.codit.db.vo.ResultVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
+import java.io.IOException;
+
 class ExecJava extends Exec {
 
-  ExecJava(SourceCodeVo sourceCodeVo){
-    this.compileCommand = new String[] {"cmd.exe", "/c", "javac  -encoding UTF-8", "C:\\sourcecode\\" +  sourceCodeVo.getId() + "\\task.java",  ">>", "C:\\sourcecode\\" +sourceCodeVo.getId() + "\\compile_result.txt", "2<&1"};
+  ExecJava(SourceCodeVo sourceCodeVo) {
+    super(sourceCodeVo, "\\task.java");
+    this.compileCommand = new String[] {"cmd.exe", "/c", "javac  -encoding UTF-8", "C:\\sourcecode\\" +  sourceCodeVo.getId() + "\\task.java"};
     this.runtimeCommand = new String[] {"cmd.exe", "/c", "java -cp", "C:\\sourcecode\\" +  sourceCodeVo.getId(), "task"};
-    this.sourceCodeVo = sourceCodeVo;
-    this.filename = "\\task.java";
   }
 
   @Override
   public String run(TestCaseVo testCaseVo) {
-    compileOutput = execCommand(compileCommand);
-    runTestCase(testCaseVo);
-
-    //javac의 실행결과를 process의 inpustream으로 못 가져와서 파일 입출력 방식으로 함
-    if(readCompileOutput(sourceCodeVo)!=null){
-      //컴파일 오류시 컴파일 결과를 읽어서 가져옴
-      return "compile error(NOT PRINTED)\n"+compileOutput;
+    String compileOutput = null;
+    try {
+      compileOutput = execCommand2(compileCommand);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    else if (!runtimeOutput.equals("")) {
-      //컴파일성공 후 런타임 결과가 있을 때 결과를 보여줌
+    String runtimeOutput = execCommandWithTestCase(testCaseVo);
+
+    if(compileOutput.equals("")){
+      //컴파일 성공시 컴파일의 결과는 "".  런타임 결과를 보여줌
       return runtimeOutput;
+    }
+    else if (runtimeOutput.equals("")) {
+      //컴파일 오류시 런타임의 결과는 "".  컴파일 에러를 읽어서 가져옴
+      return compileOutput;
     }
     else {
       return "이건 나와선 안되는 결과야";
     }
-
   }
 
   @Override
-  public ResultVo mark(TestCaseVo testCaseVo) {
-    ResultVo resultVo = new ResultVo();
+  public ExecResultInfo mark(TestCaseVo testCaseVo) {
+    ExecResultInfo execResultInfo = new ExecResultInfo();
+    Runtime runtime = Runtime.getRuntime();
 
     //compile
-    compileOutput = execCommand(compileCommand);
+    String compileOutput = null;
+    try {
+      compileOutput = execCommand2(compileCommand);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     //TODO: 컴파일 실패 시 return null
-//    //javac의 실행결과를 process의 inpustream으로 못 가져와서 파일 입출력 방식으로 함
-//    if(readCompileOutput(sourceCodeVo)!=null){
-//      //컴파일 오류시 컴파일 결과를 읽어서 가져옴
-//      return "compile error(NOT PRINTED)\n"+compileOutput;
-//    }
-//    else if (!runtimeOutput.equals("")) {
-//      //컴파일성공 후 런타임 결과가 있을 때 결과를 보여줌
-//      return runtimeOutput;
-//    }
-//    else {
-//      return "이건 나와선 안되는 결과야";
-//    }
+    if(! compileOutput.equals("")){
+      execResultInfo.setCompileOutput(compileOutput);
+      return execResultInfo;
+    }
 
-
-    //run and set time
+    //measure time, memory usage
+    long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
     long startTime = System.nanoTime();
-    runTestCase(testCaseVo);
+    String runtimeOutput = execCommandWithTestCase(testCaseVo);
     long endTime = System.nanoTime();
-    //get milliseconds
+    long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();
+
+    //get KB, milliseconds
+    int usedMemory = (int) (usedMemoryAfter-usedMemoryBefore) / 1024;
     int time = (int) (endTime - startTime) / 1000000 ;
-    resultVo.setRunningTime(time);
 
-    //set correctness
-    if(testCaseVo.getAnswer().equals(runtimeOutput)){
-      resultVo.setCorrectness(true);
-    }
-    else{
-      resultVo.setCorrectness(false);
-    }
+    //set values
+    execResultInfo.setRunningTime(time);
+    execResultInfo.setUsedMemory(usedMemory);
 
+    //set runtimeOutput
+    execResultInfo.setRuntimeOutput(runtimeOutput);
 
-    //TODO: set used_memory
-    resultVo.setUsedMemory(777);
-    return resultVo;
+    return execResultInfo;
   }
 }

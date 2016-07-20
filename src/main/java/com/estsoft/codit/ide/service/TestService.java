@@ -14,6 +14,7 @@ import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 import com.estsoft.codit.ide.executor.Exec;
 import com.estsoft.codit.ide.executor.ExecFactory;
+import com.estsoft.codit.ide.executor.ExecResultInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,9 +118,7 @@ public class TestService {
     // sourcecode를 task.* 파일로 작상하여 compile & run
     int languageId = problemRepository.get(problemId).getLanguageId();
     Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
-    exec.write();
-    String runtimeOutput = exec.run(testCaseVo);
-    return runtimeOutput;
+    return exec.run(testCaseVo);
   }
 
   //TODO: 채점끝나고 redirect시키면 느리니까 먼저 redirect하고 /result에서 기다릴수있게
@@ -149,21 +148,30 @@ public class TestService {
       List<TestCaseVo> testCaseVoList = testcaseListOfList.get(i);
       int languageId = problemRepository.get(sourceCodeVo.getProblemId()).getLanguageId();
       Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
-      exec.write();
 
+      // 하나의 Exec 객체는 한 개의 sourceCode를 받아 생성되고 n개의 test_case를 처리한다
       // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
       for (TestCaseVo testCaseVo: testCaseVoList ) {
-        ResultVo resultVo = exec.mark(testCaseVo);
+        ResultVo resultVo = new ResultVo();
+        ExecResultInfo execResultInfo = exec.mark(testCaseVo);
         resultVo.setApplicantId(applicantId);
         resultVo.setTestCaseId(testCaseVo.getId());
+
+        //set correctness
+        if(testCaseVo.getAnswer().equals(execResultInfo.getRuntimeOutput())){
+          resultVo.setCorrectness(true);
+        }
+        else{
+          resultVo.setCorrectness(false);
+        }
+
+        //set time, memory
+        resultVo.setUsedMemory(execResultInfo.getUsedMemory());
+        resultVo.setRunningTime(execResultInfo.getRunningTime());
+
+        //add to DB
         resultRepository.insert(resultVo);
       }
     }
   }
-
-
-
-
-
-
 }

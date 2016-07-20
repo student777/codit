@@ -1,6 +1,5 @@
 package com.estsoft.codit.ide.executor;
 
-import com.estsoft.codit.db.vo.ResultVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
@@ -17,18 +16,19 @@ import java.io.OutputStream;
  프로세스를 열고 언어 별로 cmd상에서 실행
  */
 public abstract class Exec {
-  SourceCodeVo sourceCodeVo;
-  String compileOutput ;
-  String[] compileCommand ;
-  String runtimeOutput ;
-  String[] runtimeCommand ;
-  String filename;
-
+  public SourceCodeVo sourceCodeVo;
+  public String[] compileCommand ;
+  public String[] runtimeCommand ;
   public abstract String run(TestCaseVo testCaseVo);
-  public abstract ResultVo mark(TestCaseVo testCaseVo);
+  public abstract ExecResultInfo mark(TestCaseVo testCaseVo);
 
+  //객체 생성시 자동으로 저장소에 소스코드파일 생성
+  public Exec(SourceCodeVo sourceCodeVo, String filename){
+    this.sourceCodeVo = sourceCodeVo;
+    write(sourceCodeVo, filename);
+  }
 
-  public void write(){
+  public void write(SourceCodeVo sourceCodeVo, String filename){
     //경로와 파일명 지정
     int sourceCodeId = sourceCodeVo.getId();
     String filePath = "C:\\sourcecode\\" + sourceCodeId;
@@ -53,9 +53,11 @@ public abstract class Exec {
     }
   }
 
-
+  //얘좀 없애고 싶다
+  //testCase가 있을때 없을때를 분류해주기 위해 만듬..
   //set runtimeOutput of this class
-  void runTestCase(TestCaseVo testCaseVo){
+  String execCommandWithTestCase(TestCaseVo testCaseVo){
+    String runtimeOutput = null;
     try{
       if(testCaseVo==null){
         runtimeOutput = execCommand(runtimeCommand);
@@ -68,10 +70,12 @@ public abstract class Exec {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+    return runtimeOutput;
   }
 
   //여기로 좀 안 왔으면 좋겠다
-  void runTestCase2(TestCaseVo testCaseVo){
+  String execCommandWithTestCase2(TestCaseVo testCaseVo){
+    String runtimeOutput = null;
     try{
       if(testCaseVo==null){
         runtimeOutput = execCommand(runtimeCommand);
@@ -84,8 +88,8 @@ public abstract class Exec {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+    return runtimeOutput;
   }
-
 
 
   /*
@@ -94,23 +98,35 @@ public abstract class Exec {
    * TODO: scanner나 input()이 코드에 있는데 testCase를 안넣어주면 응답 없음
    */
   // test case 없이 실행
-  String execCommand(String[] command) {
+  String execCommand(String[] command) throws InterruptedException, IOException {
     Runtime runtime = Runtime.getRuntime();
-    Process process = null;
-    try {
-      process = runtime.exec(command);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    try {
-      process.waitFor();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    Process process = runtime.exec(command);
+    process.waitFor();
+
     int i;
     StringBuilder sb = new StringBuilder();
     byte[] b = new byte[4096];
     InputStream inputStream = process.getInputStream();
+    try {
+      while( (i = inputStream.read(b)) != -1){
+        sb.append(new String(b, 0, i));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return sb.toString();
+  }
+
+  //컴파일 에러 잡기 위해 쓴다
+  String execCommand2(String[] command) throws InterruptedException, IOException {
+    Runtime runtime = Runtime.getRuntime();
+    Process process = runtime.exec(command);
+    process.waitFor();
+
+    int i;
+    StringBuilder sb = new StringBuilder();
+    byte[] b = new byte[4096];
+    InputStream inputStream = process.getErrorStream();
     try {
       while( (i = inputStream.read(b)) != -1){
         sb.append(new String(b, 0, i));
@@ -127,7 +143,7 @@ public abstract class Exec {
   * [java] Scanner가 코드에 있어 testCase가 필요한 문제의 경우 testcase의 한글이 깨져서 나온다
   * [python] print(input()) 과 같은 코드에서 한글로 된 tesetCase를 넣어주면 한글이 깨진다. 영어는 잘됨
   */
-  private String execCommand(String[] command, TestCaseVo testCaseVo) throws IOException, InterruptedException {
+  String execCommand(String[] command, TestCaseVo testCaseVo) throws InterruptedException, IOException{
     Runtime runtime = Runtime.getRuntime();
     Process process = runtime.exec(command);
     OutputStream out = process.getOutputStream();
@@ -158,7 +174,7 @@ public abstract class Exec {
   * [java] Scanner가 있는, 없는 코드에서 sysout으로 출력한 한글과 testCase에 포함된 한글이 깨진다
   * [python] input()이 없어서 teseCase가 필요없는데 프론트에서 testcase 값을 줘서 이쪽으로 오면 문자 깨짐
   */
-  private String execCommand2(String[] command, TestCaseVo testCaseVo) throws IOException, InterruptedException {
+  String execCommand2(String[] command, TestCaseVo testCaseVo) throws InterruptedException, IOException{
     Runtime runtime = Runtime.getRuntime();
     Process process = runtime.exec(command);
     OutputStream out = process.getOutputStream();
@@ -174,11 +190,6 @@ public abstract class Exec {
       sb.append( (char)i );
     }
     return sb.toString().replace("\n", "").replace("\r", "");
-  }
-
-  String readCompileOutput(SourceCodeVo sourceCodeVo){
-    //TODO: sourceCodeId 에 해당하는 경로를 찾아서 compile_result.txt를 읽는다
-    return null;
   }
 
 }

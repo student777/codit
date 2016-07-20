@@ -51,7 +51,7 @@
                 <tr>
                     <td>${status2.index +1 }</td>
                     <td>${resultVo.usedMemory }</td>
-                    <td>${resultVo.runningTime }</td>
+                    <td>${resultVo.runningTime }ms</td>
                     <td>${resultVo.correctness }</td>
                 </tr>
             </c:forEach>
