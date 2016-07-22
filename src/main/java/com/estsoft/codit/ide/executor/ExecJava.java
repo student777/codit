@@ -3,8 +3,6 @@ package com.estsoft.codit.ide.executor;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
-import java.io.IOException;
-
 class ExecJava extends Exec {
 
   ExecJava(SourceCodeVo sourceCodeVo) {
@@ -15,14 +13,8 @@ class ExecJava extends Exec {
 
   @Override
   public String run(TestCaseVo testCaseVo) {
-    String compileOutput = null;
-    try {
-      compileOutput = execCommand2(compileCommand);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    String compileOutput;
+    compileOutput = execCommand2(compileCommand);
     String runtimeOutput = execCommandWithTestCase(testCaseVo);
 
     if(compileOutput.equals("")){
@@ -45,20 +37,13 @@ class ExecJava extends Exec {
 
     //compile
     String compileOutput = null;
-    try {
-      compileOutput = execCommand2(compileCommand);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    compileOutput = execCommand2(compileCommand);
 
     //TODO: 컴파일 실패 시 return null
     if(! compileOutput.equals("")){
       execResultInfo.setCompileOutput(compileOutput);
       return execResultInfo;
     }
-
     //measure time, memory usage
     long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
     long startTime = System.nanoTime();

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 
 /*
@@ -57,36 +58,24 @@ public abstract class Exec {
   //testCase가 있을때 없을때를 분류해주기 위해 만듬..
   //set runtimeOutput of this class
   String execCommandWithTestCase(TestCaseVo testCaseVo){
-    String runtimeOutput = null;
-    try{
-      if(testCaseVo==null){
-        runtimeOutput = execCommand(runtimeCommand);
-      }
-      else {
-        runtimeOutput = execCommand(runtimeCommand, testCaseVo);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    String runtimeOutput ;
+    if(testCaseVo==null){
+      runtimeOutput = execCommand(runtimeCommand);
+    }
+    else {
+      runtimeOutput = execCommand(runtimeCommand, testCaseVo);
     }
     return runtimeOutput;
   }
 
   //여기로 좀 안 왔으면 좋겠다
   String execCommandWithTestCase2(TestCaseVo testCaseVo){
-    String runtimeOutput = null;
-    try{
-      if(testCaseVo==null){
-        runtimeOutput = execCommand(runtimeCommand);
-      }
-      else {
-        runtimeOutput = execCommand2(runtimeCommand, testCaseVo);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    String runtimeOutput;
+    if(testCaseVo==null){
+      runtimeOutput = execCommand(runtimeCommand);
+    }
+    else {
+      runtimeOutput = execCommand2(runtimeCommand, testCaseVo);
     }
     return runtimeOutput;
   }
@@ -98,42 +87,50 @@ public abstract class Exec {
    * TODO: scanner나 input()이 코드에 있는데 testCase를 안넣어주면 응답 없음
    */
   // test case 없이 실행
-  String execCommand(String[] command) throws InterruptedException, IOException {
+  String execCommand(String[] command) {
     Runtime runtime = Runtime.getRuntime();
-    Process process = runtime.exec(command);
-    process.waitFor();
-
-    int i;
+    Process process = null;
     StringBuilder sb = new StringBuilder();
-    byte[] b = new byte[4096];
-    InputStream inputStream = process.getInputStream();
     try {
+      process = runtime.exec(command);
+      process.waitFor();
+      int i;
+      byte[] b = new byte[4096];
+      InputStream inputStream = process.getInputStream();
       while( (i = inputStream.read(b)) != -1){
         sb.append(new String(b, 0, i));
       }
+      inputStream.close();
     } catch (IOException e) {
       e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+    process.destroy();
     return sb.toString();
   }
 
   //컴파일 에러 잡기 위해 쓴다
-  String execCommand2(String[] command) throws InterruptedException, IOException {
+  String execCommand2(String[] command) {
     Runtime runtime = Runtime.getRuntime();
-    Process process = runtime.exec(command);
-    process.waitFor();
-
-    int i;
+    Process process = null;
     StringBuilder sb = new StringBuilder();
-    byte[] b = new byte[4096];
-    InputStream inputStream = process.getErrorStream();
     try {
+      process = runtime.exec(command);
+      process.waitFor();
+      int i;
+      byte[] b = new byte[4096];
+      InputStream inputStream = process.getErrorStream();
       while( (i = inputStream.read(b)) != -1){
         sb.append(new String(b, 0, i));
       }
+      inputStream.close();
     } catch (IOException e) {
       e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+    process.destroy();
     return sb.toString();
   }
 
@@ -143,28 +140,34 @@ public abstract class Exec {
   * [java] Scanner가 코드에 있어 testCase가 필요한 문제의 경우 testcase의 한글이 깨져서 나온다
   * [python] print(input()) 과 같은 코드에서 한글로 된 tesetCase를 넣어주면 한글이 깨진다. 영어는 잘됨
   */
-  String execCommand(String[] command, TestCaseVo testCaseVo) throws InterruptedException, IOException{
+  String execCommand(String[] command, TestCaseVo testCaseVo){
     Runtime runtime = Runtime.getRuntime();
-    Process process = runtime.exec(command);
-    OutputStream out = process.getOutputStream();
-
-    /* writer까지 안 써줘도 된다
-    Writer w = new OutputStreamWriter(out, "UTF-8");
-    w.write(testCaseVo.getInput());
-    w.write("\n");
-    w.close();
-     */
-    out.write(testCaseVo.getInput().getBytes("UTF-8"));
-    out.write("\n".getBytes());
-    out.flush();
-    process.waitFor();
-    int i;
+    Process process = null;
+    InputStream inputStream;
     StringBuilder sb = new StringBuilder();
-    InputStream inputStream = process.getInputStream();
-    byte[] b = new byte[4096];
-    while( (i = inputStream.read(b)) != -1){
-      sb.append(new String(b, 0, i));
+    try {
+      process = runtime.exec(command);
+      OutputStream out = process.getOutputStream();
+      out.write(testCaseVo.getInput().getBytes("UTF-8"));
+      out.write("\n".getBytes());
+      out.flush();
+      process.waitFor();
+      int i;
+      inputStream = process.getInputStream();
+      byte[] b = new byte[4096];
+      while( (i = inputStream.read(b)) != -1){
+        sb.append(new String(b, 0, i));
+      }
+      inputStream.close();
+      out.close();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    process.destroy();
     //TODO: 테스트케이스에 대한 출력은 1줄짜리로 제한
     return sb.toString().replace("\n", "").replace("\r", "");
   }
@@ -174,21 +177,33 @@ public abstract class Exec {
   * [java] Scanner가 있는, 없는 코드에서 sysout으로 출력한 한글과 testCase에 포함된 한글이 깨진다
   * [python] input()이 없어서 teseCase가 필요없는데 프론트에서 testcase 값을 줘서 이쪽으로 오면 문자 깨짐
   */
-  String execCommand2(String[] command, TestCaseVo testCaseVo) throws InterruptedException, IOException{
+  String execCommand2(String[] command, TestCaseVo testCaseVo) {
     Runtime runtime = Runtime.getRuntime();
-    Process process = runtime.exec(command);
-    OutputStream out = process.getOutputStream();
-    out.write(testCaseVo.getInput().getBytes("UTF-8"));
-    out.write("\n".getBytes());
-    out.flush();
-    process.waitFor();
-    int i;
-    StringBuilder sb = new StringBuilder();
-    InputStream inputStream = process.getInputStream();
-    InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
-    while( (i = isr.read()) != -1){
-      sb.append( (char)i );
+    Process process = null;
+    StringBuilder sb = null;
+    OutputStream out;
+    try {
+      process = runtime.exec(command);
+      out = process.getOutputStream();
+      out.write(testCaseVo.getInput().getBytes("UTF-8"));
+      out.write("\n".getBytes());
+      out.flush();
+      process.waitFor();
+      sb = new StringBuilder();
+      InputStream inputStream = process.getInputStream();
+      InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
+      int i;
+      while( (i = isr.read()) != -1){
+        sb.append( (char)i );
+      }
+      inputStream.close();
+      out.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+    process.destroy();
     return sb.toString().replace("\n", "").replace("\r", "");
   }
 
