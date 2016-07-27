@@ -8,6 +8,7 @@
   <name>codit-estsoft-ide Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
+
   <properties>
     <org.springframework-version>4.3.0.RELEASE</org.springframework-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -85,7 +86,24 @@
     </dependency>
 
   </dependencies>
+
+  <!-- Tomcat plugin -->
   <build>
-    <finalName>codit-estsoft-ide</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <url>http://localhost:8888/manager/text</url>
+          <server>TomcatServer</server>
+          <username>${env.DBusename}</username>
+          <password>${env.DBpassword}</password>
+          <path>/</path>
+          <update>true</update>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
+
 </project>
