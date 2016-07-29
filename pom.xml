@@ -97,8 +97,6 @@
         <configuration>
           <url>http://localhost:8888/manager/text</url>
           <server>TomcatServer</server>
-          <username>${env.DBusename}</username>
-          <password>${env.DBpassword}</password>
           <path>/</path>
           <update>true</update>
         </configuration>
