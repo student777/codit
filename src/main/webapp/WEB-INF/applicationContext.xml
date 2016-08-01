@@ -23,8 +23,8 @@
   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     <property name="url" value="jdbc:mysql://localhost:3306/codit" />
-    <property name="username" value="#{ systemEnvironment['DBusername']}"/>
-    <property name="password" value="#{ systemEnvironment['DBpassword']}" />
+    <property name="username" value="codit"/>
+    <property name="password" value="codit1234" />
     <!-- 요 밑에거 없어도 잘 된다?-->
     <!--property name="connectionProperties" value="useUnicode=yes;characterEncoding=utf8;"/-->
   </bean>

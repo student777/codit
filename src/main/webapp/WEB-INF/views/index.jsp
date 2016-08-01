@@ -8,7 +8,7 @@
 반갑습니다 ${applicant.name}님
 <h3>이스트소프트가 귀하를 코딩인터뷰에 초대하였습니다</h3>
 <p>인증을 위해 이메일을 입력하세요</p>
-<form action="/instruction" method="post">
+<form action="${pageContext.request.contextPath}/instruction" method="post">
     <label>이메일</label><input name="email"/>
     <input type="hidden" name="ticket" value="${param.ticket}"/>
     <button type="submit">제출</button>

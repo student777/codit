@@ -17,7 +17,7 @@
     6. 지랄잼<br>
     7. 씨잼<br>
 </p>
-<a href="/practice"><button>튜토리얼 및 연습테스트 시작</button></a>
-<a href="/test"><button>바로 코딩테스트 시작하기</button></a>
+<a href="${pageContext.request.contextPath}/practice"><button>튜토리얼 및 연습테스트 시작</button></a>
+<a href="${pageContext.request.contextPath}/test"><button>바로 코딩테스트 시작하기</button></a>
 </body>
 </html>
