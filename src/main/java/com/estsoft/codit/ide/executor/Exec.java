@@ -32,7 +32,7 @@ public abstract class Exec {
   public void write(SourceCodeVo sourceCodeVo, String filename){
     //경로와 파일명 지정
     int sourceCodeId = sourceCodeVo.getId();
-    String filePath = "C:\\sourcecode\\" + sourceCodeId;
+    String filePath = "/home/codit/sourcecode/" + sourceCodeId;
 
     //경로지정,  파일 생성
     try{

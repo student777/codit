@@ -6,8 +6,8 @@ import com.estsoft.codit.db.vo.TestCaseVo;
 class ExecPython extends Exec {
 
   ExecPython(SourceCodeVo sourceCodeVo){
-    super(sourceCodeVo, "\\task.py");
-    this.runtimeCommand = new String[]{"cmd.exe", "/c", "python", "C:\\sourcecode\\" + sourceCodeVo.getId()+"\\task.py"};
+    super(sourceCodeVo, "/task.py");
+    this.runtimeCommand = new String[]{"python", "/home/codit/sourcecode/" + sourceCodeVo.getId()+"/task.py"};
   }
 
   @Override
