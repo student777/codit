@@ -19,26 +19,6 @@ class ExecPython extends Exec {
 
   @Override
   public ExecResultInfo mark(TestCaseVo testCaseVo) {
-    ExecResultInfo execResultInfo = new ExecResultInfo();
-    Runtime runtime = Runtime.getRuntime();
-
-    //measure time, memory usage
-    long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
-    long startTime = System.nanoTime();
-    String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
-    long endTime = System.nanoTime();
-    long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();
-
-    //get KB, milliseconds
-    int usedMemory = (int) (usedMemoryAfter-usedMemoryBefore) / 1024;
-    int time = (int) (endTime - startTime) / 1000000 ;
-
-    //set values
-    execResultInfo.setRunningTime(time);
-    execResultInfo.setUsedMemory(usedMemory);
-
-    //set runtimeOutput
-    execResultInfo.setOutput(runtimeOutput);
-    return execResultInfo;
+    return execCommandWithTestCase(testCaseVo);
   }
 }

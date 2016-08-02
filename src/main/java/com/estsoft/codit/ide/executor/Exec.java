@@ -21,25 +21,6 @@ public abstract class Exec {
   public SourceCodeVo sourceCodeVo;
   public String[] compileCommand ;
   public String[] runtimeCommand ;
-  public abstract ExecResultInfo mark(TestCaseVo testCaseVo);
-
-  public String run(TestCaseVo testCaseVo){
-    String compileOutput;
-    compileOutput = execCommand(compileCommand).getOutput();
-    String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
-
-    if(compileOutput.equals("")){
-      //컴파일 성공시 컴파일의 결과는 "".  런타임 결과를 보여줌
-      return runtimeOutput;
-    }
-    else if (runtimeOutput.equals("")) {
-      //컴파일 오류시 런타임의 결과는 "".  컴파일 에러를 읽어서 가져옴
-      return compileOutput;
-    }
-    else {
-      return "이건 나와선 안되는 결과야";
-    }
-  }
 
   //객체 생성시 자동으로 저장소에 소스코드파일 생성
   public Exec(SourceCodeVo sourceCodeVo, String filename){
@@ -70,6 +51,41 @@ public abstract class Exec {
     catch(IOException e){
       e.printStackTrace();
     }
+  }
+
+  public String run(TestCaseVo testCaseVo){
+    String compileOutput;
+    compileOutput = execCommand(compileCommand).getOutput();
+    String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
+
+    if(compileOutput.equals("")){
+      //컴파일 성공시 컴파일의 결과는 "".  런타임 결과를 보여줌
+      return runtimeOutput;
+    }
+    else if (runtimeOutput.equals("")) {
+      //컴파일 오류시 런타임의 결과는 "".  컴파일 에러를 읽어서 가져옴
+      return compileOutput;
+    }
+    else {
+      return "이건 나와선 안되는 결과야";
+    }
+  }
+
+  public ExecResultInfo mark(TestCaseVo testCaseVo){
+    ExecResultInfo execResultInfo = new ExecResultInfo();
+
+    //compile
+    String compileOutput = execCommand(compileCommand).getOutput();
+
+    //TODO: 컴파일 실패 시 return null
+    if(! compileOutput.equals("")){
+      execResultInfo.setOutput(compileOutput);
+      return execResultInfo;
+    }
+
+    //컴파일 성공 시 채점
+    execResultInfo = execCommandWithTestCase(testCaseVo);
+    return execResultInfo;
   }
 
   //얘좀 없애고 싶다
@@ -112,8 +128,16 @@ public abstract class Exec {
     StringBuilder sb = new StringBuilder();
     StringBuilder sb2 = new StringBuilder();
     try {
+      long startTime = System.nanoTime();
       process = runtime.exec(command);
       process.waitFor();
+      long endTime = System.nanoTime();
+
+      //get KB, milliseconds
+      int time = (int) (endTime - startTime) / 1000000 ;
+      //set values
+      execResultInfo.setRunningTime(time);
+
       int i, j;
       byte[] b = new byte[4096];
       byte[] b2 = new byte[4096];
@@ -159,12 +183,20 @@ public abstract class Exec {
     InputStream inputStream;
     StringBuilder sb = new StringBuilder();
     try {
+      long startTime = System.nanoTime();
       process = runtime.exec(command);
       OutputStream out = process.getOutputStream();
       out.write(testCaseVo.getInput().getBytes("UTF-8"));
       out.write("\n".getBytes());
       out.flush();
       process.waitFor();
+      long endTime = System.nanoTime();
+      //get KB, milliseconds
+      int time = (int) (endTime - startTime) / 1000000 ;
+      //set values
+      execResultInfo.setRunningTime(time);
+
+
       int i;
       inputStream = process.getInputStream();
       byte[] b = new byte[4096];
@@ -199,12 +231,18 @@ public abstract class Exec {
     StringBuilder sb = null;
     OutputStream out;
     try {
+      long startTime = System.nanoTime();
       process = runtime.exec(command);
       out = process.getOutputStream();
       out.write(testCaseVo.getInput().getBytes("UTF-8"));
       out.write("\n".getBytes());
       out.flush();
       process.waitFor();
+      long endTime = System.nanoTime();
+      //get KB, milliseconds
+      int time = (int) (endTime - startTime) / 1000000 ;
+      //set values
+      execResultInfo.setRunningTime(time);
       sb = new StringBuilder();
       InputStream inputStream = process.getInputStream();
       InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
