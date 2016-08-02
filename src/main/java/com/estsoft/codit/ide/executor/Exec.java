@@ -25,7 +25,7 @@ public abstract class Exec {
 
   public String run(TestCaseVo testCaseVo){
     String compileOutput;
-    compileOutput = execCommand2(compileCommand).getOutput();
+    compileOutput = execCommand(compileCommand).getOutput();
     String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
 
     if(compileOutput.equals("")){
@@ -108,53 +108,41 @@ public abstract class Exec {
   ExecResultInfo execCommand(String[] command) {
     ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
-    Process process = null;
+    Process process;
     StringBuilder sb = new StringBuilder();
+    StringBuilder sb2 = new StringBuilder();
     try {
       process = runtime.exec(command);
       process.waitFor();
-      int i;
+      int i, j;
       byte[] b = new byte[4096];
-      InputStream inputStream = process.getInputStream();
-      while( (i = inputStream.read(b)) != -1){
+      byte[] b2 = new byte[4096];
+      InputStream errorStream = process.getErrorStream();
+      while( (i = errorStream.read(b)) != -1){
         sb.append(new String(b, 0, i));
       }
-      inputStream.close();
-      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    process.destroy();
-    execResultInfo.setOutput(sb.toString());
-    return execResultInfo;
-  }
 
-  //컴파일 에러 잡기 위해 쓴다
-  ExecResultInfo execCommand2(String[] command) {
-    ExecResultInfo execResultInfo = new ExecResultInfo();
-    Runtime runtime = Runtime.getRuntime();
-    Process process = null;
-    StringBuilder sb = new StringBuilder();
-    try {
-      process = runtime.exec(command);
-      process.waitFor();
-      int i;
-      byte[] b = new byte[4096];
-      InputStream inputStream = process.getErrorStream();
-      while( (i = inputStream.read(b)) != -1){
-        sb.append(new String(b, 0, i));
+      InputStream inputStream = process.getInputStream();
+      while( (j = inputStream.read(b2)) != -1){
+        sb2.append(new String(b2, 0, j));
       }
       inputStream.close();
+      errorStream.close();
+      process.destroy();
       System.out.println(ManagementFactory.getRuntimeMXBean().getName());
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    process.destroy();
-    execResultInfo.setOutput(sb.toString());
+    String errorOutput = sb.toString();
+    String output = sb2.toString();
+    if(!errorOutput.equals("")){
+      execResultInfo.setOutput(sb.toString());
+    }
+    else{
+      execResultInfo.setOutput(output);
+    }
     return execResultInfo;
   }
 

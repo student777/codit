@@ -18,7 +18,7 @@ class ExecJava extends Exec {
 
     //compile
     String compileOutput = null;
-    compileOutput = execCommand2(compileCommand).getOutput();
+    compileOutput = execCommand(compileCommand).getOutput();
 
     //TODO: 컴파일 실패 시 return null
     if(! compileOutput.equals("")){

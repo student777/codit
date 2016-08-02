@@ -17,7 +17,7 @@ class ExecC extends Exec {
     Runtime runtime = Runtime.getRuntime();
 
     //compile
-    String compileOutput = execCommand2(compileCommand).getOutput();
+    String compileOutput = execCommand(compileCommand).getOutput();
 
     //TODO: 컴파일 실패 시 return null
     if(! compileOutput.equals("")){
