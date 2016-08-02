@@ -7,7 +7,7 @@ class ExecPython extends Exec {
 
   ExecPython(SourceCodeVo sourceCodeVo){
     super(sourceCodeVo, "/task.py");
-    this.runtimeCommand = new String[]{"python", "/home/codit/sourcecode/" + sourceCodeVo.getId()+"/task.py"};
+    this.runtimeCommand = new String[]{"python", "/home/webmaster/codit/sourcecode/" + sourceCodeVo.getId()+"/task.py"};
   }
 
   @Override
