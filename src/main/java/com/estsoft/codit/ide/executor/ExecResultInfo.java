@@ -1,25 +1,16 @@
 package com.estsoft.codit.ide.executor;
 
 public class ExecResultInfo {
-  private String runtimeOutput;
-  private String compileOutput;
+  private String output;
   private int runningTime;
   private int usedMemory;
 
-  public String getRuntimeOutput() {
-    return runtimeOutput;
+  public String getOutput() {
+    return output;
   }
 
-  public void setRuntimeOutput(String runtimeOutput) {
-    this.runtimeOutput = runtimeOutput;
-  }
-
-  public String getCompileOutput() {
-    return compileOutput;
-  }
-
-  public void setCompileOutput(String compileOutput) {
-    this.compileOutput = compileOutput;
+  public void setOutput(String output) {
+    this.output = output;
   }
 
   public int getRunningTime() {
@@ -41,8 +32,7 @@ public class ExecResultInfo {
   @Override
   public String toString() {
     return "ExecResultInfo{" +
-        "runtimeOutput='" + runtimeOutput + '\'' +
-        ", compileOutput='" + compileOutput + '\'' +
+        "output='" + output + '\'' +
         ", runningTime=" + runningTime +
         ", usedMemory=" + usedMemory +
         '}';

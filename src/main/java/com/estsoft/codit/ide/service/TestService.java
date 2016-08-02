@@ -158,7 +158,7 @@ public class TestService {
         resultVo.setTestCaseId(testCaseVo.getId());
 
         //set correctness
-        if(testCaseVo.getAnswer().equals(execResultInfo.getRuntimeOutput())){
+        if(testCaseVo.getAnswer().equals(execResultInfo.getOutput())){
           resultVo.setCorrectness(true);
         }
         else{

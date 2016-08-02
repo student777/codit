@@ -10,10 +10,11 @@ class ExecPython extends Exec {
     this.runtimeCommand = new String[]{"python", "/home/webmaster/codit/sourcecode/" + sourceCodeVo.getId()+"/task.py"};
   }
 
+  //python만 유일하게 컴파일 과정이 없으므로 override해줌
   @Override
   public String run(TestCaseVo testCaseVo) {
     //TODO: .....여기좀 없애고싶다
-    return execCommandWithTestCase2(testCaseVo);
+    return execCommandWithTestCase2(testCaseVo).getOutput();
   }
 
   @Override
@@ -24,7 +25,7 @@ class ExecPython extends Exec {
     //measure time, memory usage
     long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
     long startTime = System.nanoTime();
-    String runtimeOutput = execCommandWithTestCase(testCaseVo);
+    String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
     long endTime = System.nanoTime();
     long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();
 
@@ -37,7 +38,7 @@ class ExecPython extends Exec {
     execResultInfo.setUsedMemory(usedMemory);
 
     //set runtimeOutput
-    execResultInfo.setRuntimeOutput(runtimeOutput);
+    execResultInfo.setOutput(runtimeOutput);
     return execResultInfo;
   }
 }

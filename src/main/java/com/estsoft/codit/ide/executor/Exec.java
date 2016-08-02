@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.management.ManagementFactory;
 
 
 /*
@@ -20,8 +21,25 @@ public abstract class Exec {
   public SourceCodeVo sourceCodeVo;
   public String[] compileCommand ;
   public String[] runtimeCommand ;
-  public abstract String run(TestCaseVo testCaseVo);
   public abstract ExecResultInfo mark(TestCaseVo testCaseVo);
+
+  public String run(TestCaseVo testCaseVo){
+    String compileOutput;
+    compileOutput = execCommand2(compileCommand).getOutput();
+    String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
+
+    if(compileOutput.equals("")){
+      //컴파일 성공시 컴파일의 결과는 "".  런타임 결과를 보여줌
+      return runtimeOutput;
+    }
+    else if (runtimeOutput.equals("")) {
+      //컴파일 오류시 런타임의 결과는 "".  컴파일 에러를 읽어서 가져옴
+      return compileOutput;
+    }
+    else {
+      return "이건 나와선 안되는 결과야";
+    }
+  }
 
   //객체 생성시 자동으로 저장소에 소스코드파일 생성
   public Exec(SourceCodeVo sourceCodeVo, String filename){
@@ -57,27 +75,27 @@ public abstract class Exec {
   //얘좀 없애고 싶다
   //testCase가 있을때 없을때를 분류해주기 위해 만듬..
   //set runtimeOutput of this class
-  String execCommandWithTestCase(TestCaseVo testCaseVo){
-    String runtimeOutput ;
+  ExecResultInfo execCommandWithTestCase(TestCaseVo testCaseVo){
+    ExecResultInfo execResultInfo;
     if(testCaseVo==null){
-      runtimeOutput = execCommand(runtimeCommand);
+      execResultInfo = execCommand(runtimeCommand);
     }
     else {
-      runtimeOutput = execCommand(runtimeCommand, testCaseVo);
+      execResultInfo = execCommand(runtimeCommand, testCaseVo);
     }
-    return runtimeOutput;
+    return execResultInfo;
   }
 
   //여기로 좀 안 왔으면 좋겠다
-  String execCommandWithTestCase2(TestCaseVo testCaseVo){
-    String runtimeOutput;
+  ExecResultInfo execCommandWithTestCase2(TestCaseVo testCaseVo){
+    ExecResultInfo execResultInfo;
     if(testCaseVo==null){
-      runtimeOutput = execCommand(runtimeCommand);
+      execResultInfo = execCommand(runtimeCommand);
     }
     else {
-      runtimeOutput = execCommand2(runtimeCommand, testCaseVo);
+      execResultInfo = execCommand2(runtimeCommand, testCaseVo);
     }
-    return runtimeOutput;
+    return execResultInfo;
   }
 
 
@@ -87,7 +105,8 @@ public abstract class Exec {
    * TODO: scanner나 input()이 코드에 있는데 testCase를 안넣어주면 응답 없음
    */
   // test case 없이 실행
-  String execCommand(String[] command) {
+  ExecResultInfo execCommand(String[] command) {
+    ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
     StringBuilder sb = new StringBuilder();
@@ -101,17 +120,20 @@ public abstract class Exec {
         sb.append(new String(b, 0, i));
       }
       inputStream.close();
+      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     process.destroy();
-    return sb.toString();
+    execResultInfo.setOutput(sb.toString());
+    return execResultInfo;
   }
 
   //컴파일 에러 잡기 위해 쓴다
-  String execCommand2(String[] command) {
+  ExecResultInfo execCommand2(String[] command) {
+    ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
     StringBuilder sb = new StringBuilder();
@@ -125,13 +147,15 @@ public abstract class Exec {
         sb.append(new String(b, 0, i));
       }
       inputStream.close();
+      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     process.destroy();
-    return sb.toString();
+    execResultInfo.setOutput(sb.toString());
+    return execResultInfo;
   }
 
 
@@ -140,7 +164,8 @@ public abstract class Exec {
   * [java] Scanner가 코드에 있어 testCase가 필요한 문제의 경우 testcase의 한글이 깨져서 나온다
   * [python] print(input()) 과 같은 코드에서 한글로 된 tesetCase를 넣어주면 한글이 깨진다. 영어는 잘됨
   */
-  String execCommand(String[] command, TestCaseVo testCaseVo){
+  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo){
+    ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
     InputStream inputStream;
@@ -160,6 +185,7 @@ public abstract class Exec {
       }
       inputStream.close();
       out.close();
+      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (UnsupportedEncodingException e) {
@@ -169,7 +195,8 @@ public abstract class Exec {
     }
     process.destroy();
     //TODO: 테스트케이스에 대한 출력은 1줄짜리로 제한
-    return sb.toString().replace("\n", "").replace("\r", "");
+    execResultInfo.setOutput(sb.toString().replace("\n", "").replace("\r", ""));
+    return execResultInfo;
   }
 
   /*
@@ -177,7 +204,8 @@ public abstract class Exec {
   * [java] Scanner가 있는, 없는 코드에서 sysout으로 출력한 한글과 testCase에 포함된 한글이 깨진다
   * [python] input()이 없어서 teseCase가 필요없는데 프론트에서 testcase 값을 줘서 이쪽으로 오면 문자 깨짐
   */
-  String execCommand2(String[] command, TestCaseVo testCaseVo) {
+  ExecResultInfo execCommand2(String[] command, TestCaseVo testCaseVo) {
+    ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
     StringBuilder sb = null;
@@ -198,13 +226,15 @@ public abstract class Exec {
       }
       inputStream.close();
       out.close();
+      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     process.destroy();
-    return sb.toString().replace("\n", "").replace("\r", "");
+    execResultInfo.setOutput(sb.toString().replace("\n", "").replace("\r", ""));
+    return execResultInfo;
   }
 
 }
