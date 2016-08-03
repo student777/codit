@@ -1,5 +1,8 @@
 package com.estsoft.codit.ide.executor;
 
+import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess;
+import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess2;
+
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
@@ -7,17 +10,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.management.ManagementFactory;
 
 
 /*
  프로세스를 열고 언어 별로 cmd상에서 실행
  */
-public abstract class Exec {
+public class Exec {
   public SourceCodeVo sourceCodeVo;
   public String[] compileCommand ;
   public String[] runtimeCommand ;
@@ -97,7 +96,7 @@ public abstract class Exec {
       execResultInfo = execCommand(runtimeCommand);
     }
     else {
-      execResultInfo = execCommand(runtimeCommand, testCaseVo);
+      execResultInfo = execCommand(runtimeCommand, testCaseVo, true);
     }
     return execResultInfo;
   }
@@ -109,7 +108,7 @@ public abstract class Exec {
       execResultInfo = execCommand(runtimeCommand);
     }
     else {
-      execResultInfo = execCommand2(runtimeCommand, testCaseVo);
+      execResultInfo = execCommand(runtimeCommand, testCaseVo, false);
     }
     return execResultInfo;
   }
@@ -124,142 +123,77 @@ public abstract class Exec {
   ExecResultInfo execCommand(String[] command) {
     ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
-    Process process;
-    StringBuilder sb = new StringBuilder();
-    StringBuilder sb2 = new StringBuilder();
+    Process process = null;
+
+    long startTime = System.nanoTime();
     try {
-      long startTime = System.nanoTime();
       process = runtime.exec(command);
       process.waitFor();
-      long endTime = System.nanoTime();
-
-      //get KB, milliseconds
-      int time = (int) (endTime - startTime) / 1000000 ;
-      //set values
-      execResultInfo.setRunningTime(time);
-
-      int i, j;
-      byte[] b = new byte[4096];
-      byte[] b2 = new byte[4096];
-      InputStream errorStream = process.getErrorStream();
-      while( (i = errorStream.read(b)) != -1){
-        sb.append(new String(b, 0, i));
-      }
-
-      InputStream inputStream = process.getInputStream();
-      while( (j = inputStream.read(b2)) != -1){
-        sb2.append(new String(b2, 0, j));
-      }
-      inputStream.close();
-      errorStream.close();
-      process.destroy();
-      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    String errorOutput = sb.toString();
-    String output = sb2.toString();
-    if(!errorOutput.equals("")){
-      execResultInfo.setOutput(sb.toString());
-    }
-    else{
-      execResultInfo.setOutput(output);
-    }
+    long endTime = System.nanoTime();
+    //get KB, milliseconds
+    int time = (int) (endTime - startTime) / 1000000 ;
+    //set values
+    execResultInfo.setRunningTime(time);
+
+    //set output
+    String output = getStringFromProcess(process);
+    execResultInfo.setOutput(output);
+    process.destroy();
+
+    //set used memory
+
+
+
     return execResultInfo;
   }
 
 
-  /*
-  * FIXME
-  * [java] Scanner가 코드에 있어 testCase가 필요한 문제의 경우 testcase의 한글이 깨져서 나온다
-  * [python] print(input()) 과 같은 코드에서 한글로 된 tesetCase를 넣어주면 한글이 깨진다. 영어는 잘됨
-  */
-  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo){
+
+
+  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo, boolean first){
     ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
-    InputStream inputStream;
-    StringBuilder sb = new StringBuilder();
+
+    long startTime = System.nanoTime();
     try {
-      long startTime = System.nanoTime();
       process = runtime.exec(command);
       OutputStream out = process.getOutputStream();
       out.write(testCaseVo.getInput().getBytes("UTF-8"));
       out.write("\n".getBytes());
       out.flush();
-      process.waitFor();
-      long endTime = System.nanoTime();
-      //get KB, milliseconds
-      int time = (int) (endTime - startTime) / 1000000 ;
-      //set values
-      execResultInfo.setRunningTime(time);
-
-
-      int i;
-      inputStream = process.getInputStream();
-      byte[] b = new byte[4096];
-      while( (i = inputStream.read(b)) != -1){
-        sb.append(new String(b, 0, i));
-      }
-      inputStream.close();
       out.close();
-      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
+      process.waitFor();
     } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    process.destroy();
-    //TODO: 테스트케이스에 대한 출력은 1줄짜리로 제한
-    execResultInfo.setOutput(sb.toString().replace("\n", "").replace("\r", ""));
-    return execResultInfo;
-  }
+    long endTime = System.nanoTime();
+    //get KB, milliseconds
+    int time = (int) (endTime - startTime) / 1000000 ;
+    //set values
+    execResultInfo.setRunningTime(time);
 
-  /*
-  * FIXME:
-  * [java] Scanner가 있는, 없는 코드에서 sysout으로 출력한 한글과 testCase에 포함된 한글이 깨진다
-  * [python] input()이 없어서 teseCase가 필요없는데 프론트에서 testcase 값을 줘서 이쪽으로 오면 문자 깨짐
-  */
-  ExecResultInfo execCommand2(String[] command, TestCaseVo testCaseVo) {
-    ExecResultInfo execResultInfo = new ExecResultInfo();
-    Runtime runtime = Runtime.getRuntime();
-    Process process = null;
-    StringBuilder sb = null;
-    OutputStream out;
-    try {
-      long startTime = System.nanoTime();
-      process = runtime.exec(command);
-      out = process.getOutputStream();
-      out.write(testCaseVo.getInput().getBytes("UTF-8"));
-      out.write("\n".getBytes());
-      out.flush();
-      process.waitFor();
-      long endTime = System.nanoTime();
-      //get KB, milliseconds
-      int time = (int) (endTime - startTime) / 1000000 ;
-      //set values
-      execResultInfo.setRunningTime(time);
-      sb = new StringBuilder();
-      InputStream inputStream = process.getInputStream();
-      InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
-      int i;
-      while( (i = isr.read()) != -1){
-        sb.append( (char)i );
-      }
-      inputStream.close();
-      out.close();
-      System.out.println(ManagementFactory.getRuntimeMXBean().getName());
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    //set output
+    String output;
+    if(first){
+      output = getStringFromProcess(process);
     }
+    else{
+      output = getStringFromProcess2(process);
+    }
+    execResultInfo.setOutput(output);
     process.destroy();
-    execResultInfo.setOutput(sb.toString().replace("\n", "").replace("\r", ""));
+
+    //set used memory
+
+
     return execResultInfo;
   }
 
