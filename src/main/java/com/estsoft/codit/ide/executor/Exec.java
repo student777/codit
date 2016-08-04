@@ -54,8 +54,8 @@ public class Exec {
 
   public String run(TestCaseVo testCaseVo){
     String compileOutput;
-    compileOutput = execCommand(compileCommand).getOutput();
-    String runtimeOutput = execCommandWithTestCase(testCaseVo).getOutput();
+    compileOutput = execCommand(compileCommand, null, false, true).getOutput();
+    String runtimeOutput = execCommand(runtimeCommand, testCaseVo, false, true).getOutput();
 
     if(compileOutput.equals("")){
       //컴파일 성공시 컴파일의 결과는 "".  런타임 결과를 보여줌
@@ -74,7 +74,7 @@ public class Exec {
     ExecResultInfo execResultInfo = new ExecResultInfo();
 
     //compile
-    String compileOutput = execCommand(compileCommand).getOutput();
+    String compileOutput = execCommand(compileCommand, null, true, true).getOutput();
 
     //TODO: 컴파일 실패 시 return null
     if(! compileOutput.equals("")){
@@ -83,44 +83,16 @@ public class Exec {
     }
 
     //컴파일 성공 시 채점
-    execResultInfo = execCommandWithTestCase(testCaseVo);
+    execResultInfo = execCommand(runtimeCommand, testCaseVo, true, true);
     return execResultInfo;
   }
 
-  //얘좀 없애고 싶다
-  //testCase가 있을때 없을때를 분류해주기 위해 만듬..
-  //set runtimeOutput of this class
-  ExecResultInfo execCommandWithTestCase(TestCaseVo testCaseVo){
-    ExecResultInfo execResultInfo;
-    if(testCaseVo==null){
-      execResultInfo = execCommand(runtimeCommand);
-    }
-    else {
-      execResultInfo = execCommand(runtimeCommand, testCaseVo, true);
-    }
-    return execResultInfo;
-  }
-
-  //여기로 좀 안 왔으면 좋겠다
-  ExecResultInfo execCommandWithTestCase2(TestCaseVo testCaseVo){
-    ExecResultInfo execResultInfo;
-    if(testCaseVo==null){
-      execResultInfo = execCommand(runtimeCommand);
-    }
-    else {
-      execResultInfo = execCommand(runtimeCommand, testCaseVo, false);
-    }
-    return execResultInfo;
-  }
 
 
   /*
-   * test case 없이 실행하는 경우
-   * 이쪽은 한글 꺠지는 것 없이 잘 된다
    * TODO: scanner나 input()이 코드에 있는데 testCase를 안넣어주면 응답 없음
    */
-  // test case 없이 실행
-  ExecResultInfo execCommand(String[] command) {
+  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo, boolean isMark, boolean isJava){
     ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
@@ -128,61 +100,32 @@ public class Exec {
     long startTime = System.nanoTime();
     try {
       process = runtime.exec(command);
-      process.waitFor();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    long endTime = System.nanoTime();
-    //get KB, milliseconds
-    int time = (int) (endTime - startTime) / 1000000 ;
-    //set values
-    execResultInfo.setRunningTime(time);
-
-    //set output
-    String output = getStringFromProcess(process);
-    execResultInfo.setOutput(output);
-    process.destroy();
-
-    //set used memory
-
-
-
-    return execResultInfo;
-  }
-
-
-
-
-  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo, boolean first){
-    ExecResultInfo execResultInfo = new ExecResultInfo();
-    Runtime runtime = Runtime.getRuntime();
-    Process process = null;
-
-    long startTime = System.nanoTime();
-    try {
-      process = runtime.exec(command);
-      OutputStream out = process.getOutputStream();
-      out.write(testCaseVo.getInput().getBytes("UTF-8"));
-      out.write("\n".getBytes());
-      out.flush();
-      out.close();
+      if(testCaseVo!=null){
+        OutputStream out = process.getOutputStream();
+        out.write(testCaseVo.getInput().getBytes("UTF-8"));
+        out.write("\n".getBytes());
+        out.flush();
+        out.close();
+      }
       process.waitFor();
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    long endTime = System.nanoTime();
-    //get KB, milliseconds
-    int time = (int) (endTime - startTime) / 1000000 ;
-    //set values
-    execResultInfo.setRunningTime(time);
+    if(isMark){
+      long endTime = System.nanoTime();
+      //get KB, milliseconds
+      int time = (int) (endTime - startTime) / 1000000 ;
+      //set values
+      execResultInfo.setRunningTime(time);
+      //set used memory
+
+    }
 
     //set output
     String output;
-    if(first){
+    if(isJava){
       output = getStringFromProcess(process);
     }
     else{
@@ -190,9 +133,6 @@ public class Exec {
     }
     execResultInfo.setOutput(output);
     process.destroy();
-
-    //set used memory
-
 
     return execResultInfo;
   }

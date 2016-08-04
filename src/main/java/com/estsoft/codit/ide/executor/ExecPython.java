@@ -57,13 +57,14 @@ class ExecPython extends Exec {
   //python만 유일하게 컴파일 과정이 없으므로 override해줌
   @Override
   public String run(TestCaseVo testCaseVo) {
-    //TODO: .....여기좀 없애고싶다
-    return execCommandWithTestCase2(testCaseVo).getOutput();
+    //python의 경우 다른 ㄱ함수 이용
+    return execCommand(runtimeCommand, testCaseVo, false, false).getOutput();
   }
 
   @Override
   public ExecResultInfo mark(TestCaseVo testCaseVo) {
-    return execCommandWithTestCase(testCaseVo);
+    return execCommand(runtimeCommand, testCaseVo, true, false);
+
   }
 
 
