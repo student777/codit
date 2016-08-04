@@ -1,5 +1,6 @@
 package com.estsoft.codit.ide.executor;
 
+import static com.estsoft.codit.ide.executor.ExecUtils.getMemoryUsedFromFile;
 import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess;
 import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess2;
 
@@ -82,8 +83,13 @@ public class Exec {
       return execResultInfo;
     }
 
-    //컴파일 성공 시 채점
+    //컴파일 성공 시 채점: set output and running time
     execResultInfo = execCommand(runtimeCommand, testCaseVo, true, true);
+
+    //set used memory
+    int usedMemory = getMemoryUsedFromFile(sourceCodeVo);
+    execResultInfo.setUsedMemory(usedMemory);
+
     return execResultInfo;
   }
 
@@ -114,16 +120,13 @@ public class Exec {
       e.printStackTrace();
     }
     if(isMark){
+      //get KB, milliseconds & set value
       long endTime = System.nanoTime();
-      //get KB, milliseconds
       int time = (int) (endTime - startTime) / 1000000 ;
-      //set values
       execResultInfo.setRunningTime(time);
-      //set used memory
-
     }
 
-    //set output
+    //set output string
     String output;
     if(isJava){
       output = getStringFromProcess(process);

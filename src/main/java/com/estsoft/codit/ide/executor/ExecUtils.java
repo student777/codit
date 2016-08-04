@@ -1,5 +1,9 @@
 package com.estsoft.codit.ide.executor;
 
+import com.estsoft.codit.db.vo.SourceCodeVo;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -79,5 +83,21 @@ public class ExecUtils {
       e.printStackTrace();
     }
     return sb.toString().replace("\n", "").replace("\r", "");
+  }
+
+
+  public static int getMemoryUsedFromFile(SourceCodeVo sourceCodeVo){
+    byte[] b = new byte[4];
+    FileInputStream input;
+    try {
+      input = new FileInputStream("/home/webmaster/codit/sourcecode/"+sourceCodeVo.getId()+"/memory.txt");
+      input.read(b);
+      input.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Integer.parseInt(new String(b));
   }
 }

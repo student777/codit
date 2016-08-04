@@ -10,7 +10,7 @@
 </head>
 <body>
     ${applicantVo.name } 님의 성적<br>
-    <img height="320" width="386" src="${pageContext.request.contextPath }/assets/image/힘내라너구리.jpg" />
+    <img height="320" width="386" src="${pageContext.request.contextPath }/assets/image/fighting-racoon.jpg" />
     <br>고생했다<br>
 
 

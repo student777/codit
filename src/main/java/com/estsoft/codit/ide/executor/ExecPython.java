@@ -1,5 +1,7 @@
 package com.estsoft.codit.ide.executor;
 
+import static com.estsoft.codit.ide.executor.ExecUtils.getMemoryUsedFromFile;
+
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
@@ -57,13 +59,20 @@ class ExecPython extends Exec {
   //python만 유일하게 컴파일 과정이 없으므로 override해줌
   @Override
   public String run(TestCaseVo testCaseVo) {
-    //python의 경우 다른 ㄱ함수 이용
+    //python의 경우 다른 함수 이용
     return execCommand(runtimeCommand, testCaseVo, false, false).getOutput();
   }
 
   @Override
   public ExecResultInfo mark(TestCaseVo testCaseVo) {
-    return execCommand(runtimeCommand, testCaseVo, true, false);
+    //컴파일 성공 시 채점: set output and running time
+    ExecResultInfo execResultInfo = execCommand(runtimeCommand, testCaseVo, true, true);
+
+    //set used memory
+    int usedMemory = getMemoryUsedFromFile(sourceCodeVo);
+    execResultInfo.setUsedMemory(usedMemory);
+
+    return execResultInfo;
 
   }
 

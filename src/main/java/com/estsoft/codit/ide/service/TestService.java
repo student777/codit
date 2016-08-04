@@ -153,6 +153,7 @@ public class TestService {
       // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
       for (TestCaseVo testCaseVo: testCaseVoList ) {
         ResultVo resultVo = new ResultVo();
+        //TODO: input()같은게 많아서 안끝나는 프로세스의 경우 mark가 안되서 뒤에있는거까지 다 안됨
         ExecResultInfo execResultInfo = exec.mark(testCaseVo);
         resultVo.setApplicantId(applicantId);
         resultVo.setTestCaseId(testCaseVo.getId());
