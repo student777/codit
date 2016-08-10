@@ -54,20 +54,24 @@
             var skeleton_code;
             //selcet(k)로 접근: 문제1 문제2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
             if (language_id === undefined) {
-                problem = $($("div[data-kth_problem_info=" + k + "]").get(0));
-                language_id = problem.data("language_id").toString();
-                skeleton_code = problem.data("skeleton_code");
+                problem = problem_json_list.filter(function(item){
+                    return item.kth_problem_info==k;
+                })[0];
+                language_id = problem['language_id'].toString();
+                skeleton_code = problem['skeleton_code'];
             }
             //language option을 선택하여 problem을 바꿀 떄
             else {
-                problem =
-                        $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id
-                          + "]");
-                if (problem.size() == 0) {
+                problem = problem_json_list.filter(function(item){
+                    return item.kth_problem_info==k;
+                }).filter(function(item){
+                    return item.language_id==language_id;
+                });
+                if (problem.length == 0){
                     skeleton_code = "제공된 problemVo가 없다. 따라서 문법에 맞게 코딩해도 저장안되며 컴파일도 안됨";
                 }
                 else {
-                    skeleton_code = problem.data("skeleton_code");
+                    skeleton_code = problem[0]['skeleton_code'];
                 }
             }
             // 에디터 세팅
@@ -98,7 +102,7 @@
             $('select[name=language]').get(0).value = language_id;
 
             //전역변수 k값 갱신
-            problem_id = problem.data("problem_id");
+            problem_id = problem["problem_id"];
         };
 
         //k번째 에디터 상의 소스코드 저장
@@ -243,17 +247,21 @@
                 </c:forEach>
             </div>
 
-            <!-- javascript list로 데이터를 담고 있는게 더 좋아보인다. escape 문제..-->
-            <div style="display:none">
+            <script>
+                <c:set var="newline" value="<%= \"\n\" %>" />
+                var problem_json_list = [];
                 <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
                     <c:forEach items="${problemList}" var="problemVo">
-                        <div data-kth_problem_info="${status.index +1}"
-                             data-problem_id="${problemVo.id}"
-                             data-skeleton_code='${problemVo.skeletonCode}'
-                             data-language_id="${problemVo.languageId}"></div>
+                        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+                            problem_json_list.push({
+                            "kth_problem_info":${status.index +1},
+                                "problem_id":${problemVo.id},
+                            "skeleton_code": skeleton_code,
+                            "language_id":${problemVo.languageId},
+                        })
                     </c:forEach>
                 </c:forEach>
-            </div>
+            </script>
 
             <div>
                 <button onclick="help()" class="btn-workboard">도움말(튜토리얼 다시보기)</button>
