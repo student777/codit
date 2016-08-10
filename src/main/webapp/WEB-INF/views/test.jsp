@@ -36,6 +36,21 @@
         //전역변수(가변) 현재 보고있는 problemInfo의 status.index
         var current_k;
 
+        <c:set var="newline" value="<%= \"\n\" %>" />
+        //전역변수(가변) 풀고있는 problem list(JSON)
+        var problem_json_list = [];
+        <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
+            <c:forEach items="${problemList}" var="problemVo">
+                var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+                problem_json_list.push({
+                    "kth_problem_info":${status.index +1},
+                    "problem_id":${problemVo.id},
+                    "skeleton_code": skeleton_code,
+                    "language_id":${problemVo.languageId},
+                })
+            </c:forEach>
+        </c:forEach>
+
         //k번째 문제로 셋팅. 1부터 시작한다
         var select = function (k) {
             //모든 selectable의 자식들을 hide하고 k번째 문제에 해당되는 것만 show
@@ -75,7 +90,7 @@
                 }
             }
             // 에디터 세팅
-            var editor = ace.edit("editor-" + k);
+            var editor = ace.edit("editor");
             editor.$blockScrolling = Infinity;
             var mode;
             editor.setValue(skeleton_code);
@@ -107,7 +122,7 @@
 
         //k번째 에디터 상의 소스코드 저장
         var save_code = function (k) {
-            var editor = ace.edit("editor-" + k);
+            var editor = ace.edit("editor");
             var code = editor.getValue();
             //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
             //ajax POST
@@ -241,27 +256,8 @@
                 </div>
             </div>
 
-            <div class="selectable" style="width: 100%; height:85%">
-                <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                    <div id="editor-${status.index}" style="width:100%; height:100%;"></div>
-                </c:forEach>
-            </div>
+            <div id="editor" style="width:100%; height:85%;"></div>
 
-            <script>
-                <c:set var="newline" value="<%= \"\n\" %>" />
-                var problem_json_list = [];
-                <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
-                    <c:forEach items="${problemList}" var="problemVo">
-                        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
-                            problem_json_list.push({
-                            "kth_problem_info":${status.index +1},
-                                "problem_id":${problemVo.id},
-                            "skeleton_code": skeleton_code,
-                            "language_id":${problemVo.languageId},
-                        })
-                    </c:forEach>
-                </c:forEach>
-            </script>
 
             <div>
                 <button onclick="help()" class="btn-workboard">도움말(튜토리얼 다시보기)</button>
