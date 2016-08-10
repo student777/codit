@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>practice main pag</title>
+    <title>practice main page</title>
     <style>
         * {
             margin: 0;
@@ -29,7 +29,12 @@
     <script>
         //전역변수: 풀어야할 문제의 수
         var number_of_problems = ${problemListOfList.size() };
-
+        //전역변수:  지원자의 id
+        var applicant_id = ${authApplicant.id};
+        //전역변수(가변)
+        var problem_id;
+        //전역변수(가변) 현재 보고있는 problemInfo의 status.index
+        var current_k;
 
         //k번째 문제로 셋팅. 1부터 시작한다
         var select = function (k) {
@@ -44,7 +49,7 @@
             current_k = k;
         };
 
-        var select_editor = function(k, language_id) {
+        var select_editor = function (k, language_id) {
             var problem;
             var skeleton_code;
             //selcet(k)로 접근: 문제1 문제2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
@@ -54,21 +59,23 @@
                 skeleton_code = problem.data("skeleton_code");
             }
             //language option을 선택하여 problem을 바꿀 떄
-            else{
-                problem = $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id + "]");
-                if(problem.size()==0){
+            else {
+                problem =
+                        $("div[data-kth_problem_info=" + k + "][data-language_id=" + language_id
+                          + "]");
+                if (problem.size() == 0) {
                     skeleton_code = "제공된 problemVo가 없다. 따라서 문법에 맞게 코딩해도 저장안되며 컴파일도 안됨";
                 }
-                else{
+                else {
                     skeleton_code = problem.data("skeleton_code");
                 }
             }
             // 에디터 세팅
             var editor = ace.edit("editor-" + k);
+            editor.$blockScrolling = Infinity;
             var mode;
             editor.setValue(skeleton_code);
             editor.setTheme("ace/theme/monokai");
-            editor.$blockScrolling = Infinity;
             switch (language_id) {
                 case '1':
                     mode = "ace/mode/c_cpp";
@@ -94,46 +101,99 @@
             problem_id = problem.data("problem_id");
         };
 
+        //k번째 에디터 상의 소스코드 저장
         var save_code = function (k) {
-            alert(k + '번 문제의 소스코드가 저장되었습니다 \n 는 훼이크고 사실 저장 안됨. practice 니까' )
+            var editor = ace.edit("editor-" + k);
+            var code = editor.getValue();
+            //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
+            //ajax POST
+            $.ajax({
+                       url: '${pageContext.request.contextPath }/test/save',
+                       type: "post",
+                       //리턴값은 'success' or 'fail'
+                       //dataType: "json",
+                       data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
+                       success: function (response) {
+                           if (response == 'fail') {
+                               alert('저장 실패');
+                           }
+                           else if (response == 'success') {
+                               alert('저장되었습니다');
+                           }
+                       },
+                       error: function (xhr, status, error) {
+                           console.error(status + ":" + error);
+                       }
+                   });
         };
 
-        var run_code = function(){
-            alert(problem_id + '번 문제의 소스코드 컴파일후 실해인데 practice버전이라 구현안함');
+        var run_code = function (k) {
+            //일단 저장 후 돌림
+            //TODO: 저장 후 돌려야 하는데 꼬이는거같다
+            //save_code(k);
+            test_case_id = $('select[name=test_cases]').get(current_k - 1).value;
+
+            //ajax POST
+            $.ajax({
+                       url: '${pageContext.request.contextPath }/test/run',
+                       type: "post",
+                       contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                       //dataType: "json",
+                       data: {
+                           "problem_id": problem_id,
+                           "applicant_id": applicant_id,
+                           "test_case_id": test_case_id
+                       },
+                       success: function (response) {
+                           $("#terminal-" + k).text(response);
+                       },
+                       error: function (xhr, status, error) {
+                           console.error(status + ":" + error);
+                       }
+                   });
         };
 
-        //도움말 함수 호출. spotlight해준다
-        var help = function () {
-            alert('이것은 튜토리얼 입니다');
-            alert('run버튼을 누르면 컴파일 및 실행이됩니다');
-            alert('시험보러가기를 누르면 시험을 볼 수 있다');
-            alert('친절한 설명');
-        };
-
-        //제출 알림만 뜨고 페이지 이동은 없다
+        //최종 제출
         var final_submit = function () {
-            alert('이 버튼을 누르면 최종 제출이 되며 테스트가 끝납니다');
-        };
-
-        //테스트 페이지로 이동
-        var goTest = function () {
-            var a = confirm('시험보러간다?');
+            var a = confirm('최종 제출하시겠습니까?');
             if (a) {
-                location.href = "/test";
+                $.ajax({
+                           url: '${pageContext.request.contextPath }/test/submit',
+                           type: "post",
+                           contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                           //dataType: "json",
+                           success: function () {
+                               alert("수고하셨습니다 submit_time 등록됨");
+                               alert("채점이 다 끝나버렸네?");
+                               location.href = "/result";
+                           },
+                           error: function (xhr, status, error) {
+                               console.error(status + ":" + error);
+                           }
+                       });
             }
             else {
                 alert('그래좀더 고민좀 해봐ㅣ라');
             }
         };
 
-        //TODO: 모든 페이지가 로드된 후에 help() 호출
+        //도움말 함수 호출. spotlight해준다
+        var help = function () {
+            alert('이것은 test의 도움말 입니다');
+            alert('run버튼을 누르면 컴파일 및 실행이됩니다');
+            alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
+            alert('요이땅');
+        };
+
+        //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
+        //첫번째 문제로 기본 스타트
         $(function () {
+            alert('확인을 누르면 시험을 시작합니다');
             select(1);
-            help();
             $('.timer').startTimer({
                                        onComplete: function () {
-                                           alert('시험이 끝났다. 지금 저장본으로 제출한다. 이제 시험보러 간다');
-                                           location.href = "/test";
+                                           alert('시험이 끝났다. 지금 저장본으로 제출한다');
+                                           location.href = "/result";
                                        }
                                    });
         })
@@ -144,7 +204,6 @@
     <div id="header" style="background-color:grey; height:5%;">
         <h1 style="float:left">codit</h1>
     </div>
-
     <div style="height:95%">
         <div id="navbar" style="background-color:skyblue; width:20%; height:100%; float:left">
             <h2>navigation bar</h2><br>
@@ -172,13 +231,11 @@
                     <label>언어 선택</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
-                        <option value="2" >JAVA</option>
+                        <option value="2">JAVA</option>
                         <option value="3">PYTHON</option>
                     </select>
                 </div>
-                <button style="float:right" onclick="goTest()">시험보러 가기</button>
             </div>
-
 
             <div class="selectable" style="width: 100%; height:85%">
                 <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
@@ -190,7 +247,10 @@
             <div style="display:none">
                 <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
                     <c:forEach items="${problemList}" var="problemVo">
-                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}" data-skeleton_code='${problemVo.skeletonCode}' data-language_id="${problemVo.languageId}"></div>
+                        <div data-kth_problem_info="${status.index +1}"
+                             data-problem_id="${problemVo.id}"
+                             data-skeleton_code='${problemVo.skeletonCode}'
+                             data-language_id="${problemVo.languageId}"></div>
                     </c:forEach>
                 </c:forEach>
             </div>
@@ -201,7 +261,7 @@
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
                             <select name="test_cases">
-                                <option selected disabled>test case를 선택하세요</option>
+                                <option value="0" selected disabled>test case를 선택하세요</option>
                                 <c:forEach items="${testcaseList}" var="testcase">
                                     <option value="${testcase.id}">${testcase.input}</option>
                                 </c:forEach>
@@ -218,11 +278,12 @@
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile & run</button>
+                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile &
+                            run
+                        </button>
                     </c:forEach>
                 </div>
-                <button style="float:right" onclick="final_submit()" class="btn-workboard">최종 제출
-                </button>
+                <button style="float:right" onclick="final_submit()">최종 제출</button>
             </div>
         </div>
 
@@ -239,4 +300,6 @@
 </div>
 
 </body>
+
+
 </html>
