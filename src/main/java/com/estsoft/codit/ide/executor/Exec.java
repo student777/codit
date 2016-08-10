@@ -106,7 +106,6 @@ public class Exec {
       long endTime = System.nanoTime();
       int time = (int) (endTime - startTime) / 1000000;
       execResultInfo.setRunningTime(time);
-      System.out.println(endTime+"-"+startTime);
 
       //get the PID on unix/linux systems
       int pid = 0;

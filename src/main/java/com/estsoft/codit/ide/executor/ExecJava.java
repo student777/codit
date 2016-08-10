@@ -6,7 +6,7 @@ class ExecJava extends Exec {
 
   ExecJava(SourceCodeVo sourceCodeVo) {
     super(sourceCodeVo, "/task.java");
-    this.compileCommand = new String[] {"/usr/local/futures/jdk1.8/bin/javac", " -encoding UTF-8", " /home/webmaster/codit/sourcecode/" +  sourceCodeVo.getId() + "/task.java"};
-    this.runtimeCommand = new String[] {"/usr/local/futures/jdk1.8/bin/java", " -cp /home/codit/sourcecode/" +  sourceCodeVo.getId(), " task"};
+    this.compileCommand = new String[] {"/usr/local/futures/jdk1.8/bin/javac", "-encoding","UTF-8", "/home/webmaster/codit/sourcecode/" + sourceCodeVo.getId() + "/task.java"};
+    this.runtimeCommand = new String[] {"/usr/local/futures/jdk1.8/bin/java", "-cp", "/home/webmaster/codit/sourcecode/"+sourceCodeVo.getId(), "task"};
   }
 }
