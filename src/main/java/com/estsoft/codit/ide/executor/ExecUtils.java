@@ -84,20 +84,4 @@ public class ExecUtils {
     }
     return sb.toString().replace("\n", "").replace("\r", "");
   }
-
-
-  public static int getMemoryUsedFromFile(SourceCodeVo sourceCodeVo){
-    byte[] b = new byte[4];
-    FileInputStream input;
-    try {
-      input = new FileInputStream("/home/webmaster/codit/sourcecode/"+sourceCodeVo.getId()+"/memory.txt");
-      input.read(b);
-      input.close();
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return Integer.parseInt(new String(b));
-  }
 }
