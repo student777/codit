@@ -13,7 +13,6 @@ var select = function (k) {
 
 var select_editor = function (k, language_id) {
     //현재 작업 내역 JSON 객체에 저장
-
     if(problem_id!=undefined){
         var editor = ace.edit("editor");
         var code = editor.getValue();
@@ -23,7 +22,9 @@ var select_editor = function (k, language_id) {
     }
     var problem;
     var skeleton_code;
-    //selcet(k)로 접근: 문제1 제문2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
+
+    //set language_id, problem, problem_id, skeleton_code
+    //select(k)로 접근: 문제1 제문2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
     if (language_id === undefined) {
         problem = problem_json_list.filter(function(item){
             return item.kth_problem_info==k;
@@ -51,7 +52,8 @@ var select_editor = function (k, language_id) {
             problem_id = problem["problem_id"];
         }
     }
-    // 에디터 세팅
+
+    // ace editor에 skeleton_code 던져줌
     var editor = ace.edit("editor");
     editor.$blockScrolling = Infinity;
     var mode;
@@ -77,8 +79,6 @@ var select_editor = function (k, language_id) {
 
     //option select값 변화
     $('select[name=language]').get(0).value = language_id;
-
-
 };
 
 //k번째 에디터 상의 소스코드 저장
@@ -108,10 +108,7 @@ var save_code = function (k) {
 };
 
 var run_code = function (k) {
-    //일단 저장 후 돌림
-    //TODO: 저장 후 돌려야 하는데 꼬이는거같다
-    //save_code(k);
-    test_case_id = $('select[name=test_cases]').get(current_k - 1).value;
+    var test_case_id = $('select[name=test_cases]').get(current_k - 1).value;
 
     //ajax POST
     $.ajax({

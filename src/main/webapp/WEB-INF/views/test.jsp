@@ -57,7 +57,7 @@
             $('.timer').startTimer({
                                        onComplete: function () {
                                            alert('시험이 끝났다. 지금 저장본으로 제출한다');
-                                           location.href = "/result";
+                                           final_submit();
                                        }
                                    });
         })
@@ -86,8 +86,7 @@
             </div>
         </div>
 
-        <div id="workboard"
-             style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
+        <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <h2>workboard</h2>
             <div>
                 <div class="btn-workboard timer" data-seconds-left="${totalTime}">남은 시간:</div>
