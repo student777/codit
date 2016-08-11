@@ -68,6 +68,14 @@
                     return false;
                 }
             });
+            //ctrl + R
+            $(document).bind('keydown', function(e) {
+                if(e.ctrlKey && (e.which == 82)) {
+                    e.preventDefault();
+                    run_code(current_k);
+                    return false;
+                }
+            });
         })
     </script>
 </head>
