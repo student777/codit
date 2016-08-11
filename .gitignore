@@ -4,3 +4,5 @@ target/
 *.iws
 lib/
 rebel.xml
+pom-bit.xml
+pom-c9.xml

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
 </head>
 <body>
 <script>
