@@ -8,6 +8,7 @@
 <head>
     <meta charset="utf-8">
     <title>practice main pag</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/icon/0630_favicon_beige.ico">
     <style>
         * {
             margin: 0;

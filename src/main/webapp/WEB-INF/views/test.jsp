@@ -7,7 +7,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>practice main page</title>
+    <title>test page</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/icon/0630_favicon_beige.ico">
     <style>
         * {
             margin: 0;
@@ -65,15 +66,26 @@
         };
 
         var select_editor = function (k, language_id) {
+            //현재 작업 내역 JSON 객체에 저장
+
+            if(problem_id!=undefined){
+                var editor = ace.edit("editor");
+                var code = editor.getValue();
+                problem_json_list.filter(function(item){
+                                            return item.problem_id==problem_id;
+                                        })[0]['skeleton_code']=code;
+            }
             var problem;
             var skeleton_code;
-            //selcet(k)로 접근: 문제1 문제2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
+            //selcet(k)로 접근: 문제1 제문2 버튼을 눌럿을 떄 language_id를 안주므로 첫번째 problem 값으로 셋팅
             if (language_id === undefined) {
                 problem = problem_json_list.filter(function(item){
                     return item.kth_problem_info==k;
                 })[0];
                 language_id = problem['language_id'].toString();
                 skeleton_code = problem['skeleton_code'];
+                //전역변수 k값 갱신
+                problem_id = problem["problem_id"];
             }
             //language option을 선택하여 problem을 바꿀 떄
             else {
@@ -81,12 +93,16 @@
                     return item.kth_problem_info==k;
                 }).filter(function(item){
                     return item.language_id==language_id;
-                });
-                if (problem.length == 0){
+                })[0];
+                if (problem == undefined){
                     skeleton_code = "제공된 problemVo가 없다. 따라서 문법에 맞게 코딩해도 저장안되며 컴파일도 안됨";
+                    //전역변수 k값 갱신
+                    problem_id = undefined;
                 }
                 else {
-                    skeleton_code = problem[0]['skeleton_code'];
+                    skeleton_code = problem['skeleton_code'];
+                    //전역변수 k값 갱신
+                    problem_id = problem["problem_id"];
                 }
             }
             // 에디터 세팅
@@ -116,8 +132,7 @@
             //option select값 변화
             $('select[name=language]').get(0).value = language_id;
 
-            //전역변수 k값 갱신
-            problem_id = problem["problem_id"];
+
         };
 
         //k번째 에디터 상의 소스코드 저장
