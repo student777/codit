@@ -60,6 +60,14 @@
                                            final_submit();
                                        }
                                    });
+            //ctrl + S
+            $(document).bind('keydown', function(e) {
+                if(e.ctrlKey && (e.which == 83)) {
+                    e.preventDefault();
+                    save_code(current_k);
+                    return false;
+                }
+            });
         })
     </script>
 </head>

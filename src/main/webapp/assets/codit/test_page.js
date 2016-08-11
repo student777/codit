@@ -88,7 +88,7 @@ var save_code = function (k) {
     //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
     //ajax POST
     $.ajax({
-               url: '${pageContext.request.contextPath }/test/save',
+               url: '/test/save',
                type: "post",
                //리턴값은 'success' or 'fail'
                //dataType: "json",
@@ -112,7 +112,7 @@ var run_code = function (k) {
 
     //ajax POST
     $.ajax({
-               url: '${pageContext.request.contextPath }/test/run',
+               url: '/test/run',
                type: "post",
                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                //dataType: "json",
@@ -135,7 +135,7 @@ var final_submit = function () {
     var a = confirm('최종 제출하시겠습니까?');
     if (a) {
         $.ajax({
-                   url: '${pageContext.request.contextPath }/test/submit',
+                   url: '/test/submit',
                    type: "post",
                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                    //dataType: "json",
