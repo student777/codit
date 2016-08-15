@@ -11,7 +11,7 @@
     <context:annotation-config />
     <context:component-scan base-package="com.estsoft.codit.ide.controller" />
 
-    <!--    서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
+    <!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
     <mvc:default-servlet-handler />
 
     <!--view resolver -->
@@ -36,11 +36,15 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <!--4 argument resolver -->
+    <!-- argument resolver -->
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
             <bean class="com.estsoft.codit.ide.resolver.AuthApplicantHandlerMethodArgumentResolver" />
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
+
+    <!-- the mvc resources tag does the magic -->
+    <mvc:resources mapping="/assets/materialize/**" location="http://222.239.250.207/codit/materialize/" />
+    <mvc:resources mapping="/assets/ace/**" location="http://222.239.250.207/codit/ace/" />
 
 </beans>

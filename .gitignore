@@ -5,4 +5,4 @@ target/
 lib/
 rebel.xml
 pom-bit.xml
-pom-c9.xml
+pom-aws.xml
