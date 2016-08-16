@@ -25,7 +25,7 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"
             charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath }/assets/jquery.simple.timer.js"></script>
+    <script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js"></script>
     <script>
         //전역변수: 풀어야할 문제의 수
         var number_of_problems = ${problemListOfList.size() };

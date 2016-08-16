@@ -26,8 +26,8 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"
             charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath }/assets/jquery.simple.timer.js"></script>
-    <script src="${pageContext.request.contextPath }/assets/codit/test_page.js"></script>
+    <script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js"></script>
+    <script src="${pageContext.request.contextPath }/assets/js/test_page.js"></script>
     <script>
         //전역변수에 대한 정보
         var number_of_problems = ${problemListOfList.size() };
