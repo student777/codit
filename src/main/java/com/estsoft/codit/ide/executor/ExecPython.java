@@ -8,7 +8,7 @@ class ExecPython extends Exec {
 
   ExecPython(SourceCodeVo sourceCodeVo) {
     super(sourceCodeVo, "/task.py");
-    this.runtimeCommand = new String[]{"/usr/local/bin/python2.7", "/home/webmaster/codit/sourcecode/" + sourceCodeVo.getId() + "/task.py", "" + sourceCodeVo.getId()};
+    this.runtimeCommand = new String[]{"/usr/bin/python3", "/home/ubuntu/www/codit/sourcecode/" + sourceCodeVo.getId() + "/task.py", "" + sourceCodeVo.getId()};
   }
 
   //python만 유일하게 컴파일 과정이 없으므로 override해줌
