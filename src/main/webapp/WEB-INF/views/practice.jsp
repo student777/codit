@@ -35,7 +35,7 @@
         var problem_id; //현재 풀고 있는 problem의 id값
         var current_k; //전역변수(가변) 현재 보고있는 problemInfo의 status.index
         var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
-        <c:set var="newline" value="<%= \"\n\" %>" />
+        <c:set var="newline" value="<%= \"\r\n\" %>" />
         <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
         <c:forEach items="${problemList}" var="problemVo">
         var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
@@ -55,8 +55,24 @@
             help();
             $('.timer').startTimer({
                 onComplete: function () {
-                    alert('시험이 끝났다. 지금 저장본으로 제출한다. 이제 시험보러 간다');
+                    alert('go testing?');
                     location.href = "/test";
+                }
+            });
+            //ctrl + S
+            $(document).bind('keydown', function (e) {
+                if (e.ctrlKey && (e.which == 83)) {
+                    e.preventDefault();
+                    save_code(current_k);
+                    return false;
+                }
+            });
+            //ctrl + R
+            $(document).bind('keydown', function (e) {
+                if (e.ctrlKey && (e.which == 82)) {
+                    e.preventDefault();
+                    run_code(current_k);
+                    return false;
                 }
             });
         })
@@ -86,47 +102,31 @@
             </div>
         </div>
 
-        <div id="workboard"
-             style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
+        <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <h2>workboard</h2>
             <div>
-                <div class="btn-workboard timer" data-seconds-left="${totalTime}">time lfet:</div>
+                <div class="btn-workboard timer" data-seconds-left="${totalTime}">time left:</div>
                 <div class="btn-workboard">
-                    <label>언어 선택</label>
+                    <label>choose language</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
                         <option value="2">JAVA</option>
                         <option value="3">PYTHON</option>
                     </select>
                 </div>
-                <button style="float:right" onclick="goTest()">시험보러 가기</button>
+                <button style="float:right" onclick="goTest()">GO TEST</button>
             </div>
 
 
-            <div class="selectable" style="width: 100%; height:85%">
-                <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                    <div id="editor-${status.index}" style="width:100%; height:100%;"></div>
-                </c:forEach>
-            </div>
-
-            <!-- javascript list로 데이터를 담고 있는게 더 좋아보인다. escape 문제..-->
-            <div style="display:none">
-                <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
-                    <c:forEach items="${problemList}" var="problemVo">
-                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}"
-                             data-skeleton_code='${problemVo.skeletonCode}'
-                             data-language_id="${problemVo.languageId}"></div>
-                    </c:forEach>
-                </c:forEach>
-            </div>
+            <div id="editor" style="width:100%; height:85%;"></div>
 
             <div>
-                <button onclick="help()" class="btn-workboard">도움말(튜토리얼 다시보기)</button>
+                <button onclick="help()" class="btn-workboard">help(review tutorial)</button>
                 <div class="btn-workboard">
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
                             <select name="test_cases">
-                                <option selected disabled>test case를 선택하세요</option>
+                                <option value="0" selected disabled>select test case</option>
                                 <c:forEach items="${testcaseList}" var="testcase">
                                     <option value="${testcase.id}">${testcase.input}</option>
                                 </c:forEach>
@@ -136,17 +136,16 @@
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="save_code(${status.index})">${status.index}번 문제
-                            저장
-                        </button>
+                        <button onclick="save_code(${status.index})">SAVE(ctrl+S)</button>
                     </c:forEach>
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile & run</button>
+                        <button onclick="run_code(${status.index})">RUN(ctrl+R)
+                        </button>
                     </c:forEach>
                 </div>
-                <button style="float:right" onclick="final_submit()" class="btn-workboard">최종 제출
+                <button style="float:right" onclick="final_submit()" class="btn-workboard">final submit
                 </button>
             </div>
         </div>
@@ -155,13 +154,12 @@
              style="background-color:violet; height:30%; width:80%; float:right;">
             <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
                 <div>
-                    <h2>${status.index}번째 문제의 terminal</h2>
+                    <h2>task ${status.index} output</h2>
                     <div id="terminal-${status.index}">output will be appended here</div>
                 </div>
             </c:forEach>
         </div>
     </div>
 </div>
-
 </body>
 </html>

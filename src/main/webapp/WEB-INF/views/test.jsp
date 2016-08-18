@@ -152,15 +152,12 @@
              style="background-color:violet; height:30%; width:80%; float:right;">
             <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
                 <div>
-                    <h2>task ${status.index}output</h2>
+                    <h2>task ${status.index} output</h2>
                     <div id="terminal-${status.index}">output will be appended here</div>
                 </div>
             </c:forEach>
         </div>
     </div>
 </div>
-
 </body>
-
-
 </html>
