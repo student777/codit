@@ -53,6 +53,7 @@ public class TestService {
     List<List<ProblemVo>> problemListOfList = new ArrayList<List<ProblemVo>>();
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
     int totalTime = 0;
+    boolean isPublicOnly = true;
 
     //set problem
     List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
@@ -61,7 +62,7 @@ public class TestService {
       //TODO: 문제시작에 problemVo 다 갖다 reponse로 던져준다. 비동기식으로 안함
       //ProblemVo problemVo = problemRepository.getByProblemInfoLanguageId(problemInfoId, languageId);
       List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
-      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId);
+      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
       problemInfoList.add(problemInfoVo);
       problemListOfList.add(problemVoList);
       testcaseListOfList.add(testCaseVoList);
@@ -136,7 +137,8 @@ public class TestService {
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
     List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantId );
     for (int problemInfoId:problemInfoIdList ) {
-      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId);
+      boolean isPublicOnly = false;
+      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
       testcaseListOfList.add(testCaseVoList);
     }
     //get SourceCode

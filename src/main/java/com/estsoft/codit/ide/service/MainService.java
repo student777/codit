@@ -53,12 +53,13 @@ public class MainService {
     List<List<ProblemVo>> problemListOfList = new ArrayList<List<ProblemVo>>();
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
     int totalTime = 600;
+    boolean isPublicOnly = true;
 
     List<Integer> problemInfoIdList = problemInfoRepository.getPracticeList();
     for (int problemInfoId:problemInfoIdList ) {
       ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
       List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
-      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId);
+      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
       problemInfoList.add(problemInfoVo);
       problemListOfList.add(problemVoList);
       testcaseListOfList.add(testCaseVoList);
