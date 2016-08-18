@@ -9,6 +9,7 @@
     <meta charset="utf-8">
     <title>practice main pag</title>
     <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <style>
         * {
             margin: 0;
