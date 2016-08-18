@@ -25,7 +25,7 @@
 				from source_code as s,
 					  problem as p
 				where s.problem_id=p.id
-					  and applicant_id=1
+					  and applicant_id=#{id}
 				group by p.problem_info_id
 				order by p.problem_info_id asc
 		  ) as d,

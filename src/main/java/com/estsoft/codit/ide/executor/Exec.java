@@ -1,5 +1,6 @@
 package com.estsoft.codit.ide.executor;
 
+import static com.estsoft.codit.ide.executor.ExecUtils.WORKSPACE_PATH;
 import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess;
 import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess2;
 
@@ -31,7 +32,7 @@ public class Exec {
   public void write(SourceCodeVo sourceCodeVo, String filename) {
     //경로와 파일명 지정
     int sourceCodeId = sourceCodeVo.getId();
-    String filePath = "/home/ubuntu/www/codit/sourcecode/" + sourceCodeId;
+    String filePath = WORKSPACE_PATH+"sourcecode/" + sourceCodeId;
 
     //경로지정,  파일 생성
     try {

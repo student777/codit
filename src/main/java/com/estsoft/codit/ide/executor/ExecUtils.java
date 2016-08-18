@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 public class ExecUtils {
+  public final static String WORKSPACE_PATH = "/home/joonho/www/codit/";
+
 
   public static String getStringFromProcess(Process process) {
     //get exec output

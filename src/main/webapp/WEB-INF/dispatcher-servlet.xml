@@ -44,7 +44,7 @@
     </mvc:annotation-driven>
 
     <!-- the mvc resources tag does the magic -->
-    <mvc:resources mapping="/assets/materialize/**" location="http://222.239.250.207/codit/materialize/" />
-    <mvc:resources mapping="/assets/ace/**" location="http://222.239.250.207/codit/ace/" />
+    <mvc:resources mapping="/assets/materialize/**" location="http://localhost/static/materialize/" />
+    <mvc:resources mapping="/assets/ace/**" location="http://localhost/static/ace/" />
 
 </beans>
