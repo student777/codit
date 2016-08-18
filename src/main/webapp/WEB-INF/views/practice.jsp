@@ -37,15 +37,15 @@
         var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
         <c:set var="newline" value="<%= \"\n\" %>" />
         <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
-            <c:forEach items="${problemList}" var="problemVo">
-            var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
-            problem_json_list.push({
-                "kth_problem_info":${status.index +1},
-                "problem_id":${problemVo.id},
-                "skeleton_code": skeleton_code,
-                "language_id":${problemVo.languageId},
-            })
-            </c:forEach>
+        <c:forEach items="${problemList}" var="problemVo">
+        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+        problem_json_list.push({
+            "kth_problem_info":${status.index +1},
+            "problem_id":${problemVo.id},
+            "skeleton_code": skeleton_code,
+            "language_id":${problemVo.languageId},
+        })
+        </c:forEach>
         </c:forEach>
     </script>
     <script>
@@ -54,11 +54,11 @@
             select(1);
             help();
             $('.timer').startTimer({
-                                       onComplete: function () {
-                                           alert('시험이 끝났다. 지금 저장본으로 제출한다. 이제 시험보러 간다');
-                                           location.href = "/test";
-                                       }
-                                   });
+                onComplete: function () {
+                    alert('시험이 끝났다. 지금 저장본으로 제출한다. 이제 시험보러 간다');
+                    location.href = "/test";
+                }
+            });
         })
     </script>
 </head>
@@ -73,7 +73,7 @@
             <h2>navigation bar</h2><br>
             <div>
                 <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                    <button onclick="select(${status.index})">문제${status.index}</button>
+                    <button onclick="select(${status.index})">Task${status.index}</button>
                 </c:forEach>
             </div>
             <div class="selectable">
@@ -90,12 +90,12 @@
              style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <h2>workboard</h2>
             <div>
-                <div class="btn-workboard timer" data-seconds-left="${totalTime}">남은 시간:</div>
+                <div class="btn-workboard timer" data-seconds-left="${totalTime}">time lfet:</div>
                 <div class="btn-workboard">
                     <label>언어 선택</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
-                        <option value="2" >JAVA</option>
+                        <option value="2">JAVA</option>
                         <option value="3">PYTHON</option>
                     </select>
                 </div>
@@ -113,7 +113,9 @@
             <div style="display:none">
                 <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
                     <c:forEach items="${problemList}" var="problemVo">
-                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}" data-skeleton_code='${problemVo.skeletonCode}' data-language_id="${problemVo.languageId}"></div>
+                        <div data-kth_problem_info="${status.index +1}" data-problem_id="${problemVo.id}"
+                             data-skeleton_code='${problemVo.skeletonCode}'
+                             data-language_id="${problemVo.languageId}"></div>
                     </c:forEach>
                 </c:forEach>
             </div>

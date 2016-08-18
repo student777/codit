@@ -42,7 +42,7 @@ var select_editor = function (k, language_id) {
             return item.language_id==language_id;
         })[0];
         if (problem == undefined){
-            skeleton_code = "제공된 problemVo가 없다. 따라서 문법에 맞게 코딩해도 저장안되며 컴파일도 안됨";
+            skeleton_code = "There is no Problem";
             //전역변수 k값 갱신
             problem_id = undefined;
         }
@@ -95,10 +95,10 @@ var save_code = function (k) {
                data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
                success: function (response) {
                    if (response == 'fail') {
-                       alert('저장 실패');
+                       alert('save fail');
                    }
                    else if (response == 'success') {
-                       alert('저장되었습니다');
+                       alert('saved');
                    }
                },
                error: function (xhr, status, error) {
@@ -132,7 +132,7 @@ var run_code = function (k) {
 
 //최종 제출
 var final_submit = function () {
-    var a = confirm('최종 제출하시겠습니까?');
+    var a = confirm('really?');
     if (a) {
         $.ajax({
                    url: '/test/submit',
@@ -140,8 +140,7 @@ var final_submit = function () {
                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                    //dataType: "json",
                    success: function () {
-                       alert("수고하셨습니다 submit_time 등록됨");
-                       alert("채점이 다 끝나버렸네?");
+                       alert("good job");
                        location.href = "/result";
                    },
                    error: function (xhr, status, error) {
@@ -150,7 +149,6 @@ var final_submit = function () {
                });
     }
     else {
-        alert('그래좀더 고민좀 해봐ㅣ라');
     }
 };
 

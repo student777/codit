@@ -12,8 +12,10 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
     <title>instruction</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"
+          media="screen,projection"/>
 </head>
 
 <body class="orange lighten-5 flexbody">
@@ -24,25 +26,29 @@
     <div class="row ">
         <div class="col s6 offset-s3">
             <div class="card-panel white">
-                <h4 class="header center black-text bold">시험 안내</h4>
+                <h4 class="header center black-text bold">test instructions</h4>
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <h6>1. 시험은 중간에 멈출 수 없습니다.<br>
-                            <br>2. 답안은 제출하면 수정이 불가합니다.<br>
-                            <br>3. 다른 editor를 사용하여 붙여넣기가 가능합니다.<br>
-                            <br>4. 부정행위를 금지합니다.</h6>
+                        <h6>1. Once you start test, you can not manualy stop this test<br>
+                            <br>2. A sourcecode you finally saved will be marked<br>
+                            <br>3. You can use other editor<br>
+                            <br>4. NO cheating. Don't be evil</h6>
                     </div>
                 </div>
                 <div class="row center">
                     <br>
                     <br>
-                        <div class="col s3 offset-s3">
-                            <a href="${pageContext.request.contextPath}/practice"><button class="btn brown white-text">Practice test</button></a>
-                        </div>
-                        <div class="col s3 ">
-                            <a href="${pageContext.request.contextPath}/test"><button class="btn brown white-text">Start test</button></a>
-                        </div>
+                    <div class="col s3 offset-s3">
+                        <a href="${pageContext.request.contextPath}/practice">
+                            <button class="btn brown white-text">Practice test</button>
+                        </a>
+                    </div>
+                    <div class="col s3 ">
+                        <a href="${pageContext.request.contextPath}/test">
+                            <button class="btn brown white-text">Start test</button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

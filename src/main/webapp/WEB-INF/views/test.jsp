@@ -37,15 +37,15 @@
         var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
         <c:set var="newline" value="<%= \"\r\n\" %>" />
         <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
-            <c:forEach items="${problemList}" var="problemVo">
-                var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
-                problem_json_list.push({
-                    "kth_problem_info":${status.index +1},
-                    "problem_id":${problemVo.id},
-                    "skeleton_code": skeleton_code,
-                    "language_id":${problemVo.languageId},
-                })
-            </c:forEach>
+        <c:forEach items="${problemList}" var="problemVo">
+        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+        problem_json_list.push({
+            "kth_problem_info":${status.index +1},
+            "problem_id":${problemVo.id},
+            "skeleton_code": skeleton_code,
+            "language_id":${problemVo.languageId},
+        })
+        </c:forEach>
         </c:forEach>
     </script>
     <script>
@@ -55,22 +55,22 @@
             alert('확인을 누르면 시험을 시작합니다');
             select(1);
             $('.timer').startTimer({
-                                       onComplete: function () {
-                                           alert('시험이 끝났다. 지금 저장본으로 제출한다');
-                                           final_submit();
-                                       }
-                                   });
+                onComplete: function () {
+                    alert('시험이 끝났다. 지금 저장본으로 제출한다');
+                    final_submit();
+                }
+            });
             //ctrl + S
-            $(document).bind('keydown', function(e) {
-                if(e.ctrlKey && (e.which == 83)) {
+            $(document).bind('keydown', function (e) {
+                if (e.ctrlKey && (e.which == 83)) {
                     e.preventDefault();
                     save_code(current_k);
                     return false;
                 }
             });
             //ctrl + R
-            $(document).bind('keydown', function(e) {
-                if(e.ctrlKey && (e.which == 82)) {
+            $(document).bind('keydown', function (e) {
+                if (e.ctrlKey && (e.which == 82)) {
                     e.preventDefault();
                     run_code(current_k);
                     return false;
@@ -89,7 +89,7 @@
             <h2>navigation bar</h2><br>
             <div>
                 <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                    <button onclick="select(${status.index})">문제${status.index}</button>
+                    <button onclick="select(${status.index})">Task${status.index}</button>
                 </c:forEach>
             </div>
             <div class="selectable">
@@ -105,9 +105,9 @@
         <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <h2>workboard</h2>
             <div>
-                <div class="btn-workboard timer" data-seconds-left="${totalTime}">남은 시간:</div>
+                <div class="btn-workboard timer" data-seconds-left="${totalTime}">time left:</div>
                 <div class="btn-workboard">
-                    <label>언어 선택</label>
+                    <label>choose language</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
                         <option value="2">JAVA</option>
@@ -120,12 +120,12 @@
 
 
             <div>
-                <button onclick="help()" class="btn-workboard">도움말(튜토리얼 다시보기)</button>
+                <button onclick="help()" class="btn-workboard">help(review tutorial)</button>
                 <div class="btn-workboard">
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
                             <select name="test_cases">
-                                <option value="0" selected disabled>test case를 선택하세요</option>
+                                <option value="0" selected disabled>select test case</option>
                                 <c:forEach items="${testcaseList}" var="testcase">
                                     <option value="${testcase.id}">${testcase.input}</option>
                                 </c:forEach>
@@ -135,19 +135,16 @@
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="save_code(${status.index})">${status.index}번 문제
-                            저장
-                        </button>
+                        <button onclick="save_code(${status.index})">SAVE(ctrl+S)</button>
                     </c:forEach>
                 </div>
                 <div class="selectable btn-workboard">
                     <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="run_code(${status.index})">${status.index}번 문제 compile &
-                            run
+                        <button onclick="run_code(${status.index})">RUN(ctrl+R)
                         </button>
                     </c:forEach>
                 </div>
-                <button style="float:right" onclick="final_submit()">최종 제출</button>
+                <button style="float:right" onclick="final_submit()">final submit</button>
             </div>
         </div>
 
@@ -155,7 +152,7 @@
              style="background-color:violet; height:30%; width:80%; float:right;">
             <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
                 <div>
-                    <h2>${status.index}번째 문제의 terminal</h2>
+                    <h2>task ${status.index}output</h2>
                     <div id="terminal-${status.index}">output will be appended here</div>
                 </div>
             </c:forEach>

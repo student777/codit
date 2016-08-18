@@ -13,8 +13,10 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
     <title>index</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"
+          media="screen,projection"/>
 </head>
 
 <body class="orange lighten-5 flexbody">
@@ -29,10 +31,9 @@
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <p>반갑습니다. ${applicant.name}님.
-                        <br>이스트소프트가 귀하를 코딩인터뷰에 초대하였습니다.
-                        <br>인증을 위해 이메일을 입력하세요</p>
-                        <br>
+                        <p>Hello . ${applicant.name}
+                            <br>Welcome to coding interview.
+                            <br>To login, please write your email</p>
                         <form action="${pageContext.request.contextPath}/instruction" method="post">
                             <div class="row">
                                 <div class="input-field col s12">
@@ -42,7 +43,7 @@
                             </div>
                             <input type="hidden" name="ticket" value="${param.ticket}"/>
                             <div class="center">
-                            <button type="submit" class="btn brown white-text">Submit</button>
+                                <button type="submit" class="btn brown white-text">Submit</button>
                             </div>
                         </form>
                     </div>

@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col s10 offset-s1">
                         <h4 class="grey-text">Report Page</h4>
-                        <h5 class="center-align">${applicantVo.name }님, 수고하셨습니다.</h5>
+                        <h5 class="center-align">Good job, ${applicantVo.name }!</h5>
                         <br>
                         <img class="center-block" height="320" width="386"
                              src="${pageContext.request.contextPath }/assets/image/fighting-racoon.jpg"/>
@@ -55,7 +55,7 @@
                                     <c:set var="count" value="${count + 1}" scope="page"/>
                                 </c:if>
                             </c:forEach>
-                            <td>문제 ${status.index + 1}</td>
+                            <td>Task ${status.index + 1}</td>
                             <td>${count} / ${resultList.size() }</td>
                         </tr>
                     </c:forEach>
@@ -74,7 +74,7 @@
                             <table class="bordered centered">
                                 <thead>
                                     <tr>
-                                        <th>no. of test_case</th>
+                                        <th>test_case number</th>
                                         <th>memory used</th>
                                         <th>running time</th>
                                         <th>correctness</th>

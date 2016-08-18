@@ -9,8 +9,10 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
     <title>instruction-error</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"
+          media="screen,projection"/>
 </head>
 
 <body class="orange lighten-5 flexbody">
@@ -25,8 +27,7 @@
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <p>제출한 이메일이 링크와 맞지 않습니다.
-                            <br>다시 링크에 접속하여 이메일을 입력해 주시기 바랍니다.</p>
+                        <p>please check your email link
                     </div>
                 </div>
             </div>

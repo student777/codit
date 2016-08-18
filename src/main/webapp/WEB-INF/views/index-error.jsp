@@ -9,8 +9,10 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
     <title>index-error</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom.css"
+          media="screen,projection"/>
 </head>
 
 <body class="orange lighten-5 flexbody">
@@ -25,8 +27,7 @@
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <p>링크가 존재하지 않습니다.
-                            <br>받으신 이메일의 링크로 접속해 주시기 바랍니다.</p>
+                        Link is wrong. Please check your email.
                     </div>
                 </div>
             </div>
