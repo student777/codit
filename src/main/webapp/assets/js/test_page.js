@@ -82,7 +82,7 @@ var select_editor = function (k, language_id) {
 };
 
 //k번째 에디터 상의 소스코드 저장
-var save_code = function (k) {
+var save_code = function () {
     var editor = ace.edit("editor");
     var code = editor.getValue();
     //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
@@ -152,10 +152,28 @@ var final_submit = function () {
     }
 };
 
+var spotLightData = [
+    { target:"#select-problem", msg:'click this button to switch task' },
+    { target:"#select-language", msg:'You can choose one of three languages' },
+    { target:"#save-code", msg:'save current source code. shortcut: ctrl+S' },
+    { target:"#run-code", msg:'execute last saved source code. shortcut: ctrl+R' },
+    { target:"#select-testcase", msg:'you can test source code with input' },
+    { target:"#btn-help", msg:'to click this button, you can review tutorial' },
+    { target:".timer", msg:'After given time, last saved source codes are automatically submitted' },
+];
+var index = 0;
+
 //도움말 함수 호출. spotlight해준다
-var help = function () {
-    alert('이것은 test의 도움말 입니다');
-    alert('run버튼을 누르면 컴파일 및 실행이됩니다');
-    alert('주어진 시간은 ${totalTime}분이며 시간이 지나면 마지막 저장본으로 자동 제출됩니다');
-    alert('요이땅');
+var help = function(){
+    var dataLength = spotLightData.length;
+    if( index == dataLength ){
+        $(spotLightData[index-1].target).spotLightOff();
+        index=0;
+        return;
+    }
+    if( index < dataLength ) {
+        var options = {msg: spotLightData[index].msg, index:index };
+        $(spotLightData[index].target).spotLightOn(options);
+        index++;
+    }
 };

@@ -27,6 +27,7 @@
     <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"
             charset="utf-8"></script>
     <script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.spotlight.js"></script>
     <script src="${pageContext.request.contextPath }/assets/js/test_page.js"></script>
     <script>
         //전역변수에 대한 정보
@@ -86,8 +87,7 @@
     </div>
     <div style="height:95%">
         <div id="navbar" style="background-color:skyblue; width:20%; height:100%; float:left">
-            <h2>navigation bar</h2><br>
-            <div>
+            <div id="select-problem">
                 <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
                     <button onclick="select(${status.index})">Task${status.index}</button>
                 </c:forEach>
@@ -103,10 +103,9 @@
         </div>
 
         <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
-            <h2>workboard</h2>
             <div>
                 <div class="btn-workboard timer" data-seconds-left="${totalTime}">time left:</div>
-                <div class="btn-workboard">
+                <div id="select-language" class="btn-workboard">
                     <label>choose language</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
                         <option value="1">C</option>
@@ -118,10 +117,9 @@
 
             <div id="editor" style="width:100%; height:85%;"></div>
 
-
             <div>
-                <button onclick="help()" class="btn-workboard">help(review tutorial)</button>
-                <div class="btn-workboard">
+                <button id="btn-help" onclick="help()" class="btn-workboard">help(review tutorial)</button>
+                <div id="select-testcase" class="btn-workboard">
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
                             <select name="test_cases">
@@ -133,16 +131,11 @@
                         </c:forEach>
                     </form>
                 </div>
-                <div class="selectable btn-workboard">
-                    <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="save_code(${status.index})">SAVE(ctrl+S)</button>
-                    </c:forEach>
+                <div id="save-code" class="btn-workboard">
+                    <button onclick="save_code()">SAVE(ctrl+S)</button>
                 </div>
-                <div class="selectable btn-workboard">
-                    <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                        <button onclick="run_code(${status.index})">RUN(ctrl+R)
-                        </button>
-                    </c:forEach>
+                <div id="run-code" class="btn-workboard">
+                    <button onclick="run_code(current_k)">RUN(ctrl+R)</button>
                 </div>
                 <button style="float:right" onclick="final_submit()">final submit</button>
             </div>
