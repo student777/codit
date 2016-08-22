@@ -105,6 +105,7 @@ public class TestService {
     sourceCodeVo.setApplicantId(applicantId);
     sourceCodeVo.setProblemId(problemId);
     sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
+    ProblemVo problemVo = problemRepository.get(problemId);
 
     //testCaseId에 해당하는 testCaseVo 꺼내오기
     //testCaseId 가 0일 때의 처리
@@ -115,10 +116,9 @@ public class TestService {
     else{
       testCaseVo = testCaseRepository.get(testCaseId);
     }
-
     // sourcecode를 task.* 파일로 작상하여 compile & run
     int languageId = problemRepository.get(problemId).getLanguageId();
-    Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
+    Exec exec = new ExecFactory().pick(languageId, sourceCodeVo, problemVo);
     return exec.run(testCaseVo);
   }
 
@@ -130,6 +130,7 @@ public class TestService {
     //set permission
   }
 
+  //todo mark!
   public void mark(ApplicantVo applicantVo){
     int applicantId = applicantVo.getId();
 
@@ -143,13 +144,13 @@ public class TestService {
     }
     //get SourceCode
     List<SourceCodeVo> sourceCodeVoList = sourceCodeRepository.getByApplicant(applicantId);
-
     //TODO: sourcdCodeVo와 testCaseVo problem_info_id가 같은지 체크
     for (int i = 0; i < sourceCodeVoList.size(); i++) {
       SourceCodeVo sourceCodeVo = sourceCodeVoList.get(i);
+      ProblemVo problemVo = problemRepository.get(sourceCodeVo.getProblemId());
       List<TestCaseVo> testCaseVoList = testcaseListOfList.get(i);
-      int languageId = problemRepository.get(sourceCodeVo.getProblemId()).getLanguageId();
-      Exec exec = new ExecFactory().pick(languageId, sourceCodeVo);
+      int languageId = problemVo.getLanguageId();
+      Exec exec = new ExecFactory().pick(languageId, sourceCodeVo, problemVo);
 
       // 하나의 Exec 객체는 한 개의 sourceCode를 받아 생성되고 n개의 test_case를 처리한다
       // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
@@ -161,7 +162,7 @@ public class TestService {
         resultVo.setTestCaseId(testCaseVo.getId());
 
         //set correctness
-        if(testCaseVo.getAnswer().equals(execResultInfo.getOutput())){
+        if("Correct Answer!".equals(execResultInfo.getOutput())){
           resultVo.setCorrectness(true);
         }
         else{

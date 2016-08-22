@@ -1,5 +1,6 @@
 package com.estsoft.codit.ide.executor;
 
+import com.estsoft.codit.db.vo.ProblemVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
 import com.estsoft.codit.db.vo.TestCaseVo;
 
@@ -8,9 +9,9 @@ import static com.estsoft.codit.ide.executor.ExecUtils.WORKSPACE_PATH;
 
 class ExecPython extends Exec {
 
-  ExecPython(SourceCodeVo sourceCodeVo) {
-    super(sourceCodeVo, "/task.py");
-    this.runtimeCommand = new String[]{"/usr/bin/python3", WORKSPACE_PATH+"sourcecode/" + sourceCodeVo.getId() + "/task.py", "" + sourceCodeVo.getId()};
+  ExecPython(SourceCodeVo sourceCodeVo, ProblemVo problemVo) {
+    super(sourceCodeVo, problemVo, "/task.py", "/main.py");
+    this.runtimeCommand = new String[]{"python", WORKSPACE_PATH+"sourcecode/" + sourceCodeVo.getId() + "/main.py"};
   }
 
   //python만 유일하게 컴파일 과정이 없으므로 override해줌

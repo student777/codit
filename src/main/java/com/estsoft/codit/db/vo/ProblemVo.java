@@ -5,6 +5,7 @@ public class ProblemVo {
   private int languageId;
   private int problemInfoId;
   private String skeletonCode;
+  private String mainCode;
 
   public int getId() {
     return id;
@@ -38,13 +39,18 @@ public class ProblemVo {
     this.skeletonCode = skeletonCode;
   }
 
+  public String getMainCode() { return mainCode; }
+
+  public void setMainCode(String mainCode) { this.mainCode = mainCode; }
+
   @Override
   public String toString() {
     return "ProblemVo{" +
-        "id=" + id +
-        ", languageId=" + languageId +
-        ", problemInfoId=" + problemInfoId +
-        ", skeletonCode='" + skeletonCode + '\'' +
-        '}';
+            "id=" + id +
+            ", languageId=" + languageId +
+            ", problemInfoId=" + problemInfoId +
+            ", skeletonCode='" + skeletonCode + '\'' +
+            ", mainCode='" + mainCode + '\'' +
+            '}';
   }
 }
