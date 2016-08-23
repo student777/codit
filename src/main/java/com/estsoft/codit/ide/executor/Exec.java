@@ -163,7 +163,6 @@ public class Exec {
         Process checkVmPeakProcess = runtime.exec(new String[]{"/bin/sh", "-c", "cat /proc/"+pid+"/status | grep VmPeak | grep -o [0-9][0-9]*"});
         checkVmPeakProcess.waitFor();
         int memory = Integer.parseInt(getStringFromProcess(checkVmPeakProcess));
-        System.out.println("memory : " + memory);
         execResultInfo.setUsedMemory(memory);
       } catch (IOException e) {
         e.printStackTrace();

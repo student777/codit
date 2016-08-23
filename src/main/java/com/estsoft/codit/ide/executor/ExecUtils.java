@@ -1,9 +1,5 @@
 package com.estsoft.codit.ide.executor;
 
-import com.estsoft.codit.db.vo.SourceCodeVo;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -60,7 +56,9 @@ public class ExecUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return sb.toString().replace("\n", "").replace("\r", "");
+    //return sb.toString().replace("\n", "").replace("\r", "");
+    System.out.println(sb.toString().replace("\n", "<br>"));
+    return sb.toString().replace("\n", "<br>");
   }
 
   /*
@@ -84,6 +82,8 @@ public class ExecUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return sb.toString().replace("\n", "").replace("\r", "");
+    //return sb.toString().replace("\n", "").replace("\r", "");
+    System.out.println(sb.toString().replace("\n", "<br>"));
+    return sb.toString().replace("\n", "<br>");
   }
 }

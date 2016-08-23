@@ -36,7 +36,7 @@
         var problem_id; //현재 풀고 있는 problem의 id값
         var current_k; //전역변수(가변) 현재 보고있는 problemInfo의 status.index
         var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
-        <c:set var="newline" value="<%= \"\r\n\" %>" />
+        <c:set var="newline" value="<%= \"\n\" %>" />
         <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
         <c:forEach items="${problemList}" var="problemVo">
         var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
@@ -96,7 +96,7 @@
                 <c:forEach items="${problemInfoList}" var="problemInfoVo">
                     <div>
                         <h3>${problemInfoVo.name}</h3>
-                        <p>${problemInfoVo.description}</p>
+                        <p>${fn:replace(problemInfoVo.description, newline, '<br>')}';</p>
                     </div>
                 </c:forEach>
             </div>

@@ -122,7 +122,7 @@ var run_code = function (k) {
                    "test_case_id": test_case_id
                },
                success: function (response) {
-                   $("#terminal-" + k).text(response);
+                   $("#terminal-" + k).html(response);
                },
                error: function (xhr, status, error) {
                    console.error(status + ":" + error);
