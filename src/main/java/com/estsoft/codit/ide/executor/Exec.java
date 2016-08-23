@@ -2,7 +2,6 @@ package com.estsoft.codit.ide.executor;
 
 import static com.estsoft.codit.ide.executor.ExecUtils.WORKSPACE_PATH;
 import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess;
-import static com.estsoft.codit.ide.executor.ExecUtils.getStringFromProcess2;
 
 import com.estsoft.codit.db.vo.ProblemVo;
 import com.estsoft.codit.db.vo.SourceCodeVo;
@@ -68,13 +67,13 @@ public class Exec {
 
   public String run(TestCaseVo testCaseVo) {
     String compileOutput;
-    compileOutput = execCommand(compileCommand, null, false, true).getOutput();
+    compileOutput = execCommand(compileCommand, null, false).getOutput();
 
     if (compileOutput.equals("") == false) {
       //컴파일 성공시 컴파일의 결과는 "".  런타임 결과를 보여줌
       return compileOutput;
     }
-    String runtimeOutput = execCommand(runtimeCommand, testCaseVo, false, true).getOutput();
+    String runtimeOutput = execCommand(runtimeCommand, testCaseVo, false).getOutput();
     return runtimeOutput;
   }
 
@@ -82,7 +81,7 @@ public class Exec {
     ExecResultInfo execResultInfo = new ExecResultInfo();
 
     //compile
-    String compileOutput = execCommand(compileCommand, null, true, true).getOutput();
+    String compileOutput = execCommand(compileCommand, null, true).getOutput();
 
     //TODO: 컴파일 실패 시 return null
     if (!compileOutput.equals("")) {
@@ -91,11 +90,11 @@ public class Exec {
     }
 
     //컴파일 성공 시 채점: set output and running time and used memory
-    execResultInfo = execCommand(runtimeCommand, testCaseVo, true, true);
+    execResultInfo = execCommand(runtimeCommand, testCaseVo, true);
     return execResultInfo;
   }
 
-  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo, boolean isMark, boolean isJava) {
+  ExecResultInfo execCommand(String[] command, TestCaseVo testCaseVo, boolean isMark) {
     ExecResultInfo execResultInfo = new ExecResultInfo();
     Runtime runtime = Runtime.getRuntime();
     Process process = null;
@@ -169,20 +168,16 @@ public class Exec {
         execResultInfo.setUsedMemory(memory);
       } catch (NumberFormatException e){
         e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
       } catch (InterruptedException e) {
         e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
       }
+
     }
 
     //set output string
-    String output;
-    if (isJava) {
-      output = getStringFromProcess(process);
-    } else {
-      output = getStringFromProcess2(process);
-    }
+    String output = getStringFromProcess(process);
     execResultInfo.setOutput(output);
 
     process.destroy();
