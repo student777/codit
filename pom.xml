@@ -7,7 +7,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.estsoft.codit</groupId>
-    <artifactId>codit-web</artifactId>
+    <artifactId>codit-ide</artifactId>
     <packaging>war</packaging>
 
     <version>1.0-SNAPSHOT</version>

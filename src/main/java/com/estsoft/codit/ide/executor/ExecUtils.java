@@ -56,9 +56,7 @@ public class ExecUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    //return sb.toString().replace("\n", "").replace("\r", "");
-    System.out.println(sb.toString().replace("\n", "<br>"));
-    return sb.toString().replace("\n", "<br>");
+    return sb.toString();
   }
 
   /*
@@ -82,8 +80,6 @@ public class ExecUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    //return sb.toString().replace("\n", "").replace("\r", "");
-    System.out.println(sb.toString().replace("\n", "<br>"));
-    return sb.toString().replace("\n", "<br>");
+    return sb.toString();
   }
 }

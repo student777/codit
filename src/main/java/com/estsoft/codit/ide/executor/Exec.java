@@ -104,8 +104,8 @@ public class Exec {
     long endTime = 0L;
     try {
       if(testCaseVo != null){
-        String [] splitedTestCase = testCaseVo.getInput().split(" ");
-        String [] commandWithArg = new String [command.length + splitedTestCase.length + 1];
+        String [] splitTestCase = testCaseVo.getInput().split(" ");
+        String [] commandWithArg = new String [command.length + splitTestCase.length + 1];
 
         //copy command to commandWithArg
         int i = 0;
@@ -116,28 +116,32 @@ public class Exec {
         commandWithArg[i++] = testCaseVo.getAnswer();
 
         // set test case input into command
-        for(int j = 0 ; j < splitedTestCase.length; i++, j++)
-          commandWithArg[i] = splitedTestCase[j];
+        for(int j = 0 ; j < splitTestCase.length; i++, j++)
+          commandWithArg[i] = splitTestCase[j];
 
         command = commandWithArg;
       }
+
       //run process and check elapsed time
       startTime = System.nanoTime();
       process = runtime.exec(command);
-      //if execution time exeeds a second, kill process.
-      try {
-        process.waitFor(1L, TimeUnit.SECONDS);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+
+
+//      //if execution time exceeds a second, kill process.
+//      try {
+//        process.waitFor(1L, TimeUnit.SECONDS);
+//      } catch (InterruptedException e) {
+//        e.printStackTrace();
+//      }
+//      if(process.isAlive()) {
+//        System.out.println("alive!!");
+//        process.destroy();
+//        execResultInfo.setOutput("Time limit exeeds!");
+//        execResultInfo.setRunningTime(9999);
+//        return execResultInfo;
+//      }
+
       endTime = System.nanoTime();
-      if(process.isAlive()) {
-        process.destroy();
-        execResultInfo.setOutput("Time limit exeeds!");
-        return execResultInfo;
-      }
-
-
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -157,13 +161,14 @@ public class Exec {
           e.printStackTrace();
         }
       }
-
       //set memory used
       try {
-        Process checkVmPeakProcess = runtime.exec(new String[]{"/bin/sh", "-c", "cat /proc/"+pid+"/status | grep VmPeak | grep -o [0-9][0-9]*"});
+        Process checkVmPeakProcess = runtime.exec(new String[]{"/bin/sh", "-c", "cat /proc/" + pid + "/status | grep VmPeak | grep -o [0-9][0-9]*"});
         checkVmPeakProcess.waitFor();
-        int memory = Integer.parseInt(getStringFromProcess(checkVmPeakProcess));
+        int memory = Integer.parseInt(getStringFromProcess(checkVmPeakProcess).replace("\n", ""));
         execResultInfo.setUsedMemory(memory);
+      } catch (NumberFormatException e){
+        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       } catch (InterruptedException e) {
@@ -179,6 +184,7 @@ public class Exec {
       output = getStringFromProcess2(process);
     }
     execResultInfo.setOutput(output);
+
     process.destroy();
     return execResultInfo;
   }

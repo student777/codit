@@ -122,7 +122,7 @@ var run_code = function (k) {
                    "test_case_id": test_case_id
                },
                success: function (response) {
-                   $("#terminal-" + k).html(response);
+                   $("#terminal-" + k).html(response.replace("\n", '<br>'));
                },
                error: function (xhr, status, error) {
                    console.error(status + ":" + error);
@@ -152,17 +152,17 @@ var final_submit = function () {
     }
 };
 
+//spotlight 관련 변수, 함수
 var spotLightData = [
     { target:"#select-problem", msg:'click this button to switch task' },
     { target:"#select-language", msg:'You can choose one of three languages' },
+    { target:"#btn-help", msg:'to click this button, you can review tutorial' },
     { target:"#save-code", msg:'save current source code. shortcut: ctrl+S' },
     { target:"#run-code", msg:'execute last saved source code. shortcut: ctrl+R' },
     { target:"#select-testcase", msg:'you can test source code with input' },
-    { target:"#btn-help", msg:'to click this button, you can review tutorial' },
     { target:".timer", msg:'After given time, last saved source codes are automatically submitted' },
 ];
 var index = 0;
-
 //도움말 함수 호출. spotlight해준다
 var help = function(){
     var dataLength = spotLightData.length;

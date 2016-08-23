@@ -78,7 +78,7 @@ public class TestController {
   @Auth
   @ResponseBody
   @RequestMapping("/submit")
-  public void submit(@AuthApplicant ApplicantVo applicantVo) throws IOException, InterruptedException {
+  public void submit(@AuthApplicant ApplicantVo applicantVo) {
     testService.finalize_test(applicantVo);
     testService.mark(applicantVo);
   }
