@@ -125,20 +125,17 @@ public class Exec {
       startTime = System.nanoTime();
       process = runtime.exec(command);
       //if execution time exeeds a second, kill process.
-//      try {
-//        process.waitFor(1L, TimeUnit.SECONDS);
-//      } catch (InterruptedException e) {
-//        e.printStackTrace();
-//      }
+      try {
+        process.waitFor(1L, TimeUnit.SECONDS);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       endTime = System.nanoTime();
-
-//      if(process.isAlive()) {
-//        System.out.println("kill process !");
-//
-//        process.destroy();
-//        execResultInfo.setOutput("Time limit exeeds!");
-//        return execResultInfo;
-//      }
+      if(process.isAlive()) {
+        process.destroy();
+        execResultInfo.setOutput("Time limit exeeds!");
+        return execResultInfo;
+      }
 
 
     } catch (IOException e) {
