@@ -104,7 +104,7 @@
 
         <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
             <div>
-                <div class="btn-workboard timer" data-seconds-left="${totalTime}">time left:</div>
+                <div class="btn-workboard timer" data-minutes-left="${totalTime}">time left:</div>
                 <div id="select-language" class="btn-workboard">
                     <label>choose language</label>
                     <select name="language" onchange="select_editor(current_k, this.value);">
@@ -123,7 +123,6 @@
                     <form class="selectable">
                         <c:forEach items="${testcaseListOfList}" var="testcaseList">
                             <select name="test_cases">
-                                <option value="0" selected disabled>select test case</option>
                                 <c:forEach items="${testcaseList}" var="testcase">
                                     <option value="${testcase.id}">${testcase.input}</option>
                                 </c:forEach>

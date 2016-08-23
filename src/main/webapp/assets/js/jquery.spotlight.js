@@ -23,8 +23,9 @@
         spotLight.width(1);
         spotLight.height(1);
         spotLight.css('opacity', settings.opacity);
-        spotLight.css("border-top-width", 0);
-        spotLight.css("border-left-width", 0);
+        // 시점 초기화 안시켜줌
+        // spotLight.css("border-top-width", 0);
+        // spotLight.css("border-left-width", 0);
         spotLight.show();
         spotLight.animate({
             height: this.height(),
@@ -32,6 +33,7 @@
             "border-left-width": position.x ? position.x : position.left,
             "border-top-width": position.y ? position.y : position.top
         }, 1000, function () {
+            //리스펙안대혁
             setTimeout( function() {
                 alert(options.msg);
                 help();
