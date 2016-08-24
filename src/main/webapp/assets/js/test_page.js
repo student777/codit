@@ -85,49 +85,64 @@ var select_editor = function (k, language_id) {
 var save_code = function () {
     var editor = ace.edit("editor");
     var code = editor.getValue();
-    //ajax는 비동기식이라 success시 source_code ID를 받아서 save_code()로 리턴하는거 안됨
-    //ajax POST
     $.ajax({
-               url: '/test/save',
-               type: "post",
-               //리턴값은 'success' or 'fail'
-               //dataType: "json",
-               data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
-               success: function (response) {
-                   if (response == 'fail') {
-                       alert('save fail');
-                   }
-                   else if (response == 'success') {
-                       alert('saved');
-                   }
-               },
-               error: function (xhr, status, error) {
-                   console.error(status + ":" + error);
-               }
-           });
+       url: '/test/save',
+       type: "post",
+       //리턴값은 'success' or 'fail'
+       data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
+       success: function (response) {
+           if (response == 'success') {
+               alert('saved');
+           }
+           else if (response == 'fail') {
+               alert('save fail');
+           }
+       },
+       error: function (xhr, status, error) {
+           console.error(status + ":" + error);
+       }
+   });
 };
 
-var run_code = function (k) {
+var run_code = function () {
+    var editor = ace.edit("editor");
+    var code = editor.getValue();
     var test_case_id = $('select[name=test_cases]').get(current_k - 1).value;
 
-    //ajax POST
     $.ajax({
-               url: '/test/run',
-               type: "post",
-               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-               //dataType: "json",
-               data: {
-                   "problem_id": problem_id,
-                   "applicant_id": applicant_id,
-                   "test_case_id": test_case_id
-               },
-               success: function (response) {
-                   $("#terminal-" + k).html(response.replace("\n", '<br>'));
-               },
-               error: function (xhr, status, error) {
-                   console.error(status + ":" + error);
-               }
-           });
+        url: '/test/save',
+        type: "post",
+        data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
+        success: function (response) {
+            if (response == 'success') {
+                $.ajax({
+                    url: '/test/run',
+                    type: "post",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    //dataType: "json",
+                    data: {
+                        "problem_id": problem_id,
+                        "applicant_id": applicant_id,
+                        "test_case_id": test_case_id
+                    },
+                    success: function (response) {
+                        $("#terminal-" + current_k).html(response.replace("\n", '<br>'));
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(status + ":" + error);
+                    }
+                });
+            }
+            else if (response == 'fail') {
+                alert('save fail');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(status + ":" + error);
+        }
+    });
+
+
 };
 
 //최종 제출

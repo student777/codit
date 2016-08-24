@@ -134,7 +134,7 @@
                     <button onclick="save_code()">SAVE(ctrl+S)</button>
                 </div>
                 <div id="run-code" class="btn-workboard">
-                    <button onclick="run_code(current_k)">RUN(ctrl+R)</button>
+                    <button onclick="run_code(current_k)">SAVE & RUN(ctrl+R)</button>
                 </div>
                 <button style="float:right" onclick="final_submit()">final submit</button>
             </div>
