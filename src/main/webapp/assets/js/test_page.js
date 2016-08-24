@@ -89,7 +89,7 @@ var save_code = function () {
        url: '/test/save',
        type: "post",
        //리턴값은 'success' or 'fail'
-       data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
+       data: {"code": code, "problem_id": problem_id },
        success: function (response) {
            if (response == 'success') {
                alert('saved');
@@ -112,7 +112,7 @@ var run_code = function () {
     $.ajax({
         url: '/test/save',
         type: "post",
-        data: {"code": code, "problem_id": problem_id, "applicant_id": applicant_id},
+        data: {"code": code, "problem_id": problem_id },
         success: function (response) {
             if (response == 'success') {
                 $.ajax({
@@ -141,9 +141,28 @@ var run_code = function () {
             console.error(status + ":" + error);
         }
     });
-
-
 };
+
+
+var load_code = function () {
+    var editor = ace.edit("editor");
+    $.ajax({
+        url: '/test/load',
+        type: "post",
+        data: { "problem_id": problem_id, "applicant_id": applicant_id},
+        success: function (response) {
+            if (response == 'fail') {
+                alert('saved code does not exist');
+            }
+            else {
+                editor.setValue(response);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(status + ":" + error);
+        }
+    });
+}
 
 //최종 제출
 var final_submit = function () {

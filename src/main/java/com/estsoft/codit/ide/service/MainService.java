@@ -33,7 +33,6 @@ public class MainService {
 
    /*
    uuid를 받아 applicant 를 식별해서 세션에 applicant 정보를 넣어준다
-   TODO: 시험이 끝난 사람은 /result로, 시험 중인 사람은 /test로, 시작하지 않은 사람은 /practice로
    */
   public boolean checkTicket(String ticket, Model model) {
     ApplicantVo vo = applicantRepository.getByTicket(ticket);

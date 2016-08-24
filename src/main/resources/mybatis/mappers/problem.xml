@@ -20,8 +20,4 @@
   <select id="selectByProblemInfo" parameterType="int" resultType="problemvo">
     <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE problem_info_id=#{problemInfoId } ]]>
   </select>
-
-  <select id="selectByProblemInfoLanguage" parameterType="map" resultType="problemvo">
-    <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE problem_info_id=#{problemInfoId } and language_id=#{languageId} ]]>
-  </select>
 </mapper>

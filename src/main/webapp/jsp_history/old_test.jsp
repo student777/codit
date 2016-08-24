@@ -129,7 +129,6 @@
 
         var run_code = function (k) {
             //일단 저장 후 돌림
-            //TODO: 저장 후 돌려야 하는데 꼬이는거같다
             //save_code(k);
             test_case_id = $('select[name=test_cases]').get(current_k - 1).value;
 

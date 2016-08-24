@@ -20,17 +20,17 @@
 
   <select id="selectByApplicant" resultType="sourcecodevo" parameterType="int">
     <![CDATA[
-        select s.id, s.code, s.applicant_id as applicantId , s.problem_id as problemId
-	from ( select max(s.id) as id
-				from source_code as s,
-					  problem as p
-				where s.problem_id=p.id
-					  and applicant_id=#{id}
-				group by p.problem_info_id
-				order by p.problem_info_id asc
-		  ) as d,
-		source_code as s
-	where s.id=d.id;
+      select s.id, s.code, s.applicant_id as applicantId , s.problem_id as problemId
+        from ( select max(s.id) as id
+                  from source_code as s,
+                        problem as p
+                  where s.problem_id=p.id
+                        and applicant_id=#{id}
+                  group by p.problem_info_id
+                  order by p.problem_info_id asc
+               ) as d,
+            source_code as s
+        where s.id=d.id;
     ]]>
   </select>
 </mapper>

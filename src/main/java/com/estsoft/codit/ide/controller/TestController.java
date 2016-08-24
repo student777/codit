@@ -29,7 +29,6 @@ public class TestController {
   @Auth
   @RequestMapping("")
   public String main(Model model, @AuthApplicant ApplicantVo applicantVo) {
-    //TODO: 시험 중간에 튕겨서 다시 온 사람 구제 방안
     testService.initializeTest(model, applicantVo);
     return "test";
   }
@@ -69,11 +68,23 @@ public class TestController {
     }
   }
 
+  @Auth
+  @ResponseBody
+  @RequestMapping("/load")
+  public byte[] load( @RequestParam(value="problem_id") int problemId, @AuthApplicant ApplicantVo applicantVo) {
+    String code = testService.load(problemId, applicantVo.getId());
+    try {
+      return code.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+      return "이건 나와서는 안돼".getBytes();
+    }
+  }
+
 
   /*
   ajax UFL
   applicant의 submit_time에 현재 시간을 입력하고
-  TODO: 시험 페이지에 다시 들어오는 것을 막는다
   */
   @Auth
   @ResponseBody

@@ -81,9 +81,8 @@ public class Exec {
     ExecResultInfo execResultInfo = new ExecResultInfo();
 
     //compile
-    String compileOutput = execCommand(compileCommand, null, true).getOutput();
+    String compileOutput = execCommand(compileCommand, null, false).getOutput();
 
-    //TODO: 컴파일 실패 시 return null
     if (!compileOutput.equals("")) {
       execResultInfo.setOutput(compileOutput);
       return execResultInfo;

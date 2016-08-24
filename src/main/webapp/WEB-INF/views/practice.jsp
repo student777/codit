@@ -49,7 +49,6 @@
         </c:forEach>
     </script>
     <script>
-        //TODO: 모든 페이지가 로드된 후에 help() 호출
         $(function () {
             select(1);
             help();

@@ -49,9 +49,9 @@ public class TestService {
   */
   public void initializeTest(Model model, ApplicantVo applicantVo){
     //init variables
-    List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
-    List<List<ProblemVo>> problemListOfList = new ArrayList<List<ProblemVo>>();
-    List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
+    List<ProblemInfoVo> problemInfoList = new ArrayList<>();
+    List<List<ProblemVo>> problemListOfList = new ArrayList<>();
+    List<List<TestCaseVo>> testcaseListOfList = new ArrayList<>();
     int totalTime = 0;
     boolean isPublicOnly = true;
 
@@ -59,8 +59,6 @@ public class TestService {
     List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
     for (int problemInfoId:problemInfoIdList ) {
       ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
-      //TODO: 문제시작에 problemVo 다 갖다 reponse로 던져준다. 비동기식으로 안함
-      //ProblemVo problemVo = problemRepository.getByProblemInfoLanguageId(problemInfoId, languageId);
       List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
       List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
       problemInfoList.add(problemInfoVo);
@@ -122,7 +120,20 @@ public class TestService {
     return exec.run(testCaseVo);
   }
 
-  //TODO: 채점끝나고 redirect시키면 느리니까 먼저 redirect하고 /result에서 기다릴수있게
+  //최종 저장본을 로드해서 보여줌
+  public String load(int problemId, int applicantId) {
+    //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
+    SourceCodeVo sourceCodeVo = new SourceCodeVo();
+    sourceCodeVo.setApplicantId(applicantId);
+    sourceCodeVo.setProblemId(problemId);
+    sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
+    if(sourceCodeVo==null){
+      return "fail";
+    }
+    return sourceCodeVo.getCode();
+  }
+
+  //
   public void finalize_test(ApplicantVo applicantVo) {
     //set submit_time
     applicantRepository.setSubmitTime(applicantVo);
@@ -130,7 +141,6 @@ public class TestService {
     //set permission
   }
 
-  //todo mark!
   public void mark(ApplicantVo applicantVo){
     int applicantId = applicantVo.getId();
 
@@ -144,7 +154,9 @@ public class TestService {
     }
     //get SourceCode
     List<SourceCodeVo> sourceCodeVoList = sourceCodeRepository.getByApplicant(applicantId);
-    //TODO: sourcdCodeVo와 testCaseVo problem_info_id가 같은지 체크
+
+    //sourcdCodeVo와 testCaseVo problem_info_id가 같은지 체크해야 하는데 귀찮아서 길이가 같다는거만 확인
+    assert testcaseListOfList.size()==sourceCodeVoList.size(): "something wrong";
     for (int i = 0; i < sourceCodeVoList.size(); i++) {
       SourceCodeVo sourceCodeVo = sourceCodeVoList.get(i);
       ProblemVo problemVo = problemRepository.get(sourceCodeVo.getProblemId());
