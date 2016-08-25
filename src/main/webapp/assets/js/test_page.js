@@ -59,6 +59,10 @@ var select_editor = function (k, language_id) {
     var mode;
     editor.setValue(skeleton_code);
     editor.setTheme("ace/theme/monokai");
+    // editor.setOptions({
+    //     fontFamily: "'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas'",
+    //     fontSize: "12pt"
+    // });
     switch (language_id) {
         case '1':
             mode = "ace/mode/c_cpp";
@@ -188,13 +192,15 @@ var final_submit = function () {
 
 //spotlight 관련 변수, 함수
 var spotLightData = [
-    { target:"#select-problem", msg:'click this button to switch task' },
+    { target:"#select-problem", msg:'Click this button to switch task' },
     { target:"#select-language", msg:'You can choose one of three languages' },
-    { target:"#btn-help", msg:'to click this button, you can review tutorial' },
-    { target:"#save-code", msg:'save current source code. shortcut: ctrl+S' },
-    { target:"#run-code", msg:'execute last saved source code. shortcut: ctrl+R' },
-    { target:"#select-testcase", msg:'you can test source code with input' },
+    { target:"#save-code", msg:'Save current source code. shortcut: ctrl+S' },
+    { target:"#select-testcase", msg:'You can test source code with input' },
+    { target:"#run-code", msg:'Execute code(auto saved) shortcut: ctrl+R' },
+    { target:"#load-code", msg:'Load last saved code. If you close browser by mistake, this button will salvage you' },
+    { target:"#final-submit", msg:'Submit your solution and finish test' },
     { target:".timer", msg:'After given time, last saved source codes are automatically submitted' },
+    { target:"#btn-help", msg:'To click this button, you can review tutorial' },
 ];
 var index = 0;
 //도움말 함수 호출. spotlight해준다
@@ -203,6 +209,7 @@ var help = function(){
     if( index == dataLength ){
         $(spotLightData[index-1].target).spotLightOff();
         index=0;
+        $( "#dialog-confirm" ).dialog( "close" );
         return;
     }
     if( index < dataLength ) {

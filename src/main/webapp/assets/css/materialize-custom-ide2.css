@@ -13,7 +13,6 @@
 .selectable > * {
     display: none;
 }
-
 /* 2. header*/
 #header{height: 34px;}
 #logo{ margin-top: 2px; width: auto; height: 30px;}
@@ -52,6 +51,8 @@ button, input, optgroup, select, textarea{color: white;}
     margin-top: 5px;
 }
 
-/*workboard */
 
-
+/* jquery-dialog */
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}

@@ -14,8 +14,8 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom-ide2.css" media="screen,projection"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 </head>
-
 <body>
 <div id="wrapper" class="row">
     <div id="header" class="center grey lighten-2">
@@ -24,7 +24,7 @@
     <div id="navbar" class="col s4 grey darken-2">
         <div class="row">
             <div id= "tabs" class="col s12 grey darken-2">
-                <ul id=select-problem" class="tabs">
+                <ul id="select-problem" class="tabs">
                     <li class="tab col s3 grey darken-2 white-text"><a class="active" href="#task1" onclick="select(1)">Task1</a></li>
                     <c:forEach var="no" begin="2" end="${problemInfoList.size()}" step="1">
                         <li class="tab col s3 grey darken-2 white-text"><a href="#task${no}" onclick="select(${no})">Task${no}</a></li>
@@ -34,6 +34,7 @@
             <c:forEach items="${problemInfoList}" var="problemInfoVo" varStatus="status">
                 <div id="task${status.count}" class="col s12 grey darken-2 white-text">
                     <h3>${problemInfoVo.name}</h3>
+                    <c:set var="newline" value="<%= \"\n\" %>" />
                     <p>${fn:replace(problemInfoVo.description, newline, '<br>')}';</p>
                 </div>
             </c:forEach>
@@ -47,7 +48,7 @@
                     <div class="col s12 grey darken-3">
                         <div id="top-bar" class="row">
                             <div id="div-timeleft" class="col s2 no-padding">
-                                <div class="btn grey darken-3 z-depth-0 inline timer" data-seconds-left="${totalTime}">Time Left: </div>
+                                <div class="btn grey darken-3 z-depth-0 inline timer" data-minutes-left="${totalTime}">Time Left: </div>
                             </div>
                             <div class="col s2 no-padding">
                                 <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
@@ -85,12 +86,14 @@
                                 </form>
                             </div>
                             <div id="run-code" class="col s3 no-padding center">
-                                    <button onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
+                                <button onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
                             <div id="load-code" class="col s1 no-padding left">
                                 <button onclick="load_code()" class="btn grey darken-1" >LOAD</button>
                             </div>
-                            <button class="btn right grey darken-1" onclick="final_submit()">Submit</button>
+                            <div id="final-submit">
+                                <button class="btn right grey darken-1" onclick="final_submit()">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,9 +114,15 @@
     </div>
 </div>
 
+<!-- dialog hidden -->
+<div id="dialog-confirm" title="tutorial message">
+    <p></p>
+</div>
+
 <!-- Java script -->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
+<!-- jquery ui-->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <!--Import materialize.js(css)-->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/materialize/js/materialize.min.js"></script>
 <!-- import external js files -->
@@ -129,7 +138,6 @@
     var problem_id; //현재 풀고 있는 problem의 id값
     var current_k; //전역변수(가변) 현재 보고있는 problemInfo의 status.index
     var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
-    <c:set var="newline" value="<%= \"\n\" %>" />
     <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
     <c:forEach items="${problemList}" var="problemVo">
     var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
@@ -147,14 +155,13 @@
     //첫번째 문제로 기본 스타트
     $(function () {
         alert('확인을 누르면 시험을 시작합니다');
-        $('select').material_select();
         select(1);
         $('.timer').startTimer({
-                                   onComplete: function () {
-                                       alert('시험이 끝났다. 지금 저장본으로 제출한다');
-                                       final_submit();
-                                   }
-                               });
+            onComplete: function () {
+                alert('시험이 끝났다. 지금 저장본으로 제출한다');
+                final_submit();
+            }
+        });
         //ctrl + S
         $(document).bind('keydown', function (e) {
             if (e.ctrlKey && (e.which == 83)) {
