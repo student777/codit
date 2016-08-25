@@ -3,156 +3,176 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>test page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="${pageContext.request.contextPath}/assets/image/0630_favicon_beige.ico">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        .btn-workboard {
-            display: inline-block;
-        }
-
-        .selectable > * {
-            display: none;
-        }
-    </style>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js"></script>
-    <script type="text/javascript" src="/assets/js/jquery.spotlight.js"></script>
-    <script src="${pageContext.request.contextPath }/assets/js/test_page.js"></script>
-    <script>
-        //전역변수에 대한 정보
-        var number_of_problems = ${problemListOfList.size() };
-        var applicant_id = ${authApplicant.id}; //시험 보는 사람의 id값
-        var problem_id; //현재 풀고 있는 problem의 id값
-        var current_k; //전역변수(가변) 현재 보고있는 problemInfo의 status.index
-        var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
-        <c:set var="newline" value="<%= \"\n\" %>" />
-        <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
-        <c:forEach items="${problemList}" var="problemVo">
-        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
-        problem_json_list.push({
-            "kth_problem_info":${status.index +1},
-            "problem_id":${problemVo.id},
-            "skeleton_code": skeleton_code,
-            "language_id":${problemVo.languageId},
-        })
-        </c:forEach>
-        </c:forEach>
-    </script>
-    <script>
-        //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
-        //첫번째 문제로 기본 스타트
-        $(function () {
-            alert('확인을 누르면 시험을 시작합니다');
-            select(1);
-            $('.timer').startTimer({
-                onComplete: function () {
-                    alert('시험이 끝났다. 지금 저장본으로 제출한다');
-                    final_submit();
-                }
-            });
-            //ctrl + S
-            $(document).bind('keydown', function (e) {
-                if (e.ctrlKey && (e.which == 83)) {
-                    e.preventDefault();
-                    save_code(current_k);
-                    return false;
-                }
-            });
-            //ctrl + R
-            $(document).bind('keydown', function (e) {
-                if (e.ctrlKey && (e.which == 82)) {
-                    e.preventDefault();
-                    run_code(current_k);
-                    return false;
-                }
-            });
-        })
-    </script>
+    <title>test page</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom-ide2.css" media="screen,projection"/>
 </head>
+
 <body>
-<div id="IDE" style="height: 100vh">
-    <div id="header" style="background-color:grey; height:5%;">
-        <h1 style="float:left">codit</h1>
+<div id="wrapper" class="row">
+    <div id="header" class="center grey lighten-2">
+        <img id="logo" src="${pageContext.request.contextPath}/assets/image/0629_LOGO_FINAL_brown.gif">
     </div>
-    <div style="height:95%">
-        <div id="navbar" style="background-color:skyblue; width:20%; height:100%; float:left">
-            <div id="select-problem">
-                <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                    <button onclick="select(${status.index})">Task${status.index}</button>
-                </c:forEach>
+    <div id="navbar" class="col s4 grey darken-2">
+        <div class="row">
+            <div id= "tabs" class="col s12 grey darken-2">
+                <ul id=select-problem" class="tabs">
+                    <li class="tab col s3 grey darken-2 white-text"><a class="active" href="#task1" onclick="select(1)">Task1</a></li>
+                    <c:forEach var="no" begin="2" end="${problemInfoList.size()}" step="1">
+                        <li class="tab col s3 grey darken-2 white-text"><a href="#task${no}" onclick="select(${no})">Task${no}</a></li>
+                    </c:forEach>
+                </ul>
             </div>
-            <div class="selectable">
-                <c:forEach items="${problemInfoList}" var="problemInfoVo">
-                    <div>
-                        <h3>${problemInfoVo.name}</h3>
-                        <p>${fn:replace(problemInfoVo.description, newline, '<br>')}';</p>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-
-        <div id="workboard" style="background-color: #0C090A; width:80%; height:70%; color:white; float:right">
-            <div>
-                <div class="btn-workboard timer" data-minutes-left="${totalTime}">time left:</div>
-                <div id="select-language" class="btn-workboard">
-                    <label>choose language</label>
-                    <select name="language" onchange="select_editor(current_k, this.value);">
-                        <option value="1">C</option>
-                        <option value="2">JAVA</option>
-                        <option value="3">PYTHON</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="editor" style="width:100%; height:85%;"></div>
-
-            <div>
-                <button id="btn-help" onclick="help()" class="btn-workboard">help(review tutorial)</button>
-                <div id="select-testcase" class="btn-workboard">
-                    <form class="selectable">
-                        <c:forEach items="${testcaseListOfList}" var="testcaseList">
-                            <select name="test_cases">
-                                <c:forEach items="${testcaseList}" var="testcase">
-                                    <option value="${testcase.id}">${testcase.input}</option>
-                                </c:forEach>
-                            </select>
-                        </c:forEach>
-                    </form>
-                </div>
-                <div id="save-code" class="btn-workboard">
-                    <button onclick="save_code()">SAVE(ctrl+S)</button>
-                </div>
-                <div id="run-code" class="btn-workboard">
-                    <button onclick="run_code()">SAVE & RUN(ctrl+R)</button>
-                </div>
-                <div id="load-code" class="btn-workboard">
-                    <button onclick="load_code()">LOAD</button>
-                </div>
-                <button style="float:right" onclick="final_submit()">final submit</button>
-            </div>
-        </div>
-
-        <div id="terminal" class="selectable"
-             style="background-color:violet; height:30%; width:80%; float:right;">
-            <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                <div>
-                    <h2>task ${status.index} output</h2>
-                    <div id="terminal-${status.index}">output will be appended here</div>
+            <c:forEach items="${problemInfoList}" var="problemInfoVo" varStatus="status">
+                <div id="task${status.count}" class="col s12 grey darken-2 white-text">
+                    <h3>${problemInfoVo.name}</h3>
+                    <p>${fn:replace(problemInfoVo.description, newline, '<br>')}';</p>
                 </div>
             </c:forEach>
         </div>
     </div>
+
+    <div id="right" class="col s8">
+        <div class="row">
+            <div id="workboard" class="col s12 grey darken-3">
+                <div class="row">
+                    <div class="col s12 grey darken-3">
+                        <div id="top-bar" class="row">
+                            <div id="div-timeleft" class="col s2 no-padding">
+                                <div class="btn grey darken-3 z-depth-0 inline timer" data-seconds-left="${totalTime}">Time Left: </div>
+                            </div>
+                            <div class="col s2 no-padding">
+                                <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
+                            </div>
+                            <div id="select-language" class="input-field col s1 no-padding">
+                                <select name="language" onchange="select_editor(current_k, this.value);">
+                                    <option value="1">C</option>
+                                    <option value="2">JAVA</option>
+                                    <option value="3">PYTHON</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id = "editor" class="col s12 grey darken-4"></div>
+
+                    <div class="col s12 grey darken-3">
+                        <div class="row">
+                            <div class="col s1 no-padding">
+                                <button id="btn-help" class="btn grey darken-1" onclick="help()">Help</button>
+                            </div>
+                            <div id="save-code" class="col s2 no-padding selectable">
+                                <button onclick="save_code()" class="btn grey darken-1">SAVE(ctrl+S)</button>
+                            </div>
+                            <div id="select-testcase" class="input-field col s2 no-padding left">
+                                <form class="selectable">
+                                    <c:forEach items="${testcaseListOfList}" var="testcaseList">
+                                        <select name="test_cases">
+                                            <option value="0" selected disabled>Select test case</option>
+                                            <c:forEach items="${testcaseList}" var="testcase">
+                                                <option value="${testcase.id}">${testcase.input}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:forEach>
+                                </form>
+                            </div>
+                            <div id="run-code" class="col s3 no-padding center">
+                                    <button onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
+                            </div>
+                            <div id="load-code" class="col s1 no-padding left">
+                                <button onclick="load_code()" class="btn grey darken-1" >LOAD</button>
+                            </div>
+                            <button class="btn right grey darken-1" onclick="final_submit()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 grey darken-3">
+                <div class="row">
+                    <div id="terminal" class="col s12 grey darken-4 selectable">
+                        <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
+                            <div>
+                                <h6 class="white-text">[Task ${status.index} output]</h6>
+                                <div id="terminal-${status.index}" class="white-text">output will be appended here</div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Java script -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<!--Import materialize.js(css)-->
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/materialize/js/materialize.min.js"></script>
+<!-- import external js files -->
+<script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"  charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js" type="text/javascript"  charset="utf-8"></script>
+<script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript"  charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/assets/js/test_page.js" type="text/javascript"  charset="utf-8"></script>
+
+<script>
+    //전역변수에 대한 정보
+    var number_of_problems = ${problemListOfList.size() };
+    var applicant_id = ${authApplicant.id}; //시험 보는 사람의 id값
+    var problem_id; //현재 풀고 있는 problem의 id값
+    var current_k; //전역변수(가변) 현재 보고있는 problemInfo의 status.index
+    var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
+    <c:set var="newline" value="<%= \"\n\" %>" />
+    <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
+    <c:forEach items="${problemList}" var="problemVo">
+    var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+    problem_json_list.push({
+                               "kth_problem_info":${status.index +1},
+                               "problem_id":${problemVo.id},
+                               "skeleton_code": skeleton_code,
+                               "language_id":${problemVo.languageId},
+                           })
+    </c:forEach>
+    </c:forEach>
+</script>
+<script>
+    //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
+    //첫번째 문제로 기본 스타트
+    $(function () {
+        alert('확인을 누르면 시험을 시작합니다');
+        $('select').material_select();
+        select(1);
+        $('.timer').startTimer({
+                                   onComplete: function () {
+                                       alert('시험이 끝났다. 지금 저장본으로 제출한다');
+                                       final_submit();
+                                   }
+                               });
+        //ctrl + S
+        $(document).bind('keydown', function (e) {
+            if (e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                save_code(current_k);
+                return false;
+            }
+        });
+        //ctrl + R
+        $(document).bind('keydown', function (e) {
+            if (e.ctrlKey && (e.which == 82)) {
+                e.preventDefault();
+                run_code(current_k);
+                return false;
+            }
+        });
+    })
+</script>
+
 </body>
 </html>

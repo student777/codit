@@ -1,0 +1,57 @@
+/* IDE
+1. For all : checked
+2. header :checked
+3. card :checked
+4. form & input :checked
+5. button
+6. ide
+*/
+
+/* 1. For all*/
+*{ font-family: "Segoe UI"; margin: 0; padding: 0;}
+.inline{display: inline }
+.selectable > * {
+    display: none;
+}
+
+/* 2. header*/
+#header{height: 34px;}
+#logo{ margin-top: 2px; width: auto; height: 30px;}
+
+/* 5. button */
+
+/*6. ide */
+/*전체 윤곽*/
+body { overflow-y: hidden}
+
+#navbar{ height: 96.5vh; padding: 1rem 3rem; overflow-y: auto;}
+#tabs { margin-top: 1rem; margin-bottom: 2rem;}
+.tabs .tab a {color: #eeeeee}
+.tabs .tab a:hover{color: #bdbdbd }
+.tabs .indicator {background-color: #eeeeee}
+
+#right { margin: 0; padding: 0; }
+
+#workboard {height: 61vh; margin:0 }
+#workboard .row .col {padding-top: 0.45rem; padding-bottom: 0.45rem;}
+#top-bar { margin: 0;}
+#select-language { width: 7rem; }
+#workboard .row .col.no-padding {padding-top:0; padding-bottom: 0}
+.input-field{margin:0; padding:0}
+button, input, optgroup, select, textarea{color: white;}
+.select-wrapper input.select-dropdown{ margin:0; height: 2rem;}
+#select-testcase { width: 15rem; margin-left:1rem; margin-right: 1rem;}
+#editor {height: 51vh; overflow-y: auto;}
+
+
+#terminal{ height: 34vh; margin:0; overflow-y: auto; }
+
+
+/*nav bar*/
+.tab{
+    margin-top: 5px;
+}
+
+/*workboard */
+
+
