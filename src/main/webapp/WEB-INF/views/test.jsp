@@ -53,7 +53,7 @@
                             <div class="col s2 no-padding">
                                 <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
                             </div>
-                            <div id="select-language" class="input-field col s1 no-padding">
+                            <div id="select-language" class="input-field col s2 no-padding">
                                 <select name="language" onchange="select_editor(current_k, this.value);">
                                     <option value="1">C</option>
                                     <option value="2">JAVA</option>
@@ -155,6 +155,7 @@
     //첫번째 문제로 기본 스타트
     $(function () {
         alert('확인을 누르면 시험을 시작합니다');
+        $('select').material_select(); //materializecss의 select를 쓰려면 초기화 해주어야 함
         select(1);
         $('.timer').startTimer({
             onComplete: function () {
