@@ -51,7 +51,7 @@ public class MainService {
     List<ProblemInfoVo> problemInfoList = new ArrayList<ProblemInfoVo>();
     List<List<ProblemVo>> problemListOfList = new ArrayList<List<ProblemVo>>();
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
-    int totalTime = 600;
+    int totalTime = 30;
     boolean isPublicOnly = true;
 
     List<Integer> problemInfoIdList = problemInfoRepository.getPracticeList();
