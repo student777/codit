@@ -49,7 +49,7 @@
                             index = 0;
                         }
                     }
-                })
+                });
             },
             onHide: function () {
             },

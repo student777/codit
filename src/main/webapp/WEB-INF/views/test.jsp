@@ -87,9 +87,6 @@
                             <div class="col s3 no-padding center">
                                 <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
-                            <div class="col s1 no-padding left">
-                                <button id="load-code" onclick="load_code()" class="btn grey darken-1" >LOAD</button>
-                            </div>
                             <div>
                                 <button id="final-submit" class="btn right grey darken-1" onclick="final_submit()">Submit</button>
                             </div>
@@ -115,6 +112,11 @@
 
 <!-- dialog hidden -->
 <div id="dialog-confirm" title="tutorial message">
+    <p></p>
+</div>
+
+<!-- dialog hidden -->
+<div id="dialog-alert" title="message from server">
     <p></p>
 </div>
 
@@ -155,12 +157,12 @@
     //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
     //첫번째 문제로 기본 스타트
     $(function () {
-        alert('확인을 누르면 시험을 시작합니다');
+        new_alert('Test starts');
         $('select').material_select(); //materializecss의 select를 쓰려면 초기화 해주어야 함
         select(1);
         $('.timer').startTimer({
             onComplete: function () {
-                alert('시험이 끝났다. 지금 저장본으로 제출한다');
+                new_alert('Test ends up. Source code you finally saved will be automatically submitted');
                 final_submit();
             }
         });

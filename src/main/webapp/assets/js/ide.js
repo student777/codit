@@ -92,10 +92,10 @@ var save_code = function () {
         data: {"code": code, "problem_id": problem_id},
         success: function (response) {
             if (response == 'success') {
-                alert('saved');
+                new_alert('saved');
             }
             else if (response == 'fail') {
-                alert('save fail');
+                new_alert('save fail');
             }
         },
         error: function (xhr, status, error) {
@@ -134,7 +134,7 @@ var run_code = function () {
                 });
             }
             else if (response == 'fail') {
-                alert('save fail');
+                new_alert('save fail');
             }
         },
         error: function (xhr, status, error) {
@@ -159,4 +159,18 @@ var help = function () {
         $(spotLightData[index].target).spotlight(options);
         index++;
     }
+};
+
+
+//replace new_alert to dialog
+var new_alert = function(msg){
+    $("#dialog-alert").text(msg);
+    $("#dialog-alert").dialog({
+        modal: true,
+        buttons: {
+            Ok: function () {
+                $(this).dialog('close');
+            }
+        }
+    });
 };

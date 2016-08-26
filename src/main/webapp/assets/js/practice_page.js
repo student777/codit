@@ -1,17 +1,14 @@
 //제출 알림만 뜨고 페이지 이동은 없다
 var final_submit = function () {
-    alert('이 버튼을 누르면 최종 제출이 되며 테스트가 끝납니다');
+    new_alert('이 버튼을 누르면 최종 제출이 되며 테스트가 끝납니다');
+    new_alert('Submit all your code and finish test');
 };
 
 //테스트 페이지로 이동
 var goTest = function () {
-    var a = confirm('시험보러간다?');
-    if (a) {
-        location.href = "/test";
-    }
-    else {
-        alert('그래좀더 고민좀 해봐ㅣ라');
-    }
+    //new_confirm 구현 귀찮다
+    //new_alert("let's go test");
+    location.href = "/test";
 };
 
 //spotlight 관련 변수, 함수
@@ -42,3 +39,7 @@ var help = function () {
         index++;
     }
 };
+
+var load_code = function () {
+   new_alert('Load last saved code');
+}

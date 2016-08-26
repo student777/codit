@@ -88,7 +88,10 @@
                                 <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
                             <div class="col s1 no-padding left">
-                                <button class="btn grey darken-1 right" onclick="goTest()">Go Test</button>
+                                <button class="btn grey darken-2 right" onclick="goTest()">Go Test</button>
+                            </div>
+                            <div class="col s1 no-padding left">
+                                <button id="load-code" onclick="load_code()" class="btn grey darken-1" >LOAD</button>
                             </div>
                             <div>
                                 <button id="final-submit" class="btn right grey darken-1" onclick="final_submit()">Submit</button>
@@ -117,6 +120,10 @@
 <div id="dialog-confirm" title="tutorial message">
     <p></p>
 </div>
+<!-- dialog hidden -->
+<div id="dialog-alert" title="message from server">
+    <p></p>
+</div>
 
 <!-- Java script -->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -128,9 +135,8 @@
 <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"  charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js" type="text/javascript"  charset="utf-8"></script>
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/assets/js/ide.js" type="text/javascript"  charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/assets/js/test_page.js" type="text/javascript"  charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/assets/js/practice_page.js" type="text/javascript"  charset="utf-8"></script>
 
 <script>
     //전역변수에 대한 정보
@@ -159,7 +165,7 @@
         help();
         $('.timer').startTimer({
             onComplete: function () {
-                alert('go testing?');
+                new_alert('go testing?');
                 location.href = "/test";
             }
         });
