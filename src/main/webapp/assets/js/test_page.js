@@ -193,7 +193,7 @@ var final_submit = function () {
 //spotlight 관련 변수, 함수
 var spotLightData = [
     { target:"#select-problem", msg:'Click this button to switch task' },
-    { target:"#select-language", msg:'You can choose one of three languages' },
+    { target:"#top-bar > .input-field.col.s2.no-padding", msg:'You can choose one of three languages' },
     { target:"#save-code", msg:'Save current source code. shortcut: ctrl+S' },
     { target:"#select-testcase", msg:'You can test source code with input' },
     { target:"#run-code", msg:'Execute code(auto saved) shortcut: ctrl+R' },
@@ -207,14 +207,14 @@ var index = 0;
 var help = function(){
     var dataLength = spotLightData.length;
     if( index == dataLength ){
-        $(spotLightData[index-1].target).spotLightOff();
         index=0;
-        $( "#dialog-confirm" ).dialog( "close" );
+        $("#dialog-confirm").dialog( "close" );
+        $(".spotlight-background").remove();
         return;
     }
     if( index < dataLength ) {
         var options = {msg: spotLightData[index].msg, index:index };
-        $(spotLightData[index].target).spotLightOn(options);
+        $(spotLightData[index].target).spotlight(options);
         index++;
     }
 };

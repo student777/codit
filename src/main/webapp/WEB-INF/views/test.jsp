@@ -13,8 +13,8 @@
     <title>test page</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/materialize/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom-ide2.css" media="screen,projection"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/materialize-custom-ide.css" media="screen,projection"/>
 </head>
 <body>
 <div id="wrapper" class="row">
@@ -53,8 +53,8 @@
                             <div class="col s2 no-padding">
                                 <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
                             </div>
-                            <div id="select-language" class="input-field col s2 no-padding">
-                                <select name="language" onchange="select_editor(current_k, this.value);">
+                            <div class="input-field col s2 no-padding">
+                                <select id="select-language" name="language" onchange="select_editor(current_k, this.value);">
                                     <option value="1">C</option>
                                     <option value="2">JAVA</option>
                                     <option value="3">PYTHON</option>
@@ -77,7 +77,6 @@
                                 <form class="selectable">
                                     <c:forEach items="${testcaseListOfList}" var="testcaseList">
                                         <select name="test_cases">
-                                            <option value="0" selected disabled>Select test case</option>
                                             <c:forEach items="${testcaseList}" var="testcase">
                                                 <option value="${testcase.id}">${testcase.input}</option>
                                             </c:forEach>
@@ -85,14 +84,14 @@
                                     </c:forEach>
                                 </form>
                             </div>
-                            <div id="run-code" class="col s3 no-padding center">
-                                <button onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
+                            <div class="col s3 no-padding center">
+                                <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
-                            <div id="load-code" class="col s1 no-padding left">
-                                <button onclick="load_code()" class="btn grey darken-1" >LOAD</button>
+                            <div class="col s1 no-padding left">
+                                <button id="load-code" onclick="load_code()" class="btn grey darken-1" >LOAD</button>
                             </div>
-                            <div id="final-submit">
-                                <button class="btn right grey darken-1" onclick="final_submit()">Submit</button>
+                            <div>
+                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit()">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -128,7 +127,8 @@
 <!-- import external js files -->
 <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"  charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js" type="text/javascript"  charset="utf-8"></script>
-<script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript"  charset="utf-8"></script>
+<script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/assets/js/test_page.js" type="text/javascript"  charset="utf-8"></script>
 
 <script>

@@ -56,3 +56,8 @@ button, input, optgroup, select, textarea{color: white;}
 .no-close .ui-dialog-titlebar-close {
     display: none;
 }
+
+/* spotlight의 z-index에 묻히지 않기*/
+.ui-front {
+    z-index: 99999;
+}
