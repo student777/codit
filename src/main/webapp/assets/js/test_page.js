@@ -60,7 +60,7 @@ var select_editor = function (k, language_id) {
     editor.setValue(skeleton_code);
     editor.setTheme("ace/theme/monokai");
     // editor.setOptions({
-    //     fontFamily: "'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas'",
+    //     fontFamily: 'Monaco, Menlo, Ubuntu Mono, Consolas',
     //     fontSize: "12pt"
     // });
     switch (language_id) {

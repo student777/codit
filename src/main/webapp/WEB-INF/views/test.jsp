@@ -47,10 +47,10 @@
                 <div class="row">
                     <div class="col s12 grey darken-3">
                         <div id="top-bar" class="row">
-                            <div id="div-timeleft" class="col s2 no-padding">
-                                <div class="btn grey darken-3 z-depth-0 inline timer" data-minutes-left="${totalTime}">Time Left: </div>
+                            <div id="div-timeleft" class="col s3 no-padding btn grey darken-3 z-depth-0 inline timer" data-minutes-left="${totalTime}">
+                                <span>Time Left: </span>
                             </div>
-                            <div class="col s2 no-padding">
+                            <div class="col s3 no-padding">
                                 <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
                             </div>
                             <div class="input-field col s2 no-padding">
@@ -60,6 +60,9 @@
                                     <option value="3">PYTHON</option>
                                 </select>
                             </div>
+                            <div class="col s2 no-padding right">
+                                <button id="btn-help" class="btn grey darken-1" onclick="help()">Help</button>
+                            </div>
                         </div>
                     </div>
 
@@ -67,11 +70,8 @@
 
                     <div class="col s12 grey darken-3">
                         <div class="row">
-                            <div class="col s1 no-padding">
-                                <button id="btn-help" class="btn grey darken-1" onclick="help()">Help</button>
-                            </div>
-                            <div id="save-code" class="col s2 no-padding selectable">
-                                <button onclick="save_code()" class="btn grey darken-1">SAVE(ctrl+S)</button>
+                            <div class="col s2 no-padding">
+                                <button id="save-code" onclick="save_code()" class="btn grey darken-1">SAVE(ctrl+S)</button>
                             </div>
                             <div id="select-testcase" class="input-field col s2 no-padding left">
                                 <form class="selectable">
