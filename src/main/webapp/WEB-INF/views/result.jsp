@@ -70,6 +70,7 @@
                         <br>
                 <c:forEach items="${resultListOfList}" var="resultList" varStatus="status">
                             <h5 class="grey-text">Problem ${status.index + 1}</h5>
+                            <a href="/result/${status.index + 1}" class="waves-effect waves-light btn">show source tree</a>
                             <table class="bordered centered">
                                 <thead>
                                     <tr>

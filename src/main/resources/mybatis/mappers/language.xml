@@ -16,4 +16,8 @@
   <select id="selectById" resultType="languagevo" parameterType="int">
     <![CDATA[  SELECT id, name FROM language WHERE id=#{id } ]]>
   </select>
+
+  <select id="selectByProblemId" resultType="int" parameterType="int">
+    <![CDATA[  SELECT l.id FROM language l, problem p WHERE l.id=p.language_id and p.id=#{id } ]]>
+  </select>
 </mapper>
