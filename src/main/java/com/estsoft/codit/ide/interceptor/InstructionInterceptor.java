@@ -20,7 +20,7 @@ public class InstructionInterceptor extends HandlerInterceptorAdapter {
     String ticket = request.getParameter("ticket");
     String email = request.getParameter("email");
     ApplicantVo applicantVoByTicket = applicantRepository.getByTicket(ticket);
-    ApplicantVo applicantVoByEmail = applicantRepository.getByEmail(email);
+    ApplicantVo applicantVoByEmail = applicantRepository.getByRecruitIdEmail(applicantVoByTicket.getRecruitId() , email);
     if(applicantVoByTicket==null || applicantVoByEmail==null){
       return true;
     }

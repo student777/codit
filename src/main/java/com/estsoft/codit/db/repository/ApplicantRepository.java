@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -29,8 +30,11 @@ public class ApplicantRepository {
     return sqlSession.selectOne("applicant.selectByTicket", ticket);
   }
 
-  public ApplicantVo getByEmail(String email) {
-    return sqlSession.selectOne("applicant.selectByEmail", email);
+  public ApplicantVo getByRecruitIdEmail(Integer recruitId, String email) {
+    HashMap<String , Object> map = new HashMap<String, Object>();
+    map.put("recruitId", recruitId);
+    map.put("email", email);
+    return sqlSession.selectOne("applicant.selectByRecruitIdEmail", map);
   }
 
   public void setStartTime(ApplicantVo applicantVo){

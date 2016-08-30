@@ -21,8 +21,8 @@
     <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE ticket=#{ticket } ]]>
   </select>
 
-  <select id="selectByEmail" resultType="applicantvo" parameterType="String">
-    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE email=#{email } ]]>
+  <select id="selectByRecruitIdEmail" resultType="applicantvo" parameterType="map">
+    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE email=#{email } AND recruit_id= #{recruitId}]]>
   </select>
 
   <insert id="insertStartTime" parameterType="int">
