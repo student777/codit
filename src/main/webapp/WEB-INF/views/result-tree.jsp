@@ -123,8 +123,10 @@
     /* set editor*/
     var editor = ace.edit("editor");
     var language_id = ${language_id};
-    <c:set var="newline" value="<%= \"\n\" %>" />
-    var code = '${fn:replace(sourcecode, newline, '\\n')}';
+    <%--<% pageContext.setAttribute("newLine", "\n"); %>--%>
+    <%-- 현웅아 대소문자에 유의하자>--%>
+    <c:set var="newLine" value="<%= \"\n\" %>" />
+    var code = '${fn:replace(sourcecode, newLine, "\\n")}';
     editor.setValue(code);
     editor.setTheme("ace/theme/monokai");
     switch (language_id) {

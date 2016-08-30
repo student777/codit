@@ -74,12 +74,12 @@ public class ResultService {
     if(problemVo.getLanguageId()==2){
       ExecCompiler execCompiler = new ExecCompiler(sourceCodeVo);
       String json = execCompiler.run();
-      model.addAttribute("sourcecode", sourceCodeVo.getCode().replace("\r\n", "\n"));
+      model.addAttribute("sourcecode", sourceCodeVo.getCode().replaceAll("\r\n", "\n"));
       model.addAttribute("language_id", languageId);
       model.addAttribute("json", json);
     }
     else{
-      model.addAttribute("sourcecode", sourceCodeVo.getCode());
+      model.addAttribute("sourcecode", sourceCodeVo.getCode().replaceAll("\r\n", "\n"));
       model.addAttribute("json", "{info: \"C, python은 준비중입니다\"}");
       model.addAttribute("language_id", languageId);
     }
