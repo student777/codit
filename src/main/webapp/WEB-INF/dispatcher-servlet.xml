@@ -44,7 +44,8 @@
     </mvc:annotation-driven>
 
     <!-- the mvc resources tag does the magic -->
-    <mvc:resources mapping="/assets/materialize/**" location="http://localhost/static/materialize/" />
-    <mvc:resources mapping="/assets/ace/**" location="http://localhost/static/ace/" />
+    <mvc:resources mapping="/assets/materialize/**" location="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/" />
+    <!--<mvc:resources mapping="/assets/ace/**" location="https://raw.githubusercontent.com/ajaxorg/ace/master/lib/ace/" />-->
+    <mvc:resources mapping="/assets/ace/**" location="file:/home/yee/workspace/ace/lib/ace/" />
 
 </beans>
