@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ExecUtils {
-  public final static String WORKSPACE_PATH = "/home/joonho/www/codit/";
+  public final static String WORKSPACE_PATH = "/home/yee/workspace/www/";
 
 
   public static String getStringFromProcess(Process process) {
