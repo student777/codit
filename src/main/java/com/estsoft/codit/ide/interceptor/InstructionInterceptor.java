@@ -17,16 +17,14 @@ public class InstructionInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    String ticket = request.getParameter("ticket");
-    String email = request.getParameter("email");
-    ApplicantVo applicantVoByTicket = applicantRepository.getByTicket(ticket);
-    ApplicantVo applicantVoByEmail = applicantRepository.getByRecruitIdEmail(applicantVoByTicket.getRecruitId() , email);
-    if(applicantVoByTicket==null || applicantVoByEmail==null){
+    String secretKey = request.getParameter("secret_key");
+    ApplicantVo applicantVo = applicantRepository.getBySecretKey(secretKey);
+    if(applicantVo==null){
       return true;
     }
-    if(applicantVoByTicket.getId()==applicantVoByEmail.getId()){
+    else{
       HttpSession session = request.getSession(true);
-      session.setAttribute("authApplicant", applicantVoByTicket );
+      session.setAttribute("authApplicant", applicantVo );
     }
     return true;
   }

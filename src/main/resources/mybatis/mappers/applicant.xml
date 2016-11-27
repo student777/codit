@@ -2,34 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="applicant">
-  <select id="selectAll" resultType="applicantvo">
-    <![CDATA[ SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant ]]>
-  </select>
-
-  <insert id="insert" parameterType="applicantvo">
-    <![CDATA[ insert into applicant value(null, 'jisung', 'jisung@gmail.com', 'ijijijijij', now(), null, 1); ]]>
-    <selectKey keyProperty="id" resultType="int">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-  </insert>
-
   <select id="selectById" resultType="applicantvo" parameterType="int">
-    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE id=#{id } ]]>
+    <![CDATA[ SELECT id, name FROM applicant WHERE id=#{id } ]]>
   </select>
 
-  <select id="selectByTicket" resultType="applicantvo" parameterType="String">
-    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE ticket=#{ticket } ]]>
+  <select id="selectBySecretKey" resultType="applicantvo" parameterType="String">
+    <![CDATA[ SELECT id, name FROM applicant WHERE secret_key=#{secret_key } ]]>
   </select>
 
-  <select id="selectByRecruitIdEmail" resultType="applicantvo" parameterType="map">
-    <![CDATA[  SELECT id, name, email, ticket, start_time as startTime, submit_time as submitTime, recruit_id as recruitId FROM applicant WHERE email=#{email } AND recruit_id= #{recruitId}]]>
-  </select>
-
-  <insert id="insertStartTime" parameterType="int">
-    <![CDATA[ update applicant set start_time=now() where id=#{id} ]]>
-  </insert>
-
-  <insert id="insertSubmitTime" parameterType="int">
-    <![CDATA[ update applicant set submit_time=now() where id=#{id} ]]>
-  </insert>
 </mapper>

@@ -44,35 +44,16 @@ public class TestService {
   @Autowired
   private ResultRepository resultRepository;
 
-  /*
-  applicant에 해당되는 문제 풀을 설정해줌
-  */
-  public void initializeTest(Model model, ApplicantVo applicantVo){
-    //init variables
-    List<ProblemInfoVo> problemInfoList = new ArrayList<>();
-    List<List<ProblemVo>> problemListOfList = new ArrayList<>();
-    List<List<TestCaseVo>> testcaseListOfList = new ArrayList<>();
-    int totalTime = 0;
-    boolean isPublicOnly = true;
-
-    //set problem
-    List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantVo.getId() );
-    for (int problemInfoId:problemInfoIdList ) {
-      ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
-      List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
-      List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
-      problemInfoList.add(problemInfoVo);
-      problemListOfList.add(problemVoList);
-      testcaseListOfList.add(testCaseVoList);
-      totalTime += problemInfoVo.getEstimatedTime();
-    }
-    model.addAttribute("problemInfoList", problemInfoList ) ;
-    model.addAttribute("problemListOfList", problemListOfList);
-    model.addAttribute("testcaseListOfList", testcaseListOfList);
-    model.addAttribute("totalTime", totalTime);
-
-    //set timer
-    applicantRepository.setStartTime(applicantVo);
+  //get problem list by problem_info id
+  public void initializeTest(Model model, int problemInfoId){
+    boolean isPublicOnly = true; //only public when tested, both public and private when marked
+    ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
+    List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
+    List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
+    model.addAttribute("problemInfoVo", problemInfoVo ) ;
+    model.addAttribute("problemList", problemVoList);
+    model.addAttribute("testcaseList", testCaseVoList);
+    model.addAttribute("totalTime", problemInfoVo.getEstimatedTime());
   }
 
 
@@ -134,19 +115,13 @@ public class TestService {
   }
 
   //
-  public void finalize_test(ApplicantVo applicantVo) {
-    //set submit_time
-    applicantRepository.setSubmitTime(applicantVo);
-
-    //set permission
-  }
 
   public void mark(ApplicantVo applicantVo){
     int applicantId = applicantVo.getId();
 
     //get TestCase
     List<List<TestCaseVo>> testcaseListOfList = new ArrayList<List<TestCaseVo>>();
-    List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId( applicantId );
+    List<Integer> problemInfoIdList = problemInfoRepository.getList();
     for (int problemInfoId:problemInfoIdList ) {
       boolean isPublicOnly = false;
       List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);

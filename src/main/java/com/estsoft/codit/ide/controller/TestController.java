@@ -8,6 +8,7 @@ import com.estsoft.codit.ide.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,13 +22,11 @@ public class TestController {
   private TestService testService;
 
 
-   /*
-   IDE 콘솔. applicant, cart, problem, problem_info, test_case 정보를 받아서 콘솔을 그려준다
-   */
+  // get problem_info, problem list, test_case by id of problem_info and render these data
   @Auth
-  @RequestMapping("")
-  public String main(Model model, @AuthApplicant ApplicantVo applicantVo) {
-    testService.initializeTest(model, applicantVo);
+  @RequestMapping("{id}")
+  public String main(Model model, @PathVariable("id") int problemInfoId) {
+    testService.initializeTest(model, problemInfoId);
     return "test";
   }
 
@@ -88,7 +87,6 @@ public class TestController {
   @ResponseBody
   @RequestMapping("/submit")
   public void submit(@AuthApplicant ApplicantVo applicantVo) {
-    testService.finalize_test(applicantVo);
     testService.mark(applicantVo);
   }
 }

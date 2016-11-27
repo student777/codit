@@ -25,19 +25,14 @@
         <div class="row">
             <div id= "tabs" class="col s12 grey darken-2">
                 <ul id="select-problem" class="tabs">
-                    <li class="tab col s3 grey darken-2 white-text"><a class="active" href="#task1" onclick="select(1)">Task1</a></li>
-                    <c:forEach var="no" begin="2" end="${problemInfoList.size()}" step="1">
-                        <li class="tab col s3 grey darken-2 white-text"><a href="#task${no}" onclick="select(${no})">Task${no}</a></li>
-                    </c:forEach>
+                    <li class="tab col s3 grey darken-2 white-text"><a class="active" >Task</a></li>
                 </ul>
             </div>
-            <c:forEach items="${problemInfoList}" var="problemInfoVo" varStatus="status">
-                <div id="task${status.count}" class="col s12 grey darken-2 white-text">
-                    <h3>${problemInfoVo.name}</h3>
-                    <c:set var="newline" value="<%= \"\n\" %>" />
-                    <p>${fn:replace(problemInfoVo.description, newline, '<br>')}';</p>
-                </div>
-            </c:forEach>
+            <div id="task1" class="col s12 grey darken-2 white-text">
+                <h3>${problemInfoVo.name}</h3>
+                <c:set var="newline" value="<%= \"\n\" %>" />
+                <p>${fn:replace(problemInfoVo.description, newline, '<br>')}</p>
+            </div>
         </div>
     </div>
 
@@ -54,7 +49,7 @@
                                 <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
                             </div>
                             <div class="input-field col s2 no-padding">
-                                <select id="select-language" name="language" onchange="select_editor(current_k, this.value);">
+                                <select id="select-language" name="language" onchange="select_editor(this.value);">
                                     <option value="1">C</option>
                                     <option value="2">JAVA</option>
                                     <option value="3">PYTHON</option>
@@ -70,18 +65,13 @@
 
                     <div class="col s12 grey darken-3">
                         <div class="row">
-                            <div class="col s2 no-padding">
-                                <button id="save-code" onclick="save_code()" class="btn grey darken-1">SAVE(ctrl+S)</button>
-                            </div>
                             <div id="select-testcase" class="input-field col s2 no-padding left">
-                                <form class="selectable">
-                                    <c:forEach items="${testcaseListOfList}" var="testcaseList">
-                                        <select name="test_cases">
-                                            <c:forEach items="${testcaseList}" var="testcase">
-                                                <option value="${testcase.id}">${testcase.input}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </c:forEach>
+                                <form>
+                                    <select name="test_cases">
+                                        <c:forEach items="${testcaseList}" var="testcase">
+                                            <option value="${testcase.id}">${testcase.input}</option>
+                                        </c:forEach>
+                                    </select>
                                 </form>
                             </div>
                             <div class="col s3 no-padding center">
@@ -99,13 +89,11 @@
             </div>
             <div class="col s12 grey darken-3">
                 <div class="row">
-                    <div id="terminal" class="col s12 grey darken-4 selectable">
-                        <c:forEach begin="1" end="${problemInfoList.size()}" varStatus="status">
-                            <div>
-                                <h6 class="white-text">[Task ${status.index} output]</h6>
-                                <div id="terminal-${status.index}" class="white-text">output will be appended here</div>
-                            </div>
-                        </c:forEach>
+                    <div id="terminal" class="col s12 grey darken-4">
+                        <div>
+                            <h6 class="white-text">[Task output]</h6>
+                            <div class="white-text">output will be appended here</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,46 +123,33 @@
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/assets/js/ide.js" type="text/javascript"  charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/assets/js/test_page.js" type="text/javascript"  charset="utf-8"></script>
 
+<!-- Global variables -->
 <script>
-    //전역변수에 대한 정보
-    var number_of_problems = ${problemListOfList.size() };
-    var applicant_id = ${authApplicant.id}; //시험 보는 사람의 id값
-    var problem_id; //현재 풀고 있는 problem의 id값
-    var current_k; //전역변수(가변) 현재 보고있는 problemInfo의 status.index
-    var problem_json_list = []; //전역변수(가변) 풀고있는 problem list(JSON)
-    <c:forEach items="${problemListOfList}" var="problemList" varStatus="status">
+    var applicant_id = ${authApplicant.id};
+    var problem_id; // id of facing ProblemVo
+
+    // manage problem list by following json
+    var problem_json_list = [];
     <c:forEach items="${problemList}" var="problemVo">
-    var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
-    problem_json_list.push({
-                               "kth_problem_info":${status.index +1},
-                               "problem_id":${problemVo.id},
-                               "skeleton_code": skeleton_code,
-                               "language_id":${problemVo.languageId},
-                           })
-    </c:forEach>
+        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+        problem_json_list.push({
+           "problem_id":${problemVo.id},
+           "skeleton_code": skeleton_code,
+           "language_id":${problemVo.languageId},
+        })
     </c:forEach>
 </script>
+
+<!-- Set timer, keybind, first problem -->
 <script>
-    //모든 페이지가 로드 되면 창띄워서 물어보고 확인 누르면 타이머가 돌아가며 시작
-    //첫번째 문제로 기본 스타트
     $(function () {
         new_alert('Test starts');
         $('select').material_select(); //materializecss의 select를 쓰려면 초기화 해주어야 함
-        select(1);
         $('.timer').startTimer({
             onComplete: function () {
-                new_alert('Test ends up. Source code you finally saved will be automatically submitted');
+                new_alert('Time over, source code you finally run will be automatically submitted');
                 final_submit();
-            }
-        });
-        //ctrl + S
-        $(document).bind('keydown', function (e) {
-            if (e.ctrlKey && (e.which == 83)) {
-                e.preventDefault();
-                save_code(current_k);
-                return false;
             }
         });
         //ctrl + R
@@ -185,6 +160,7 @@
                 return false;
             }
         });
+        select_editor('1');
     })
 </script>
 

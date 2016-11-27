@@ -47,7 +47,7 @@ public class ResultService {
     model.addAttribute("applicantVo", applicantVo);
 
     //set result
-    List<Integer> problemInfoIdList = problemInfoRepository.getByApplicantId(applicantId);
+    List<Integer> problemInfoIdList = problemInfoRepository.getList();
     List<List<ResultVo>> resultListOfList = new ArrayList<List<ResultVo>>();
     for (int problemInfoId:problemInfoIdList ) {
       List<ResultVo> resultList = new ArrayList<ResultVo>();

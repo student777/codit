@@ -47,7 +47,6 @@
     <mvc:resources mapping="/assets/materialize/**" location="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/" />
 
     <!--ace cdn troll-trick-->
-    <!--<mvc:resources mapping="/assets/ace/**" location="file:/home/yee/workspace/ace-builds/src/" />-->
     <mvc:resources mapping="/assets/ace/**" location="https://raw.githubusercontent.com/ajaxorg/ace-builds/master/src-min-noconflict/" />
 
 </beans>

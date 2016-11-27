@@ -29,23 +29,26 @@
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <h6>1. Once you start test, you can not manualy stop this test<br>
-                            <br>2. A sourcecode you finally saved will be marked<br>
-                            <br>3. You can use other editor<br>
-                            <br>4. NO cheating. Don't be evil</h6>
+                        <h6>You can choose one of the following problems</h6>
                     </div>
                 </div>
                 <div class="row center">
                     <br>
                     <br>
-                    <div class="col s3 offset-s3">
-                        <a href="${pageContext.request.contextPath}/practice">
-                            <button class="btn brown white-text">Practice test</button>
+                    <!-- TODO: get all problem_info list by DB query -->
+                    <div class="col s3">
+                        <a href="${pageContext.request.contextPath}/test/1">
+                            <button class="btn brown white-text">problem1</button>
                         </a>
                     </div>
-                    <div class="col s3 ">
-                        <a href="${pageContext.request.contextPath}/test">
-                            <button class="btn brown white-text">Start test</button>
+                    <div class="col s3">
+                        <a href="${pageContext.request.contextPath}/test/2">
+                            <button class="btn brown white-text">problem2</button>
+                        </a>
+                    </div>
+                    <div class="col s3">
+                        <a href="${pageContext.request.contextPath}/test/3">
+                            <button class="btn brown white-text">problem3</button>
                         </a>
                     </div>
                 </div>

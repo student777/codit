@@ -13,10 +13,6 @@ public class ProblemRepository {
   @Autowired
   private SqlSession sqlSession;
 
-  public List<ProblemVo> getList(){
-    return sqlSession.selectList("problem.selectAll");
-  }
-
   public int insert(){
     return sqlSession.insert("problem.insert");
   }
@@ -28,7 +24,4 @@ public class ProblemRepository {
   public List<ProblemVo> getByProblemInfoId(int problemInfoId) {
     return sqlSession.selectList("problem.selectByProblemInfo", problemInfoId);
   }
-
-
-
 }

@@ -14,7 +14,7 @@ public class ProblemInfoRepository {
   @Autowired
   private SqlSession sqlSession;
 
-  public List<ProblemInfoVo> getList(){
+  public List<Integer> getList(){
     return sqlSession.selectList("probleminfo.selectAll");
   }
 
@@ -24,21 +24,5 @@ public class ProblemInfoRepository {
 
   public ProblemInfoVo get(int id){
     return sqlSession.selectOne("probleminfo.selectById", id);
-  }
-
-  public List<Integer> getByApplicantId(int id){
-    List<Integer> list = sqlSession.selectList("probleminfo.selectByApplicantId", id);
-    return list;
-  }
-
-  /*
-  튜토리얼 할때 쓰는 더미 문제들
-   */
-  public List<Integer> getPracticeList() {
-    List<Integer> list = new ArrayList<Integer>();
-    list.add(1);
-    list.add(2);
-    list.add(3);
-    return list;
   }
 }

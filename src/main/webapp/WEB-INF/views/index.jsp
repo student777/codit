@@ -30,17 +30,17 @@
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <p>Hello . ${applicant.name}
-                            <br>Welcome to coding interview.
-                            <br>To login, please write your email</p>
+                        <p>Hello boy,
+                            <br>Welcome to coding test.
+                            <br>To login, please write your secret key
+                            <br>If you don't know this, please email: darkdakku@gmail.com</p>
                         <form action="${pageContext.request.contextPath}/instruction" method="post">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input name="email" id="email" type="email" class="validate">
-                                    <label for="email">Email</label>
+                                    <input name="secret_key" id="secret_key" type="password" class="validate">
+                                    <label for="secret_key">secret key</label>
                                 </div>
                             </div>
-                            <input type="hidden" name="ticket" value="${param.ticket}"/>
                             <div class="center">
                                 <button type="submit" class="btn brown white-text">Submit</button>
                             </div>

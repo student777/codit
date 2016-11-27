@@ -10,24 +10,16 @@ import java.util.List;
 
 @Repository
 public class LanguageRepository {
-  @Autowired
-  private SqlSession sqlSession;
+    @Autowired
+    private SqlSession sqlSession;
 
-  public List<LanguageVo> getList(){
-    return sqlSession.selectList("language.selectAll");
-  }
+    public LanguageVo get(int id) {
+        return sqlSession.selectOne("language.selectById", id);
+    }
 
-  public int insert(){
-    return sqlSession.insert("language.insert");
-  }
-
-  public LanguageVo get(int id){
-    return sqlSession.selectOne("language.selectById", id);
-  }
-
-  public int getByProblemId(int id){
-    sqlSession.selectOne("language.selectByProblemId", id);
-    return sqlSession.selectOne("language.selectByProblemId", id);
-  }
+    public int getByProblemId(int id) {
+        sqlSession.selectOne("language.selectByProblemId", id);
+        return sqlSession.selectOne("language.selectByProblemId", id);
+    }
 
 }

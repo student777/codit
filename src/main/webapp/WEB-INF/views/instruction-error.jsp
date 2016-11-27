@@ -26,7 +26,7 @@
                 <br>
                 <div class="row">
                     <div class="col s8 offset-s2">
-                        <p>please check your email link
+                        <p>please check your secret key
                     </div>
                 </div>
             </div>
