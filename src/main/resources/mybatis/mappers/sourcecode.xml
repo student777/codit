@@ -2,10 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sourcecode">
-  <select id="selectAll" resultType="sourcecodevo">
-    <![CDATA[ SELECT id, code, applicnat_id as applicantId, problem_id as problemId  FROM source_code ]]>
-  </select>
-
   <insert id="insert" parameterType="sourcecodevo">
     <![CDATA[insert into source_code value(null, #{code}, #{applicantId}, #{problemId}) ]]>
   </insert>

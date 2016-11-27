@@ -146,17 +146,18 @@ var load_code = function () {
 }
 
 //최종 제출
-var final_submit = function () {
+var final_submit = function (k) {
     var a = confirm('really?');
     if (a) {
         $.ajax({
-            url: '/test/submit',
+            url: '/test/'+ k + '/submit',
             type: "post",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             //dataType: "json",
-            success: function () {
+            success: function (response) {
+                alert(response);
                 alert("good job");
-                location.href = "/result";
+                location.href = "/result/" + k;
             },
             error: function (xhr, status, error) {
                 console.error(status + ":" + error);

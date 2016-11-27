@@ -9,5 +9,4 @@
   <select id="selectBySecretKey" resultType="applicantvo" parameterType="String">
     <![CDATA[ SELECT id, name FROM applicant WHERE secret_key=#{secret_key } ]]>
   </select>
-
 </mapper>

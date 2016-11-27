@@ -13,10 +13,6 @@ public class SourceCodeRepository {
   @Autowired
   private SqlSession sqlSession;
 
-  public List<SourceCodeVo> getList(){
-    return sqlSession.selectList("sourcecode.selectAll");
-  }
-
   public int insert(SourceCodeVo sourceCodeVo){
     return sqlSession.insert("sourcecode.insert", sourceCodeVo);
   }

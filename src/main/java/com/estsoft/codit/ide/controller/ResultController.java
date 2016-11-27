@@ -24,15 +24,15 @@ public class ResultController {
    */
   @Auth
   @RequestMapping("")
-  public String main(Model model, @AuthApplicant ApplicantVo applicantVo){
-    resultService.getResult(model, applicantVo);
+  public String main(){
+    // I don't know what to add this page
     return "result";
   }
 
   @Auth
-  @RequestMapping("/{index}")
-  public String showTree(Model model, @AuthApplicant ApplicantVo applicantVo, @PathVariable("index") int index){
-    resultService.getTree(model, applicantVo, index);
-    return "result-tree";
+  @RequestMapping("/{id}")
+  public String records(Model model, @AuthApplicant ApplicantVo applicantVo, @PathVariable("id") int problemInfoId){
+    resultService.getDetailResult(model, applicantVo, problemInfoId);
+    return "result";
   }
 }

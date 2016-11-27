@@ -13,10 +13,6 @@ public class TestCaseRepository {
   @Autowired
   private SqlSession sqlSession;
 
-  public List<TestCaseVo> getList(){
-    return sqlSession.selectList("testcase.selectAll");
-  }
-
   public int insert(){
     return sqlSession.insert("testcase.insert");
   }

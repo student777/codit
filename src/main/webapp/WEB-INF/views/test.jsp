@@ -77,11 +77,8 @@
                             <div class="col s3 no-padding center">
                                 <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
-                            <div class="col s1 no-padding left">
-                                <button id="load-code" onclick="load_code()" class="btn grey darken-1" >LOAD</button>
-                            </div>
                             <div>
-                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit()">Submit</button>
+                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit(problem_id)">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -149,7 +146,7 @@
         $('.timer').startTimer({
             onComplete: function () {
                 new_alert('Time over, source code you finally run will be automatically submitted');
-                final_submit();
+                final_submit(problem_id);
             }
         });
         //ctrl + R

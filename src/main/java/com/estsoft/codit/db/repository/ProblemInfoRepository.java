@@ -11,18 +11,23 @@ import java.util.List;
 
 @Repository
 public class ProblemInfoRepository {
-  @Autowired
-  private SqlSession sqlSession;
+    @Autowired
+    private SqlSession sqlSession;
 
-  public List<Integer> getList(){
-    return sqlSession.selectList("probleminfo.selectAll");
-  }
+    public List<Integer> getList() {
+        return sqlSession.selectList("probleminfo.selectAll");
+    }
 
-  public int insert(){
-    return sqlSession.insert("probleminfo.insert");
-  }
+    public int insert() {
+        return sqlSession.insert("probleminfo.insert");
+    }
 
-  public ProblemInfoVo get(int id){
-    return sqlSession.selectOne("probleminfo.selectById", id);
-  }
+    public ProblemInfoVo get(int id) {
+        return sqlSession.selectOne("probleminfo.selectById", id);
+    }
+
+    //TODO
+    public int getByProblemId(int problemId) {
+        return sqlSession.selectOne("probleminfo.selectByProblemId", problemId);
+    }
 }
