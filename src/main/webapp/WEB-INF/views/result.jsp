@@ -28,71 +28,60 @@
             <div class="card-panel white">
                 <div class="row">
                     <div class="col s10 offset-s1">
-                        <h4 class="grey-text">Report Page</h4>
+                        <h4 class="grey-text">Result</h4>
                         <h5 class="center-align">Good job, ${applicantVo.name }!</h5>
                         <br>
                         <img class="center-block" height="320" width="386"
                              src="${pageContext.request.contextPath }/assets/image/fighting-racoon.jpg"/>
                     </div>
                 </div>
-
-            <div class="row">
-                <div class="col s10 offset-s1">
-                <h4>Summary</h4>
-                <table class="striped centered">
-                    <thead>
-                        <tr>
-                            <th>Problem</th>
-                            <th>No.of right answers / Total no. of test cases</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${resultListOfList}" var="resultList" varStatus="status">
-                        <c:set var="count" value="0" scope="page"/>
-                        <tr>
-                            <c:forEach items="${resultList}" var="resultVo">
-                                <c:if test="${resultVo.correctness eq true}">
-                                    <c:set var="count" value="${count + 1}" scope="page"/>
-                                </c:if>
-                            </c:forEach>
-                            <td>Task ${status.index + 1}</td>
-                            <td>${count} / ${resultList.size() }</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                </div>
-            </div>
-                <br>
-                <br>
-
                 <div class="row">
                     <div class="col s10 offset-s1">
                         <h4>Details</h4>
-                        <br>
-                <c:forEach items="${resultListOfList}" var="resultList" varStatus="status">
-                            <h5 class="grey-text">Problem ${status.index + 1}</h5>
-                            <a href="/result/${status.index + 1}" class="waves-effect waves-light btn">show source tree</a>
-                            <table class="bordered centered">
-                                <thead>
-                                    <tr>
-                                        <th>test_case number</th>
-                                        <th>memory used</th>
-                                        <th>running time</th>
-                                        <th>correctness</th>
-                                    </tr>
-                                </thead>
-                                <c:forEach items="${resultList}" var="resultVo" varStatus="status2">
-                                    <tr>
-                                        <td>${status2.index +1 }</td>
-                                        <td>${resultVo.usedMemory }</td>
-                                        <td>${resultVo.runningTime }ms</td>
-                                        <td>${resultVo.correctness }</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                            <br>
-                </c:forEach>
+                        <h5 class="grey-text">Problem ${problemId}</h5>
+                        <table class="bordered centered">
+                            <thead>
+                                <tr>
+                                    <th>test_case number</th>
+                                    <th>memory used</th>
+                                    <th>running time</th>
+                                    <th>correctness</th>
+                                </tr>
+                            </thead>
+                            <c:forEach items="${resultList}" var="resultVo" varStatus="status">
+                                <tr>
+                                    <td>${status.index +1 }</td>
+                                    <td>${resultVo.usedMemory }</td>
+                                    <td>${resultVo.runningTime }ms</td>
+                                    <td>${resultVo.correctness }</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col s10 offset-s1">
+                        <h4>Recordsjhhbhbhb</h4>
+                        <h5 class="grey-text">Problem ${problemId}</h5>
+                        <table class="bordered centered">
+                            <thead>
+                            <tr>
+                                <th>test_case number</th>
+                                <th>memory used</th>
+                                <th>running time</th>
+                                <th>correctness</th>
+                            </tr>
+                            </thead>
+                            <c:forEach items="${resultList}" var="resultVo" varStatus="status">
+                                <tr>
+                                    <td>${status.index +1 }</td>
+                                    <td>${resultVo.usedMemory }</td>
+                                    <td>${resultVo.runningTime }ms</td>
+                                    <td>${resultVo.correctness }</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
             </div>
         </div>
     </div>

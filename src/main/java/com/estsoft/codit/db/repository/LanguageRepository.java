@@ -1,12 +1,9 @@
 package com.estsoft.codit.db.repository;
 
 import com.estsoft.codit.db.vo.LanguageVo;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public class LanguageRepository {

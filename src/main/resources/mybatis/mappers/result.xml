@@ -10,8 +10,7 @@
     <![CDATA[ insert into result value(#{applicantId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime} ); ]]>
   </insert>
 
-  <select id="selectByApplicantAndTestCase" resultType="resultvo" parameterType="resultvo">
-    <![CDATA[ SELECT applicant_id as applicantId, test_case_id as testCaseId, correctness, used_memory as usedMemory, running_time as runningTime FROM result WHERE applicant_id=#{applicantId} and test_case_id=#{testCaseId} ]]>
+  <select id="selectBySourceCodeAndTestCase" resultType="resultvo" parameterType="resultvo">
+    <![CDATA[ SELECT source_code_id as sourceCodeId, test_case_id as testCaseId, correctness, used_memory as usedMemory, running_time as runningTime FROM result WHERE source_code_id=#{sourceCodeId} and test_case_id=#{testCaseId} ]]>
   </select>
-
 </mapper>

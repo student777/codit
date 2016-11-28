@@ -4,7 +4,6 @@ import com.estsoft.codit.db.vo.ApplicantVo;
 import com.estsoft.codit.ide.annotation.Auth;
 import com.estsoft.codit.ide.annotation.AuthApplicant;
 import com.estsoft.codit.ide.service.TestService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

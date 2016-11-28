@@ -9,21 +9,21 @@ import static com.estsoft.codit.ide.executor.ExecUtils.WORKSPACE_PATH;
 
 class ExecPython extends Exec {
 
-  ExecPython(SourceCodeVo sourceCodeVo, ProblemVo problemVo) {
-    super(sourceCodeVo, problemVo, "/task.py", "/main.py");
-    this.runtimeCommand = new String[]{"python3", WORKSPACE_PATH+"sourcecode/" + sourceCodeVo.getId() + "/main.py"};
-  }
+    ExecPython(SourceCodeVo sourceCodeVo, ProblemVo problemVo) {
+        super(sourceCodeVo, problemVo, "/task.py", "/main.py");
+        this.runtimeCommand = new String[]{"python3", WORKSPACE_PATH + "sourcecode/" + sourceCodeVo.getId() + "/main.py"};
+    }
 
-  //python만 유일하게 컴파일 과정이 없으므로 override해줌
-  @Override
-  public String run(TestCaseVo testCaseVo) {
-    return execCommand(runtimeCommand, testCaseVo, false).getOutput();
-  }
+    //python만 유일하게 컴파일 과정이 없으므로 override해줌
+    @Override
+    public String run(TestCaseVo testCaseVo) {
+        return execCommand(runtimeCommand, testCaseVo, false).getOutput();
+    }
 
-  @Override
-  public ExecResultInfo mark(TestCaseVo testCaseVo) {
-    //컴파일 성공 시 채점: set output and running time and memory_used
-    ExecResultInfo execResultInfo = execCommand(runtimeCommand, testCaseVo, true);
-    return execResultInfo;
-  }
+    @Override
+    public ExecResultInfo mark(TestCaseVo testCaseVo) {
+        //컴파일 성공 시 채점: set output and running time and memory_used
+        ExecResultInfo execResultInfo = execCommand(runtimeCommand, testCaseVo, true);
+        return execResultInfo;
+    }
 }

@@ -1,9 +1,7 @@
 package com.estsoft.codit.ide.service;
 
 import com.estsoft.codit.db.repository.*;
-import com.estsoft.codit.db.vo.ApplicantVo;
-import com.estsoft.codit.db.vo.ResultVo;
-
+import com.estsoft.codit.db.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -32,16 +30,23 @@ public class ResultService {
     @Autowired
     private LanguageRepository languageRepository;
 
-    public void getDetailResult(Model model, ApplicantVo applicantVo, int problemInfoId) {
+    public void getDetailResult(Model model, ApplicantVo applicantVo, int problemId) {
         //set applicantVo to model
         int applicantId = applicantVo.getId();
         model.addAttribute("applicantVo", applicantVo);
+        model.addAttribute("problemId", problemId);
 
         //set result
+        int problemInfoId = problemInfoRepository.getByProblemId(problemId);
         List<ResultVo> resultList = new ArrayList<ResultVo>();
-        List<Integer> testCaseIdList = testCaseRepository.getByProblemInfoId2(problemInfoId);
-        for (int testCaseId : testCaseIdList) {
-            resultList.add(resultRepository.getByApplicantAndTestCase(applicantId, testCaseId));
+        boolean isPublicOnly = false;
+        SourceCodeVo sourceCodeVo = new SourceCodeVo();
+        sourceCodeVo.setApplicantId(applicantId);
+        sourceCodeVo.setProblemId(problemId);
+        sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
+        List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
+        for (TestCaseVo testCaseVo : testCaseVoList) {
+            resultList.add(resultRepository.getBySourceCodeTestCase(sourceCodeVo.getId(), testCaseVo.getId()));
         }
         model.addAttribute("resultList", resultList);
     }

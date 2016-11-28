@@ -25,7 +25,7 @@
     <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } ]]>
   </select>
 
-  <select id="selectByProblemInfoId2" resultType="int" parameterType="int">
+  <select id="selectIdByProblemInfoId" resultType="int" parameterType="int">
     <![CDATA[  SELECT id FROM test_case WHERE problem_info_id=#{id } ]]>
   </select>
 

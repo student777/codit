@@ -1,26 +1,14 @@
 package com.estsoft.codit.ide.service;
 
-import com.estsoft.codit.db.repository.ApplicantRepository;
-import com.estsoft.codit.db.repository.ProblemInfoRepository;
-import com.estsoft.codit.db.repository.ProblemRepository;
-import com.estsoft.codit.db.repository.ResultRepository;
-import com.estsoft.codit.db.repository.SourceCodeRepository;
-import com.estsoft.codit.db.repository.TestCaseRepository;
-import com.estsoft.codit.db.vo.ApplicantVo;
-import com.estsoft.codit.db.vo.ProblemInfoVo;
-import com.estsoft.codit.db.vo.ProblemVo;
-import com.estsoft.codit.db.vo.ResultVo;
-import com.estsoft.codit.db.vo.SourceCodeVo;
-import com.estsoft.codit.db.vo.TestCaseVo;
+import com.estsoft.codit.db.repository.*;
+import com.estsoft.codit.db.vo.*;
 import com.estsoft.codit.ide.executor.Exec;
 import com.estsoft.codit.ide.executor.ExecFactory;
 import com.estsoft.codit.ide.executor.ExecResultInfo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -124,7 +112,7 @@ public class TestService {
         for (TestCaseVo testCaseVo : testCaseVoList) {
             ResultVo resultVo = new ResultVo();
             ExecResultInfo execResultInfo = exec.mark(testCaseVo);
-            resultVo.setApplicantId(applicantId);
+            resultVo.setSourceCodeId(sourceCodeVo.getId());
             resultVo.setTestCaseId(testCaseVo.getId());
 
             //set correctness
