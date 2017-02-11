@@ -32,9 +32,9 @@ public class TestController {
 
 
     /*
-  ajax URL
-  POST요청을 받으면 작업 내역을 저장해줌
-  */
+    ajax URL
+    POST요청을 받으면 작업 내역을 저장해줌
+    */
     @Auth
     @ResponseBody
     @RequestMapping("/save")

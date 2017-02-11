@@ -7,7 +7,7 @@
   </select>
 
   <insert id="insert" parameterType="resultvo">
-    <![CDATA[ insert into result value(#{applicantId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime} ); ]]>
+    <![CDATA[ insert into result value( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime}, now() ); ]]>
   </insert>
 
   <select id="selectBySourceCodeAndTestCase" resultType="resultvo" parameterType="resultvo">

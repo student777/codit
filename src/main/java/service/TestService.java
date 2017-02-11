@@ -43,16 +43,16 @@ public class TestService {
 
 
     /*
-   시험 도중 applicant의 소스코드를 받아 저장해줌
-  */
+    시험 도중 applicant의 소스코드를 받아 저장해줌
+    */
     public boolean save(String code, int problemId, int applicantId) {
         SourceCodeVo sourceCodeVo = new SourceCodeVo();
         sourceCodeVo.setCode(code);
         sourceCodeVo.setApplicantId(applicantId);
         sourceCodeVo.setProblemId(problemId);
-        int isInserted = sourceCodeRepository.insert(sourceCodeVo);
         //insert 결과가 실패했을 경우 repository에서 0 리턴
         //성공했을 경우에는 id값에 source_code의 id값이 나옴
+        int isInserted = sourceCodeRepository.insert(sourceCodeVo);
         return isInserted == 1;
     }
 
@@ -118,11 +118,9 @@ public class TestService {
             } else {
                 resultVo.setCorrectness(false);
             }
-
             //set time, memory
             resultVo.setUsedMemory(execResultInfo.getUsedMemory());
             resultVo.setRunningTime(execResultInfo.getRunningTime());
-
             //add to DB
             resultRepository.insert(resultVo);
         }

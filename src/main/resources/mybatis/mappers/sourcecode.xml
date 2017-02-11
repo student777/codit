@@ -3,7 +3,7 @@
 
 <mapper namespace="sourcecode">
   <insert id="insert" parameterType="sourcecodevo">
-    <![CDATA[insert into source_code value(null, #{code}, #{applicantId}, #{problemId}, now()) ]]>
+    <![CDATA[insert into source_code value(null, #{code}, #{applicantId}, #{problemId} ) ]]>
   </insert>
 
   <select id="selectById" resultType="sourcecodevo" parameterType="int">

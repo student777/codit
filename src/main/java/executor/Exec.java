@@ -77,12 +77,10 @@ public class Exec {
 
         //compile
         String compileOutput = execCommand(compileCommand, null, false).getOutput();
-
         if (!compileOutput.equals("")) {
             execResultInfo.setOutput(compileOutput);
             return execResultInfo;
         }
-
         //컴파일 성공 시 채점: set output and running time and used memory
         execResultInfo = execCommand(runtimeCommand, testCaseVo, true);
         return execResultInfo;
@@ -119,20 +117,19 @@ public class Exec {
             startTime = System.nanoTime();
             process = runtime.exec(command);
 
-
-//      //if execution time exceeds a second, kill process.
-//      try {
-//        process.waitFor(1L, TimeUnit.SECONDS);
-//      } catch (InterruptedException e) {
-//        e.printStackTrace();
-//      }
-//      if(process.isAlive()) {
-//        System.out.println("alive!!");
-//        process.destroy();
-//        execResultInfo.setOutput("Time limit exeeds!");
-//        execResultInfo.setRunningTime(9999);
-//        return execResultInfo;
-//      }
+//            //if execution time exceeds a second, kill process.
+//            try {
+//                process.waitFor(1L, TimeUnit.SECONDS);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            if (process.isAlive()) {
+//                System.out.println("alive!!");
+//                process.destroy();
+//                execResultInfo.setOutput("Time limit exeeds!");
+//                execResultInfo.setRunningTime(9999);
+//                return execResultInfo;
+//            }
 
             endTime = System.nanoTime();
         } catch (IOException e) {
@@ -154,6 +151,7 @@ public class Exec {
                     e.printStackTrace();
                 }
             }
+
             //set memory used
             try {
                 Process checkVmPeakProcess = runtime.exec(new String[]{"/bin/sh", "-c", "cat /proc/" + pid + "/status | grep VmPeak | grep -o [0-9][0-9]*"});
@@ -167,7 +165,6 @@ public class Exec {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         //set output string

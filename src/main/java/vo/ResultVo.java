@@ -7,6 +7,7 @@ public class ResultVo {
     private boolean correctness;
     private int usedMemory;
     private int runningTime;
+    private String createdAt;
 
     public int getSourceCodeId() {
         return sourceCodeId;
@@ -48,6 +49,15 @@ public class ResultVo {
         this.runningTime = runningTime;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
     public String toString() {
         return "ResultVo{" +
                 "sourceCodeId=" + sourceCodeId +
@@ -55,6 +65,7 @@ public class ResultVo {
                 ", correctness=" + correctness +
                 ", usedMemory=" + usedMemory +
                 ", runningTime=" + runningTime +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

@@ -61,7 +61,7 @@
                 </div>
                 <div class="row">
                     <div class="col s10 offset-s1">
-                        <h4>Recordsjhhbhbhb</h4>
+                        <h4>Records</h4>
                         <h5 class="grey-text">Problem ${problemId}</h5>
                         <table class="bordered centered">
                             <thead>
