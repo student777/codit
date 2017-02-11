@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="com.estsoft.codit.ide.controller" />
+    <context:component-scan base-package="controller" />
 
     <!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
     <mvc:default-servlet-handler />
@@ -27,19 +27,19 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/instruction" />
-            <bean class="com.estsoft.codit.ide.interceptor.InstructionInterceptor" />
+            <bean class="interceptor.InstructionInterceptor" />
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/**" />
             <mvc:exclude-mapping path="/assets/**" />
-            <bean class="com.estsoft.codit.ide.interceptor.AuthInterceptor" />
+            <bean class="interceptor.AuthInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 
     <!-- argument resolver -->
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
-            <bean class="com.estsoft.codit.ide.resolver.AuthApplicantHandlerMethodArgumentResolver" />
+            <bean class="resolver.AuthApplicantHandlerMethodArgumentResolver" />
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 

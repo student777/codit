@@ -13,7 +13,7 @@
   <!-- context schema -->
   <context:annotation-config/>
 
-  <context:component-scan base-package="com.estsoft.codit">
+  <context:component-scan base-package="service controller repository">
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>

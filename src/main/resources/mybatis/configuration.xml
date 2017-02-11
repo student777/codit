@@ -2,13 +2,13 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias type="com.estsoft.codit.db.vo.ApplicantVo" alias="applicantvo" />
-        <typeAlias type="com.estsoft.codit.db.vo.LanguageVo" alias="languagevo" />
-        <typeAlias type="com.estsoft.codit.db.vo.ProblemInfoVo" alias="probleminfovo" />
-        <typeAlias type="com.estsoft.codit.db.vo.ProblemVo" alias="problemvo" />
-        <typeAlias type="com.estsoft.codit.db.vo.ResultVo" alias="resultvo" />
-        <typeAlias type="com.estsoft.codit.db.vo.SourceCodeVo" alias="sourcecodevo" />
-        <typeAlias type="com.estsoft.codit.db.vo.TestCaseVo" alias="testcasevo" />
+        <typeAlias type="vo.ApplicantVo" alias="applicantvo" />
+        <typeAlias type="vo.LanguageVo" alias="languagevo" />
+        <typeAlias type="vo.ProblemInfoVo" alias="probleminfovo" />
+        <typeAlias type="vo.ProblemVo" alias="problemvo" />
+        <typeAlias type="vo.ResultVo" alias="resultvo" />
+        <typeAlias type="vo.SourceCodeVo" alias="sourcecodevo" />
+        <typeAlias type="vo.TestCaseVo" alias="testcasevo" />
     </typeAliases>
     <mappers>
         <mapper resource="mybatis/mappers/applicant.xml" />
