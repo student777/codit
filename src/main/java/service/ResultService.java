@@ -5,9 +5,9 @@ import vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ResultService {
@@ -16,32 +16,30 @@ public class ResultService {
     private ResultRepository resultRepository;
 
     @Autowired
-    private ProblemInfoRepository problemInfoRepository;
-
-    @Autowired
-    private TestCaseRepository testCaseRepository;
-
-    @Autowired
     private SourceCodeRepository sourceCodeRepository;
 
-    public void getDetailResult(Model model, ApplicantVo applicantVo, int problemId) {
-        //set applicantVo to model
-        int applicantId = applicantVo.getId();
-        model.addAttribute("applicantVo", applicantVo);
-        model.addAttribute("problemId", problemId);
+    @Autowired
+    private ProblemInfoRepository problemInfoRepository;
 
-        //set result
-        int problemInfoId = problemInfoRepository.getByProblemId(problemId);
-        List<ResultVo> resultList = new ArrayList<ResultVo>();
-        boolean isPublicOnly = false;
-        SourceCodeVo sourceCodeVo = new SourceCodeVo();
-        sourceCodeVo.setApplicantId(applicantId);
-        sourceCodeVo.setProblemId(problemId);
-        sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
-        List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
-        for (TestCaseVo testCaseVo : testCaseVoList) {
-            resultList.add(resultRepository.getBySourceCodeTestCase(sourceCodeVo.getId(), testCaseVo.getId()));
+    public void getDetailResult(Model model, ApplicantVo applicantVo, int problemInfoId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("applicantId", applicantVo.getId());
+        map.put("problemInfoId", problemInfoId);
+        SourceCodeVo sourceCodeVo = sourceCodeRepository.getByApplicantAndProbleminfo(map);
+        if(sourceCodeVo==null){
+            //TODO error handling
+            System.out.println("####");
+            return;
         }
-        model.addAttribute("resultList", resultList);
+        List<ResultVo> resultVoList = resultRepository.getBySourceCode(sourceCodeVo);
+        if(resultVoList==null){
+            //TODO error handling
+            System.out.println("$$$$");
+            return;
+        }
+        model.addAttribute("resultList", resultVoList);
+
+        ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
+        model.addAttribute("problemInfo", problemInfoVo);
     }
 }

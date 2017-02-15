@@ -13,10 +13,4 @@ public class LanguageRepository {
     public LanguageVo get(int id) {
         return sqlSession.selectOne("language.selectById", id);
     }
-
-    public int getByProblemId(int id) {
-        sqlSession.selectOne("language.selectByProblemId", id);
-        return sqlSession.selectOne("language.selectByProblemId", id);
-    }
-
 }

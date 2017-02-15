@@ -25,14 +25,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         HttpSession session = request.getSession();
         if (session == null) {
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/invalid-session.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/invalid_session.jsp");
             rd.forward(request, response);
             return false;
         }
 
         ApplicantVo applicantVo = (ApplicantVo) session.getAttribute("authApplicant");
         if (applicantVo == null) {
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/invalid-session.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/invalid_session.jsp");
             rd.forward(request, response);
             return false;
         }

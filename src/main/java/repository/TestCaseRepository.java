@@ -12,10 +12,6 @@ public class TestCaseRepository {
     @Autowired
     private SqlSession sqlSession;
 
-    public int insert() {
-        return sqlSession.insert("testcase.insert");
-    }
-
     public TestCaseVo get(int id) {
         return sqlSession.selectOne("testcase.selectById", id);
     }

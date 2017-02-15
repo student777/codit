@@ -3,30 +3,14 @@
 
 <mapper namespace="sourcecode">
   <insert id="insert" parameterType="sourcecodevo">
-    <![CDATA[insert into source_code value(null, #{code}, #{applicantId}, #{problemId} ) ]]>
+    <![CDATA[ INSERT INTO source_code VALUE(null, #{code}, #{applicantId}, #{problemId} ) ]]>
   </insert>
 
-  <select id="selectById" resultType="sourcecodevo" parameterType="int">
-    <![CDATA[  SELECT id, code, applicant_id as applicantId, problem_id as problemId FROM source_code WHERE id=#{id } ]]>
-  </select>
-
   <select id="selectByRun" resultType="sourcecodevo" parameterType="sourcecodevo">
-    <![CDATA[  SELECT id, code, applicant_id as applicantId, problem_id as problemId FROM source_code WHERE applicant_id=#{applicantId} and problem_id=#{problemId} order by id desc limit 1]]>
+    <![CDATA[ SELECT id, code, applicant_id AS applicantId, problem_id AS problemId FROM source_code WHERE applicant_id=#{applicantId} AND problem_id=#{problemId} ORDER BY id DESC limit 1]]>
   </select>
 
-  <select id="selectByApplicant" resultType="sourcecodevo" parameterType="int">
-    <![CDATA[
-      select s.id, s.code, s.applicant_id as applicantId , s.problem_id as problemId
-        from ( select max(s.id) as id
-                  from source_code as s,
-                        problem as p
-                  where s.problem_id=p.id
-                        and applicant_id=#{id}
-                  group by p.problem_info_id
-                  order by p.problem_info_id asc
-               ) as d,
-            source_code as s
-        where s.id=d.id;
-    ]]>
+  <select id="selectByApplicantAndProblemInfo" resultType="sourcecodevo" parameterType="map">
+    <![CDATA[ select s.id, s.applicant_id, s.problem_id from source_code as s, problem as p where s.applicant_id=#{applicantId} and p.problem_info_id=#{problemInfoId} and s.problem_id=p.id order by s.id desc limit 1; ]]>
   </select>
 </mapper>

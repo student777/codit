@@ -2,15 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="result">
-  <select id="selectAll" resultType="resultvo">
-    <![CDATA[ SELECT correctness, used_memory as usedMemory, running_time as runningTime, applicant_id as applicantId, test_case_id as testCaseId FROM result ]]>
-  </select>
-
   <insert id="insert" parameterType="resultvo">
-    <![CDATA[ insert into result value( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime}, now() ); ]]>
+    <![CDATA[ INSERT INTO result VALUE( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime}, now() ); ]]>
   </insert>
 
-  <select id="selectBySourceCodeAndTestCase" resultType="resultvo" parameterType="resultvo">
-    <![CDATA[ SELECT source_code_id as sourceCodeId, test_case_id as testCaseId, correctness, used_memory as usedMemory, running_time as runningTime FROM result WHERE source_code_id=#{sourceCodeId} and test_case_id=#{testCaseId} ]]>
+  <select id="selectBySourceCode" resultType="resultvo" parameterType="sourcecodevo">
+    <![CDATA[ SELECT * FROM result WHERE source_code_id=#{id}; ]]>
   </select>
 </mapper>

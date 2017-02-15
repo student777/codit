@@ -1,5 +1,6 @@
 package controller;
 
+import annotation.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ public class MainController {
 
 
     // Set session at InstructionInterceptor
+    @Auth
     @RequestMapping(value="/instruction")
     public String instruction(Model model, @AuthApplicant ApplicantVo applicantVo) {
         if (applicantVo == null) {

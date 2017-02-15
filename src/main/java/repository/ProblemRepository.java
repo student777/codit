@@ -12,10 +12,6 @@ public class ProblemRepository {
     @Autowired
     private SqlSession sqlSession;
 
-    public int insert() {
-        return sqlSession.insert("problem.insert");
-    }
-
     public ProblemVo get(int id) {
         return sqlSession.selectOne("problem.selectById", id);
     }

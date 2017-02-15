@@ -16,10 +16,6 @@ public class ProblemInfoRepository {
         return sqlSession.selectList("probleminfo.selectAll");
     }
 
-    public int insert() {
-        return sqlSession.insert("probleminfo.insert");
-    }
-
     public ProblemInfoVo get(int id) {
         return sqlSession.selectOne("probleminfo.selectById", id);
     }
