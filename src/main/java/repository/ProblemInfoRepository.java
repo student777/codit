@@ -12,7 +12,7 @@ public class ProblemInfoRepository {
     @Autowired
     private SqlSession sqlSession;
 
-    public List<Integer> getList() {
+    public List<ProblemInfoVo> getList() {
         return sqlSession.selectList("probleminfo.selectAll");
     }
 

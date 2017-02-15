@@ -24,12 +24,6 @@ public class ResultService {
     @Autowired
     private SourceCodeRepository sourceCodeRepository;
 
-    @Autowired
-    private ProblemRepository problemRepository;
-
-    @Autowired
-    private LanguageRepository languageRepository;
-
     public void getDetailResult(Model model, ApplicantVo applicantVo, int problemId) {
         //set applicantVo to model
         int applicantId = applicantVo.getId();

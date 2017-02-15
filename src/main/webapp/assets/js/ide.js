@@ -71,7 +71,6 @@ var run_code = function () {
                     //dataType: "json",
                     data: {
                         "problem_id": problem_id,
-                        "applicant_id": applicant_id,
                         "test_case_id": test_case_id
                     },
                     success: function (response) {
@@ -124,27 +123,6 @@ var new_alert = function(msg){
     });
 };
 
-
-var load_code = function () {
-    var editor = ace.edit("editor");
-    $.ajax({
-        url: '/test/load',
-        type: "post",
-        data: {"problem_id": problem_id, "applicant_id": applicant_id},
-        success: function (response) {
-            if (response == 'fail') {
-                alert('saved code does not exist');
-            }
-            else {
-                editor.setValue(response);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error(status + ":" + error);
-        }
-    });
-}
-
 //최종 제출
 var final_submit = function (k) {
     var a = confirm('really?');
@@ -175,9 +153,29 @@ var spotLightData = [
     {target: "#save-code", msg: 'Save current source code. shortcut: ctrl+S'},
     {target: "#select-testcase", msg: 'You can test source code with input'},
     {target: "#run-code", msg: 'Execute code(auto saved) shortcut: ctrl+R'},
-    {target: "#load-code", msg: 'Load last saved code. If you close browser by mistake, this button will salvage you'},
     {target: "#final-submit", msg: 'Submit your solution and finish test'},
     {target: ".timer", msg: 'After given time, last saved source codes are automatically submitted'},
     {target: "#btn-help", msg: 'To click this button, you can review tutorial'},
 ];
 
+
+//Initialize test: Set timer, keybind, first problem
+$(function () {
+    new_alert('Test starts');
+    $('select').material_select(); //initialize css
+    $('.timer').startTimer({
+        onComplete: function () {
+            new_alert('Time over, source code you finally run will be automatically submitted');
+            final_submit(problem_id);
+        }
+    });
+    //shortcut: ctrl + R
+    $(document).bind('keydown', function (e) {
+        if (e.ctrlKey && (e.which == 82)) {
+            e.preventDefault();
+            run_code();
+            return false;
+        }
+    });
+    select_editor('1');
+});

@@ -19,18 +19,13 @@
 <body>
 <div id="wrapper" class="row">
     <div id="header" class="center grey lighten-2">
-        <img id="logo" src="${pageContext.request.contextPath}/assets/image/0629_LOGO_FINAL_brown.gif">
+        <a href="/"><img id="logo" src="${pageContext.request.contextPath}/assets/image/0629_LOGO_FINAL_brown.gif"></a>
     </div>
     <div id="navbar" class="col s4 grey darken-2">
         <div class="row">
-            <div id= "tabs" class="col s12 grey darken-2">
-                <ul id="select-problem" class="tabs">
-                    <li class="tab col s3 grey darken-2 white-text"><a class="active" >Task</a></li>
-                </ul>
-            </div>
             <div id="task1" class="col s12 grey darken-2 white-text">
                 <h3>${problemInfoVo.name}</h3>
-                <c:set var="newline" value="<%= \"\n\" %>" />
+                <c:set var="newline" value="<%= \"\n\" %>"/>
                 <p>${fn:replace(problemInfoVo.description, newline, '<br>')}</p>
             </div>
         </div>
@@ -46,7 +41,7 @@
                                 <span>Time Left: </span>
                             </div>
                             <div class="col s3 no-padding">
-                                <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE: </div>
+                                <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE:</div>
                             </div>
                             <div class="input-field col s2 no-padding">
                                 <select id="select-language" name="language" onchange="select_editor(this.value);">
@@ -61,7 +56,7 @@
                         </div>
                     </div>
 
-                    <div id = "editor" class="col s12 grey darken-4"></div>
+                    <div id="editor" class="col s12 grey darken-4"></div>
 
                     <div class="col s12 grey darken-3">
                         <div class="row">
@@ -115,51 +110,27 @@
 <!--Import materialize.js(css)-->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/materialize/js/materialize.min.js"></script>
 <!-- import external js files -->
-<script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript"  charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js" type="text/javascript"  charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/assets/js/ide.js" type="text/javascript"  charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/assets/js/ide.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- Global variables -->
 <script>
-    var applicant_id = ${authApplicant.id};
     var problem_id; // id of facing ProblemVo
 
     // manage problem list by following json
+    // TODO: load by ajax, move this code to js file
     var problem_json_list = [];
     <c:forEach items="${problemList}" var="problemVo">
-        var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
-        problem_json_list.push({
-           "problem_id":${problemVo.id},
-           "skeleton_code": skeleton_code,
-           "language_id":${problemVo.languageId},
-        })
+    var skeleton_code = '${fn:replace(problemVo.skeletonCode, newline, '\\n')}';
+    problem_json_list.push({
+        "problem_id":${problemVo.id},
+        "skeleton_code": skeleton_code,
+        "language_id":${problemVo.languageId},
+    });
     </c:forEach>
 </script>
-
-<!-- Set timer, keybind, first problem -->
-<script>
-    $(function () {
-        new_alert('Test starts');
-        $('select').material_select(); //materializecss의 select를 쓰려면 초기화 해주어야 함
-        $('.timer').startTimer({
-            onComplete: function () {
-                new_alert('Time over, source code you finally run will be automatically submitted');
-                final_submit(problem_id);
-            }
-        });
-        //ctrl + R
-        $(document).bind('keydown', function (e) {
-            if (e.ctrlKey && (e.which == 82)) {
-                e.preventDefault();
-                run_code(current_k);
-                return false;
-            }
-        });
-        select_editor('1');
-    })
-</script>
-
 </body>
 </html>

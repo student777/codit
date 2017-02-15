@@ -32,24 +32,17 @@
                         <h6>You can choose one of the following problems</h6>
                     </div>
                 </div>
-                <div class="row center">
-                    <br>
-                    <br>
-                    <!-- TODO: get all problem_info list by DB query -->
-                    <div class="col s3">
-                        <a href="${pageContext.request.contextPath}/test/1">
-                            <button class="btn brown white-text">problem1</button>
-                        </a>
+                <c:forEach items="${problemInfoList}" var="problemInfo">
+                    <div class="row">
+                        <div class="col s8 offset-s2">
+                            <a href="${pageContext.request.contextPath}/test/${problemInfo.id}"
+                               class="btn brown white-text">${problemInfo.id}) ${problemInfo.name}</a>
+                        </div>
                     </div>
-                    <div class="col s3">
-                        <a href="${pageContext.request.contextPath}/test/2">
-                            <button class="btn brown white-text">problem2</button>
-                        </a>
-                    </div>
-                    <div class="col s3">
-                        <a href="${pageContext.request.contextPath}/test/3">
-                            <button class="btn brown white-text">problem3</button>
-                        </a>
+                </c:forEach>
+                <div class="row">
+                    <div class="col s8 offset-s2">
+                        <a href="/result/" class="btn">results</a>
                     </div>
                 </div>
             </div>

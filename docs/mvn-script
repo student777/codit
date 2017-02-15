@@ -1,1 +1,1 @@
-mvn tomcat7:redeploy
+mvn tomcat7:redeploy -Pproduction -Dmaven.test.skip=true

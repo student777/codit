@@ -29,6 +29,11 @@
                         <p>please check your secret key
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col s8 offset-s2">
+                        <a href="/" class="btn brown white-text">return</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -6,6 +6,6 @@
 
 <nav class="orange lighten-3" role="navigation">
     <div class="nav-wrapper container center">
-        <img id="logo" src="${pageContext.request.contextPath}/assets/image/0629_LOGO_FINAL_brown.gif">
+        <a href="/"><img id="logo" src="${pageContext.request.contextPath}/assets/image/0629_LOGO_FINAL_brown.gif"></a>
     </div>
 </nav>

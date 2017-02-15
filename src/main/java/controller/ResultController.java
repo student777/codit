@@ -1,5 +1,6 @@
 package controller;
 
+import org.springframework.web.bind.annotation.RequestMethod;
 import vo.ApplicantVo;
 import annotation.Auth;
 import annotation.AuthApplicant;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/result")
+@RequestMapping(value="/result", method = RequestMethod.GET)
 public class ResultController {
     @Autowired
     private ResultService resultService;
@@ -23,14 +24,14 @@ public class ResultController {
      */
     @Auth
     @RequestMapping("")
-    public String main() {
+    public String list() {
         // I don't know what to add this page
         return "result";
     }
 
     @Auth
     @RequestMapping("/{id}")
-    public String records(Model model, @AuthApplicant ApplicantVo applicantVo, @PathVariable("id") int problemId) {
+    public String detail(Model model, @AuthApplicant ApplicantVo applicantVo, @PathVariable("id") int problemId) {
         resultService.getDetailResult(model, applicantVo, problemId);
         return "result";
     }

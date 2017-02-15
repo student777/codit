@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="probleminfo">
-  <select id="selectAll" resultType="int">
-    <![CDATA[ SELECT id FROM problem_info ]]>
+  <select id="selectAll" resultType="probleminfovo">
+    <![CDATA[ SELECT id, name FROM problem_info ]]>
   </select>
 
   <select id="selectById" resultType="probleminfovo" parameterType="int">
