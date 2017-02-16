@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="problem">
-  <select id="selectById" resultType="problemvo" parameterType="int">
-    <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE id=#{id } ]]>
-  </select>
+    <select id="selectById" resultType="problemvo" parameterType="int">
+        <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE id=#{id } ]]>
+    </select>
 
-  <select id="selectByProblemInfo" parameterType="int" resultType="problemvo">
-    <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE problem_info_id=#{problemInfoId } ]]>
-  </select>
+    <select id="selectByProblemInfo" parameterType="int" resultType="problemvo">
+        <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE problem_info_id=#{problemInfoId } ]]>
+    </select>
 </mapper>

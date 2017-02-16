@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="testcase">
-  <select id="selectPublicByProblemInfoId" resultType="testcasevo" parameterType="int">
-    <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } and is_public=1 ]]>
-  </select>
+    <select id="selectById" resultType="testcasevo" parameterType="int">
+        <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE id=#{id } ]]>
+    </select>
 
-  <select id="selectAllByProblemInfoId" resultType="testcasevo" parameterType="int">
-    <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } ]]>
-  </select>
+    <select id="selectPublicByProblemInfoId" resultType="testcasevo" parameterType="int">
+        <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } and is_public=1 ]]>
+    </select>
 
-  <select id="selectIdByProblemInfoId" resultType="int" parameterType="int">
-    <![CDATA[  SELECT id FROM test_case WHERE problem_info_id=#{id } ]]>
-  </select>
+    <select id="selectAllByProblemInfoId" resultType="testcasevo" parameterType="int">
+        <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } ]]>
+    </select>
 </mapper>

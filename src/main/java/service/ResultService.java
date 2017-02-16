@@ -32,6 +32,7 @@ public class ResultService {
             return;
         }
         List<ResultVo> resultVoList = resultRepository.getBySourceCode(sourceCodeVo);
+        System.out.println(sourceCodeVo);
         if(resultVoList==null){
             //TODO error handling
             System.out.println("$$$$");

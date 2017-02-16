@@ -11,8 +11,9 @@ public class SourceCodeRepository {
     @Autowired
     private SqlSession sqlSession;
 
-    public int insert(SourceCodeVo sourceCodeVo) {
-        return sqlSession.insert("sourcecode.insert", sourceCodeVo);
+    public void insert(SourceCodeVo sourceCodeVo) {
+        // skip return value when insert failed
+        sqlSession.insert("sourcecode.insert", sourceCodeVo);
     }
 
     public SourceCodeVo getByApplicantAndProblem(SourceCodeVo sourceCodeVo) {

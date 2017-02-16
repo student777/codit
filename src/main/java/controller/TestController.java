@@ -30,21 +30,6 @@ public class TestController {
 
     /*
     <ajax URL>
-    get source code from client and save in DB
-    */
-    @Auth
-    @ResponseBody
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@RequestParam String code, @RequestParam(value = "problem_id") int problemId, @AuthApplicant ApplicantVo applicantVo) {
-        boolean isInserted = testService.save(code, problemId, applicantVo.getId());
-        if (isInserted) {
-            return "success";
-        }
-        return "fail";
-    }
-
-    /*
-    <ajax URL>
     ajax는 비동기식이므로 source_code를 직접 받아 돌릴수 없음(test.jsp참고)
     applicant_id 와 problem_id 를 받아서 DB에서 식별해줘야 함
     이후 저장된 소스코드를 컴파일하고 실행하여 결과를 response로 쏴준다
@@ -52,7 +37,8 @@ public class TestController {
     @Auth
     @ResponseBody
     @RequestMapping(value="/run", method = RequestMethod.POST)
-    public byte[] run(@RequestParam(value = "problem_id") int problemId, @AuthApplicant ApplicantVo applicantVo, @RequestParam(value = "test_case_id") int testCaseId) {
+    public byte[] run(@RequestParam String code, @RequestParam(value = "problem_id") int problemId, @AuthApplicant ApplicantVo applicantVo, @RequestParam(value = "test_case_id") int testCaseId) {
+        testService.save(code, problemId, applicantVo.getId());
         String result = testService.run(problemId, applicantVo.getId(), testCaseId);
         try {
             return result.getBytes("UTF-8");

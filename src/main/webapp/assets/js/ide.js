@@ -57,33 +57,18 @@ var run_code = function () {
     var editor = ace.edit("editor");
     var code = editor.getValue();
     var test_case_id = $('select[name=test_cases]').get(0).value;
-
     $.ajax({
-        url: '/test/save',
+        url: '/test/run',
         type: "post",
-        data: {"code": code, "problem_id": problem_id},
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        //dataType: "json",
+        data: {
+            "code": code,
+            "problem_id": problem_id,
+            "test_case_id": test_case_id
+        },
         success: function (response) {
-            if (response == 'success') {
-                $.ajax({
-                    url: '/test/run',
-                    type: "post",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    //dataType: "json",
-                    data: {
-                        "problem_id": problem_id,
-                        "test_case_id": test_case_id
-                    },
-                    success: function (response) {
-                        $("#terminal div div").html(response.replace("\n", '<br>'));
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(status + ":" + error);
-                    }
-                });
-            }
-            else if (response == 'fail') {
-                new_alert('save fail');
-            }
+            $("#terminal div div").html(response.replace("\n", '<br>'));
         },
         error: function (xhr, status, error) {
             console.error(status + ":" + error);

@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="result">
-  <insert id="insert" parameterType="resultvo">
-    <![CDATA[ INSERT INTO result VALUE( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime}, now() ); ]]>
-  </insert>
+    <insert id="insert" parameterType="resultvo">
+        <![CDATA[ INSERT INTO result VALUE( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime}, now() ); ]]>
+    </insert>
 
-  <select id="selectBySourceCode" resultType="resultvo" parameterType="sourcecodevo">
-    <![CDATA[ SELECT * FROM result WHERE source_code_id=#{id}; ]]>
-  </select>
+    <select id="selectBySourceCode" resultType="resultvo" parameterType="sourcecodevo">
+        <![CDATA[ SELECT * FROM result WHERE source_code_id=#{id}; ]]>
+    </select>
 </mapper>

@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="probleminfo">
-  <select id="selectAll" resultType="probleminfovo">
-    <![CDATA[ SELECT id, name FROM problem_info ]]>
-  </select>
+    <select id="selectAll" resultType="probleminfovo">
+        <![CDATA[ SELECT id, name FROM problem_info ]]>
+    </select>
 
-  <select id="selectById" resultType="probleminfovo" parameterType="int">
-    <![CDATA[  SELECT id, name, description, estimated_time as estimatedTime FROM problem_info WHERE id=#{id } ]]>
-  </select>
+    <select id="selectById" resultType="probleminfovo" parameterType="int">
+        <![CDATA[  SELECT id, name, description, estimated_time as estimatedTime FROM problem_info WHERE id=#{id } ]]>
+    </select>
 
-  <select id="selectByProblemId" resultType="int" parameterType="int">
-    <![CDATA[  SELECT p1.id FROM problem_info p1, problem p2 WHERE p1.id=p2.problem_info_id and p2.id=#{id } ]]>
-  </select>
+    <select id="selectByProblemId" resultType="int" parameterType="int">
+        <![CDATA[  SELECT p1.id FROM problem_info p1, problem p2 WHERE p1.id=p2.problem_info_id and p2.id=#{id } ]]>
+    </select>
 </mapper>

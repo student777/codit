@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="applicant">
-  <select id="selectById" resultType="applicantvo" parameterType="int">
-    <![CDATA[ SELECT id, name FROM applicant WHERE id=#{id } ]]>
-  </select>
+    <select id="selectById" resultType="applicantvo" parameterType="int">
+        <![CDATA[ SELECT id, name FROM applicant WHERE id=#{id } ]]>
+    </select>
 
-  <select id="selectBySecretKey" resultType="applicantvo" parameterType="String">
-    <![CDATA[ SELECT id, name FROM applicant WHERE secret_key=password(#{secret_key }) ]]>
-  </select>
+    <select id="selectBySecretKey" resultType="applicantvo" parameterType="String">
+        <![CDATA[ SELECT id, name FROM applicant WHERE secret_key=password(#{secret_key }) ]]>
+    </select>
 </mapper>
