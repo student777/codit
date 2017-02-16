@@ -3,10 +3,10 @@
 
 <mapper namespace="result">
     <insert id="insert" parameterType="resultvo">
-        <![CDATA[ INSERT INTO result VALUE( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime}, now() ); ]]>
+        <![CDATA[ INSERT INTO result VALUE( null, #{sourceCodeId}, #{testCaseId}, #{correctness}, #{usedMemory}, #{runningTime} ); ]]>
     </insert>
 
     <select id="selectBySourceCode" resultType="resultvo" parameterType="sourcecodevo">
-        <![CDATA[ SELECT * FROM result WHERE source_code_id=#{id}; ]]>
+        <![CDATA[ SELECT used_memory AS usedMemory, running_time AS runningTime, correctness FROM result WHERE source_code_id=#{id}; ]]>
     </select>
 </mapper>

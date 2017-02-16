@@ -109,18 +109,19 @@ var new_alert = function(msg){
 };
 
 //최종 제출
-var final_submit = function (k) {
+var final_submit = function (problem_id, problem_info_id) {
+    var editor = ace.edit("editor");
+    var code = editor.getValue();
     var a = confirm('really?');
     if (a) {
         $.ajax({
-            url: '/test/'+ k + '/submit',
+            url: '/test/'+ problem_info_id + '/submit',
             type: "post",
+            data: {code: code},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            //dataType: "json",
             success: function (response) {
                 alert(response);
-                alert("good job");
-                location.href = "/result/" + k;
+                location.href = "/result/" + problem_info_id;
             },
             error: function (xhr, status, error) {
                 console.error(status + ":" + error);

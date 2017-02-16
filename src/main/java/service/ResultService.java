@@ -26,21 +26,11 @@ public class ResultService {
         map.put("applicantId", applicantVo.getId());
         map.put("problemInfoId", problemInfoId);
         SourceCodeVo sourceCodeVo = sourceCodeRepository.getByApplicantAndProbleminfo(map);
-        if(sourceCodeVo==null){
-            //TODO error handling
-            System.out.println("####");
-            return;
-        }
+        // when sourceCodeVo == null, handle at result_detail.jsp
         List<ResultVo> resultVoList = resultRepository.getBySourceCode(sourceCodeVo);
-        System.out.println(sourceCodeVo);
-        if(resultVoList==null){
-            //TODO error handling
-            System.out.println("$$$$");
-            return;
-        }
         model.addAttribute("resultList", resultVoList);
-
         ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
         model.addAttribute("problemInfo", problemInfoVo);
+        model.addAttribute("sourceCode", sourceCodeVo);
     }
 }

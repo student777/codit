@@ -35,22 +35,22 @@
                 </div>
                 <div class="row">
                     <div class="col s10 offset-s1">
-                        <h5 class="grey-text">last mark</h5>
-                        <table class="bordered centered">
-                            <thead>
-                            <tr>
-                                <th>test_case</th>
-                                <th>memory used</th>
-                                <th>running time</th>
-                                <th>correctness</th>
-                            </tr>
-                            </thead>
-
-                            <c:choose>
-                                <c:when test="${empty resultList}">
-                                    <div>no records. go and work</div>
-                                </c:when>
-                                <c:otherwise>
+                        <h5 class="grey-text">Mark result</h5>
+                        <c:choose>
+                            <c:when test="${empty sourceCode}">
+                                <div>no records. go and work</div>
+                            </c:when>
+                            <c:otherwise>
+                            <h6 class="grey-text">at ${sourceCode.createdAt }</h6>
+                            <table class="bordered centered">
+                                <thead>
+                                <tr>
+                                    <th>test_case</th>
+                                    <th>memory used</th>
+                                    <th>running time</th>
+                                    <th>correctness</th>
+                                </tr>
+                                </thead>
                                     <c:forEach items="${resultList}" var="result" varStatus="status">
                                         <tbody>
                                         <tr>
@@ -61,10 +61,9 @@
                                         </tr>
                                         </tbody>
                                     </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
-
-                        </table>
+                            </table>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
                 <div class="row">

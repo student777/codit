@@ -11,13 +11,10 @@ public class SourceCodeRepository {
     @Autowired
     private SqlSession sqlSession;
 
-    public void insert(SourceCodeVo sourceCodeVo) {
-        // skip return value when insert failed
+    public int insert(SourceCodeVo sourceCodeVo) {
+        // return sourceCodeVo pk
         sqlSession.insert("sourcecode.insert", sourceCodeVo);
-    }
-
-    public SourceCodeVo getByApplicantAndProblem(SourceCodeVo sourceCodeVo) {
-        return sqlSession.selectOne("sourcecode.selectByRun", sourceCodeVo);
+        return sourceCodeVo.getId();
     }
 
     public SourceCodeVo getByApplicantAndProbleminfo(Map<String, Object> map) {

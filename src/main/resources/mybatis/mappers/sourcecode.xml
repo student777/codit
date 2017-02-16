@@ -3,14 +3,13 @@
 
 <mapper namespace="sourcecode">
     <insert id="insert" parameterType="sourcecodevo">
-        <![CDATA[ INSERT INTO source_code VALUE(null, #{code}, #{applicantId}, #{problemId} ) ]]>
+        <![CDATA[ INSERT INTO source_code VALUE(null, #{code}, #{applicantId}, #{problemId}, now() ) ]]>
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
-    <select id="selectByRun" resultType="sourcecodevo" parameterType="sourcecodevo">
-        <![CDATA[ SELECT id, code, applicant_id AS applicantId, problem_id AS problemId FROM source_code WHERE applicant_id=#{applicantId} AND problem_id=#{problemId} ORDER BY id DESC limit 1]]>
-    </select>
-
     <select id="selectByApplicantAndProblemInfo" resultType="sourcecodevo" parameterType="map">
-        <![CDATA[ select s.id, s.applicant_id, s.problem_id from source_code as s, problem as p where s.applicant_id=#{applicantId} and p.problem_info_id=#{problemInfoId} and s.problem_id=p.id order by s.id desc limit 1; ]]>
+        <![CDATA[ select s.id, s.applicant_id, s.problem_id, s.created_at AS createdAt from source_code as s, problem as p where s.applicant_id=#{applicantId} and p.problem_info_id=#{problemInfoId} and s.problem_id=p.id order by s.id desc limit 1; ]]>
     </select>
 </mapper>

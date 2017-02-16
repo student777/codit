@@ -5,6 +5,7 @@ public class SourceCodeVo {
     private String code;
     private int applicantId;
     private int problemId;
+    private String createdAt;
 
     public int getId() {
         return id;
@@ -38,6 +39,14 @@ public class SourceCodeVo {
         this.problemId = problemId;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "SourceCodeVo{" +
@@ -45,6 +54,7 @@ public class SourceCodeVo {
                 ", code='" + code + '\'' +
                 ", applicantId=" + applicantId +
                 ", problemId=" + problemId +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

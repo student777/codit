@@ -2,12 +2,21 @@ package vo;
 
 
 public class ResultVo {
+    private int id;
     private int sourceCodeId;
     private int testCaseId;
     private boolean correctness;
     private int usedMemory;
     private int runningTime;
     private String createdAt;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getSourceCodeId() {
         return sourceCodeId;
@@ -60,7 +69,8 @@ public class ResultVo {
     @Override
     public String toString() {
         return "ResultVo{" +
-                "sourceCodeId=" + sourceCodeId +
+                "id=" + id +
+                ", sourceCodeId=" + sourceCodeId +
                 ", testCaseId=" + testCaseId +
                 ", correctness=" + correctness +
                 ", usedMemory=" + usedMemory +

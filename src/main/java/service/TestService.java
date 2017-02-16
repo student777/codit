@@ -35,37 +35,14 @@ public class TestService {
         ProblemInfoVo problemInfoVo = problemInfoRepository.get(problemInfoId);
         List<ProblemVo> problemVoList = problemRepository.getByProblemInfoId(problemInfoId);
         List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
-        model.addAttribute("problemInfoVo", problemInfoVo);
+        model.addAttribute("problemInfo", problemInfoVo);
         model.addAttribute("problemList", problemVoList);
         model.addAttribute("testcaseList", testCaseVoList);
         model.addAttribute("totalTime", problemInfoVo.getEstimatedTime());
     }
 
 
-    /*
-    시험 도중 applicant의 소스코드를 받아 저장해줌
-    */
-    public void save(String code, int problemId, int applicantId) {
-        SourceCodeVo sourceCodeVo = new SourceCodeVo();
-        sourceCodeVo.setCode(code);
-        sourceCodeVo.setApplicantId(applicantId);
-        sourceCodeVo.setProblemId(problemId);
-        sourceCodeRepository.insert(sourceCodeVo);
-    }
-
-
-    /*
-    1) 컴파일
-    2) source_code 테이블에서 최종 저장본을 가져온다
-    3) 유저로부터 요청받은 테스트 케이스를 끌어와 compile & run
-    4) 런타임시 생성되는 메시지를 출력. 채점은 안한다
-   */
-    public String run(int problemId, int applicantId, int testCaseId) {
-        //applicantId와 ProblemId로 sourceCode를 찾아 가장 최근거를 꺼내욘다
-        SourceCodeVo sourceCodeVo = new SourceCodeVo();
-        sourceCodeVo.setApplicantId(applicantId);
-        sourceCodeVo.setProblemId(problemId);
-        sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
+    public String run(String code, int problemId, int testCaseId) {
         ProblemVo problemVo = problemRepository.get(problemId);
         //testCaseId에 해당하는 testCaseVo 꺼내오기
         //testCaseId 가 0일 때의 처리
@@ -77,29 +54,30 @@ public class TestService {
         }
         // sourcecode를 task.* 파일로 작상하여 compile & run
         int languageId = problemRepository.get(problemId).getLanguageId();
-        Exec exec = new ExecFactory().pick(languageId, sourceCodeVo, problemVo);
+        Exec exec = new ExecFactory().pick(languageId, code, problemVo);
         return exec.run(testCaseVo);
     }
 
 
-    public void mark(ApplicantVo applicantVo, int problemId) {
+    public void mark(ApplicantVo applicantVo, String code, int problemId) {
+        // save source_code to DB
         int applicantId = applicantVo.getId();
+        SourceCodeVo sourceCodeVo = new SourceCodeVo();
+        sourceCodeVo.setCode(code);
+        sourceCodeVo.setApplicantId(applicantId);
+        sourceCodeVo.setProblemId(problemId);
+        sourceCodeRepository.insert(sourceCodeVo);
+
 
         //get TestCase list
         int problemInfoId = problemInfoRepository.getByProblemId(problemId);
         boolean isPublicOnly = false;
         List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
 
-        //get SourceCode
-        SourceCodeVo sourceCodeVo = new SourceCodeVo();
-        sourceCodeVo.setProblemId(problemId);
-        sourceCodeVo.setApplicantId(applicantId);
-        sourceCodeVo = sourceCodeRepository.getByApplicantAndProblem(sourceCodeVo);
-
         // mark
-        ProblemVo problemVo = problemRepository.get(sourceCodeVo.getProblemId());
+        ProblemVo problemVo = problemRepository.get(problemId);
         int languageId = problemVo.getLanguageId();
-        Exec exec = new ExecFactory().pick(languageId, sourceCodeVo, problemVo);
+        Exec exec = new ExecFactory().pick(languageId, code, problemVo);
 
         // test case가 없는 문제의 경우 for문을 안탄다. 모든 문제는 test_case가 있다고 가정
         for (TestCaseVo testCaseVo : testCaseVoList) {

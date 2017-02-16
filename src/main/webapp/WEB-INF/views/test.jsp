@@ -24,9 +24,9 @@
     <div id="navbar" class="col s4 grey darken-2">
         <div class="row">
             <div id="task1" class="col s12 grey darken-2 white-text">
-                <h3>${problemInfoVo.name}</h3>
+                <h3>${problemInfo.name}</h3>
                 <c:set var="newline" value="<%= \"\n\" %>"/>
-                <p>${fn:replace(problemInfoVo.description, newline, '<br>')}</p>
+                <p>${fn:replace(problemInfo.description, newline, '<br>')}</p>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
                                 <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
                             <div>
-                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit(problem_id)">Submit</button>
+                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit(problem_id, ${problemInfo.id})">Submit</button>
                             </div>
                         </div>
                     </div>

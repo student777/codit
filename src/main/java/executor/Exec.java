@@ -1,12 +1,10 @@
 package executor;
 
 import vo.ProblemVo;
-import vo.SourceCodeVo;
 import vo.TestCaseVo;
-
 import java.io.*;
 import java.lang.reflect.Field;
-
+import java.util.UUID;
 import static executor.ExecUtils.WORKSPACE_PATH;
 import static executor.ExecUtils.getStringFromProcess;
 
@@ -16,23 +14,24 @@ import static executor.ExecUtils.getStringFromProcess;
  */
 public class Exec {
 
-    public SourceCodeVo sourceCodeVo;
+    public String code;
+    public String uuid;
     public ProblemVo problemVo;
     public String[] compileCommand;
     public String[] runtimeCommand;
 
 
-    public Exec(SourceCodeVo sourceCodeVo, ProblemVo problemVo, String srcFileName, String mainFileName) {
-        this.sourceCodeVo = sourceCodeVo;
+    public Exec(String code, ProblemVo problemVo, String srcFileName, String mainFileName) {
+        this.code = code;
+        this.uuid = UUID.randomUUID().toString();
         this.problemVo = problemVo;
-        write(sourceCodeVo, problemVo, srcFileName, mainFileName);
+        write(code, problemVo, srcFileName, mainFileName);
     }
 
 
-    public void write(SourceCodeVo sourceCodeVo, ProblemVo problemVo, String srcFileName, String mainFileName) {
+    public void write(String code, ProblemVo problemVo, String srcFileName, String mainFileName) {
         //경로와 파일명 지정
-        int sourceCodeId = sourceCodeVo.getId();
-        String filePath = WORKSPACE_PATH + "sourcecode/" + sourceCodeId;
+        String filePath = WORKSPACE_PATH + uuid;
 
         //경로지정,  파일 생성
         try {
@@ -40,7 +39,7 @@ public class Exec {
             if (file.mkdirs()) {
                 //write user source code
                 OutputStream os = new FileOutputStream(filePath + srcFileName);
-                byte[] data = sourceCodeVo.getCode().getBytes("UTF-8");
+                byte[] data = code.getBytes("UTF-8");
                 os.write(data);
                 os.close();
 
@@ -49,9 +48,6 @@ public class Exec {
                 data = problemVo.getMainCode().getBytes("UTF-8");
                 os.write(data);
                 os.close();
-
-            } else {
-                //여기는 들어오면 안돼
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -159,6 +155,7 @@ public class Exec {
                 int memory = Integer.parseInt(getStringFromProcess(checkVmPeakProcess).replace("\n", ""));
                 execResultInfo.setUsedMemory(memory);
             } catch (NumberFormatException e) {
+                //"cat: /proc/xxxx/status: No such file or directory"
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();

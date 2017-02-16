@@ -18,7 +18,6 @@ public class TestController {
     @Autowired
     private TestService testService;
 
-
     // get problem_info, problem list, test_case by id of problem_info and render these data
     @Auth
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -27,19 +26,11 @@ public class TestController {
         return "test";
     }
 
-
-    /*
-    <ajax URL>
-    ajax는 비동기식이므로 source_code를 직접 받아 돌릴수 없음(test.jsp참고)
-    applicant_id 와 problem_id 를 받아서 DB에서 식별해줘야 함
-    이후 저장된 소스코드를 컴파일하고 실행하여 결과를 response로 쏴준다
-     */
     @Auth
     @ResponseBody
     @RequestMapping(value="/run", method = RequestMethod.POST)
-    public byte[] run(@RequestParam String code, @RequestParam(value = "problem_id") int problemId, @AuthApplicant ApplicantVo applicantVo, @RequestParam(value = "test_case_id") int testCaseId) {
-        testService.save(code, problemId, applicantVo.getId());
-        String result = testService.run(problemId, applicantVo.getId(), testCaseId);
+    public byte[] run(@RequestParam String code, @RequestParam(value = "problem_id") int problemId, @RequestParam(value = "test_case_id") int testCaseId) {
+        String result = testService.run(code, problemId, testCaseId);
         try {
             return result.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -49,15 +40,11 @@ public class TestController {
     }
 
 
-    /*
-    <ajax UFL>
-    applicant의 submit_time에 현재 시간을 입력하고
-    */
     @Auth
     @ResponseBody
     @RequestMapping(value="{id}/submit", method = RequestMethod.POST)
-    public String submit(@PathVariable("id") int problemId, @AuthApplicant ApplicantVo applicantVo) {
-        testService.mark(applicantVo, problemId);
-        return "ddd";
+    public String submit(@PathVariable("id") int problemId, @RequestParam String code, @AuthApplicant ApplicantVo applicantVo) {
+        testService.mark(applicantVo, code, problemId);
+        return "good job!";
     }
 }

@@ -4,7 +4,6 @@ public class ExecResultInfo {
     private String output;
     private int runningTime;
     private int usedMemory;
-
     public String getOutput() {
         return output;
     }
@@ -36,5 +35,10 @@ public class ExecResultInfo {
                 ", runningTime=" + runningTime +
                 ", usedMemory=" + usedMemory +
                 '}';
+    }
+
+    public ExecResultInfo() {
+        runningTime = -1;
+        usedMemory = -1;
     }
 }
