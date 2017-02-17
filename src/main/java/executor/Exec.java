@@ -113,7 +113,7 @@ public class Exec {
             startTime = System.nanoTime();
             process = runtime.exec(command);
 
-//            //if execution time exceeds a second, kill process.
+//            //TODO: if execution time exceeds a second, kill process.
 //            try {
 //                process.waitFor(1L, TimeUnit.SECONDS);
 //            } catch (InterruptedException e) {

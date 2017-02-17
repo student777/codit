@@ -62,6 +62,12 @@
                                     </c:forEach>
                                     </tbody>
                             </table>
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li>
+                                    <div class="collapsible-header"><i class="material-icons">code</i>View your source code</div>
+                                    <div class="collapsible-body"><span>${sourceCode.code}</span></div>
+                                </li>
+                            </ul>
                             </c:otherwise>
                         </c:choose>
                     </div>

@@ -10,6 +10,6 @@
     </insert>
 
     <select id="selectByApplicantAndProblemInfo" resultType="sourcecodevo" parameterType="map">
-        <![CDATA[ select s.id, s.applicant_id, s.problem_id, s.created_at AS createdAt from source_code as s, problem as p where s.applicant_id=#{applicantId} and p.problem_info_id=#{problemInfoId} and s.problem_id=p.id order by s.id desc limit 1; ]]>
+        <![CDATA[ select s.id, s.applicant_id, s.problem_id, s.created_at AS createdAt, s.code from source_code as s, problem as p where s.applicant_id=#{applicantId} and p.problem_info_id=#{problemInfoId} and s.problem_id=p.id order by s.id desc limit 1; ]]>
     </select>
 </mapper>

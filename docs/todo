@@ -1,4 +1,8 @@
 java.lang.OutOfMemoryError: PermGen space error
+Initialize test(load problem, source code) by ajax
+cat: /proc/xxxx/status: No such file or directory
+kill process when running time > 1 second
+result detail source_code view ace editor
 
 # test
 select o.* from result o left join result b on o.test_case_id=b.test_case_id and o.used_memory<b.used_memory where b.used_memory is NULL and o.used_memory>0 and o.correctness=1;
