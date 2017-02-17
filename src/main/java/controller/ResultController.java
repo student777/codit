@@ -23,15 +23,15 @@ public class ResultController {
      */
     @Auth
     @RequestMapping("")
-    public String list(Model model, @AuthApplicant ApplicantVo applicantVo) {
-        // I don't know what to add this page
+    public String list(Model model) {
+        resultService.getResultList(model);
         return "result_list";
     }
 
     @Auth
     @RequestMapping("/{id}")
     public String detail(Model model, @AuthApplicant ApplicantVo applicantVo, @PathVariable("id") int problemInfoId) {
-        resultService.getDetailResult(model, applicantVo, problemInfoId);
+        resultService.getResultDetail(model, applicantVo, problemInfoId);
         return "result_detail";
     }
 }

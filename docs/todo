@@ -1,6 +1,4 @@
 drop colmun id from result
-result detail page records
-result list page
 java.lang.OutOfMemoryError: PermGen space error
 
 # test

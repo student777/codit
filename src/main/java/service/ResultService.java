@@ -29,7 +29,13 @@ public class ResultService {
     @Autowired
     private TestCaseRepository testCaseRepository;
 
-    public void getDetailResult(Model model, ApplicantVo applicantVo, int problemInfoId) {
+    public void getResultList(Model model) {
+        List<ProblemInfoVo> problemInfoVoList = problemInfoRepository.getList();
+        model.addAttribute("problemInfoList", problemInfoVoList);
+    }
+
+
+    public void getResultDetail(Model model, ApplicantVo applicantVo, int problemInfoId) {
         // get last sourceCode
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("applicantId", applicantVo.getId());
