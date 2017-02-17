@@ -37,9 +37,6 @@
                 <div class="row">
                     <div class="col s12 grey darken-3">
                         <div id="top-bar" class="row">
-                            <div id="div-timeleft" class="col s3 no-padding btn grey darken-3 z-depth-0 inline timer" data-minutes-left="${totalTime}">
-                                <span>Time Left: </span>
-                            </div>
                             <div class="col s3 no-padding">
                                 <div class="btn grey darken-3 z-depth-0 inline right">SELECT LANGUAGE:</div>
                             </div>
@@ -70,7 +67,7 @@
                                 </form>
                             </div>
                             <div class="col s3 no-padding center">
-                                <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
+                                <button id="run-code" onclick="run_code()" class="btn grey darken-1">RUN(ctrl+R)</button>
                             </div>
                             <div>
                                 <button id="final-submit" class="btn right grey darken-1" onclick="final_submit(${problemInfo.id})">Submit</button>
@@ -111,7 +108,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/materialize/js/materialize.min.js"></script>
 <!-- import external js files -->
 <script src="${pageContext.request.contextPath }/assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/assets/js/jquery.simple.timer.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/assets/js/jquery.spotlight.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/assets/js/ide.js" type="text/javascript" charset="utf-8"></script>

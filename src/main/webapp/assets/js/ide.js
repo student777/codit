@@ -136,11 +136,9 @@ var final_submit = function(problem_info_id) {
 var spotLightData = [
     {target: "#select-problem", msg: 'Click this button to switch task'},
     {target: "#top-bar > .input-field.col.s2.no-padding", msg: 'You can choose one of three languages'},
-    {target: "#save-code", msg: 'Save current source code. shortcut: ctrl+S'},
     {target: "#select-testcase", msg: 'You can test source code with input'},
-    {target: "#run-code", msg: 'Execute code(auto saved) shortcut: ctrl+R'},
-    {target: "#final-submit", msg: 'Submit your solution and finish test'},
-    {target: ".timer", msg: 'After given time, last saved source codes are automatically submitted'},
+    {target: "#run-code", msg: 'Execute code shortcut: ctrl+R'},
+    {target: "#final-submit", msg: 'Submit your code and finish test'},
     {target: "#btn-help", msg: 'To click this button, you can review tutorial'},
 ];
 
@@ -149,12 +147,6 @@ var spotLightData = [
 $(function () {
     new_alert('Test starts');
     $('select').material_select(); //initialize css
-    $('.timer').startTimer({
-        onComplete: function () {
-            new_alert('Time over, source code you finally run will be automatically submitted');
-            final_submit(problem_id);
-        }
-    });
     //shortcut: ctrl + R
     $(document).bind('keydown', function (e) {
         if (e.ctrlKey && (e.which == 82)) {
