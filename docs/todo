@@ -1,4 +1,3 @@
-drop colmun id from result
 java.lang.OutOfMemoryError: PermGen space error
 
 # test
