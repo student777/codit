@@ -1,3 +1,7 @@
 drop colmun id from result
 result detail page records
 result list page
+java.lang.OutOfMemoryError: PermGen space error
+
+# test
+select o.* from result o left join result b on o.test_case_id=b.test_case_id and o.used_memory<b.used_memory where b.used_memory is NULL and o.used_memory>0 and o.correctness=1;

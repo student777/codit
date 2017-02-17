@@ -51,16 +51,16 @@
                                     <th>correctness</th>
                                 </tr>
                                 </thead>
+                                    <tbody>
                                     <c:forEach items="${resultList}" var="result" varStatus="status">
-                                        <tbody>
                                         <tr>
                                             <td>${status.index +1 }</td>
                                             <td>${result.usedMemory }</td>
                                             <td>${result.runningTime }ms</td>
                                             <td>${result.correctness }</td>
                                         </tr>
-                                        </tbody>
                                     </c:forEach>
+                                    </tbody>
                             </table>
                             </c:otherwise>
                         </c:choose>
@@ -68,7 +68,45 @@
                 </div>
                 <div class="row">
                     <div class="col s10 offset-s1">
-                        <h5 class="grey-text">Top records</h5>
+                        <h5 class="grey-text">Top records (by used memory)</h5>
+                        <table class="bordered centered">
+                            <thead>
+                            <tr>
+                                <th>test_case</th>
+                                <th>memory used</th>
+                                <th>running time</th>
+                                <th>language</th>
+                                <th>user</th>
+                            </tr>
+                            </thead>
+                                <tbody>
+                                <c:forEach items="${recordList1}" var="record" varStatus="status">
+                                    <tr>
+                                    <c:choose>
+                                        <c:when test="${empty record}">
+                                            <td>${status.index +1 }</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>no record</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>${status.index +1 }</td>
+                                            <td>${record.usedMemory }</td>
+                                            <td>${record.runningTime }ms</td>
+                                            <td>${record.language }</td>
+                                            <td>${record.username }</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s10 offset-s1">
+                        <h5 class="grey-text">Top records (by running time)</h5>
                         <table class="bordered centered">
                             <thead>
                             <tr>
@@ -80,12 +118,26 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <c:forEach items="${recordList2}" var="record" varStatus="status">
+                                <tr>
+                                    <c:choose>
+                                        <c:when test="${empty record}">
+                                            <td>${status.index +1 }</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>no record</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>${status.index +1 }</td>
+                                            <td>${record.usedMemory }</td>
+                                            <td>${record.runningTime }ms</td>
+                                            <td>${record.language }</td>
+                                            <td>${record.username }</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>

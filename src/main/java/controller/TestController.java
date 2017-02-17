@@ -20,15 +20,15 @@ public class TestController {
 
     // get problem_info, problem list, test_case by id of problem_info and render these data
     @Auth
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public String main(Model model, @PathVariable("id") int problemInfoId) {
+    @RequestMapping(value = "{problem_info_id}", method = RequestMethod.GET)
+    public String main(Model model, @PathVariable("problem_info_id") int problemInfoId) {
         testService.initializeTest(model, problemInfoId);
         return "test";
     }
 
     @Auth
     @ResponseBody
-    @RequestMapping(value="/run", method = RequestMethod.POST)
+    @RequestMapping(value = "/run", method = RequestMethod.POST)
     public byte[] run(@RequestParam String code, @RequestParam(value = "problem_id") int problemId, @RequestParam(value = "test_case_id") int testCaseId) {
         String result = testService.run(code, problemId, testCaseId);
         try {
@@ -42,8 +42,8 @@ public class TestController {
 
     @Auth
     @ResponseBody
-    @RequestMapping(value="{id}/submit", method = RequestMethod.POST)
-    public String submit(@PathVariable("id") int problemId, @RequestParam String code, @AuthApplicant ApplicantVo applicantVo) {
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    public String submit(@RequestParam(value = "problem_id") int problemId, @RequestParam String code, @AuthApplicant ApplicantVo applicantVo) {
         testService.mark(applicantVo, code, problemId);
         return "good job!";
     }

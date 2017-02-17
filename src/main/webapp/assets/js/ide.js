@@ -109,15 +109,15 @@ var new_alert = function(msg){
 };
 
 //최종 제출
-var final_submit = function (problem_id, problem_info_id) {
+var final_submit = function(problem_info_id) {
     var editor = ace.edit("editor");
     var code = editor.getValue();
     var a = confirm('really?');
     if (a) {
         $.ajax({
-            url: '/test/'+ problem_info_id + '/submit',
+            url: '/test/submit',
             type: "post",
-            data: {code: code},
+            data: {code: code, problem_id: problem_id},
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             success: function (response) {
                 alert(response);

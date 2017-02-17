@@ -9,4 +9,20 @@
     <select id="selectBySourceCode" resultType="resultvo" parameterType="sourcecodevo">
         <![CDATA[ SELECT used_memory AS usedMemory, running_time AS runningTime, correctness FROM result WHERE source_code_id=#{id}; ]]>
     </select>
+
+    <select id="selectRecordByTestCaseAndMemory" resultType="map" parameterType="testcasevo">
+        <![CDATA[ SELECT r.running_time AS runningTime, r.used_memory AS usedMemory, r.test_case_id AS testCaseId, l.name AS language, a.name AS username
+                  FROM result AS r, test_case AS t, source_code AS s, problem AS p, language AS l, applicant AS a
+                  WHERE r.test_case_id=t.id AND s.id=r.source_code_id AND p.id=s.problem_id AND l.id=p.language_id AND a.id=s.applicant_id
+                    AND r.correctness=1 AND r.used_memory>-1 AND t.id=#{id} ORDER BY r.used_memory ASC limit 1;
+               ]]>
+    </select>
+
+    <select id="selectRecordByTestCaseAndRunningTime" resultType="map" parameterType="testcasevo">
+        <![CDATA[ SELECT r.running_time AS runningTime, r.used_memory AS usedMemory, r.test_case_id AS testCaseId, l.name AS language, a.name AS username
+                  FROM result AS r, test_case AS t, source_code AS s, problem AS p, language AS l, applicant AS a
+                  WHERE r.test_case_id=t.id AND s.id=r.source_code_id AND p.id=s.problem_id AND l.id=p.language_id AND a.id=s.applicant_id
+                    AND r.correctness=1 AND r.used_memory>-1 AND t.id=#{id} ORDER BY r.running_time ASC limit 1;
+               ]]>
+    </select>
 </mapper>

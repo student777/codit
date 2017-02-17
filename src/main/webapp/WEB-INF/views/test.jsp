@@ -73,7 +73,7 @@
                                 <button id="run-code" onclick="run_code()" class="btn grey darken-1">SAVE & RUN(ctrl+R)</button>
                             </div>
                             <div>
-                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit(problem_id, ${problemInfo.id})">Submit</button>
+                                <button id="final-submit" class="btn right grey darken-1" onclick="final_submit(${problemInfo.id})">Submit</button>
                             </div>
                         </div>
                     </div>

@@ -38,6 +38,7 @@ public class ExecResultInfo {
     }
 
     public ExecResultInfo() {
+        //to identify exception
         runningTime = -1;
         usedMemory = -1;
     }

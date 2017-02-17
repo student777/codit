@@ -3,10 +3,10 @@
 
 <mapper namespace="problem">
     <select id="selectById" resultType="problemvo" parameterType="int">
-        <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE id=#{id } ]]>
+        <![CDATA[  SELECT id, language_id AS languageId, problem_info_id AS problemInfoId, skeleton_code AS skeletonCode, main_code AS mainCode FROM problem WHERE id=#{id } ]]>
     </select>
 
     <select id="selectByProblemInfo" parameterType="int" resultType="problemvo">
-        <![CDATA[  SELECT id, language_id as languageId, problem_info_id as problemInfoId, skeleton_code as skeletonCode, main_code as mainCode FROM problem WHERE problem_info_id=#{problemInfoId } ]]>
+        <![CDATA[  SELECT id, language_id AS languageId, problem_info_id AS problemInfoId, skeleton_code AS skeletonCode, main_code AS mainCode FROM problem WHERE problem_info_id=#{problemInfoId } ]]>
     </select>
 </mapper>

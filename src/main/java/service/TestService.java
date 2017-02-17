@@ -74,6 +74,7 @@ public class TestService {
         boolean isPublicOnly = false;
         List<TestCaseVo> testCaseVoList = testCaseRepository.getByProblemInfoId(problemInfoId, isPublicOnly);
 
+
         // mark
         ProblemVo problemVo = problemRepository.get(problemId);
         int languageId = problemVo.getLanguageId();

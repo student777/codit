@@ -3,14 +3,14 @@
 
 <mapper namespace="testcase">
     <select id="selectById" resultType="testcasevo" parameterType="int">
-        <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE id=#{id } ]]>
+        <![CDATA[  SELECT id, input, problem_info_id AS problemInfoId, answer, is_public AS isPublic FROM test_case WHERE id=#{id } ]]>
     </select>
 
     <select id="selectPublicByProblemInfoId" resultType="testcasevo" parameterType="int">
-        <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } and is_public=1 ]]>
+        <![CDATA[  SELECT id, input, problem_info_id AS problemInfoId, answer, is_public AS isPublic FROM test_case WHERE problem_info_id=#{id } and is_public=1 ]]>
     </select>
 
     <select id="selectAllByProblemInfoId" resultType="testcasevo" parameterType="int">
-        <![CDATA[  SELECT id, input, problem_info_id as problemInfoId, answer, is_public as isPublic FROM test_case WHERE problem_info_id=#{id } ]]>
+        <![CDATA[  SELECT id, input, problem_info_id AS problemInfoId, answer, is_public AS isPublic FROM test_case WHERE problem_info_id=#{id } ]]>
     </select>
 </mapper>
